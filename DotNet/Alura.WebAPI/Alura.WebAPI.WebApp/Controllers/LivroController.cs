@@ -1,8 +1,8 @@
-﻿using System.Linq;
+﻿using Alura.ListaLeitura.Modelos;
 using Alura.ListaLeitura.Persistencia;
-using Alura.ListaLeitura.Modelos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace Alura.ListaLeitura.WebApp.Controllers
 {
@@ -57,21 +57,6 @@ namespace Alura.ListaLeitura.WebApp.Controllers
                 return NotFound();
             }
             return View(model.ToModel());
-        }
-
-        [HttpGet]
-        public IActionResult DetalhesSemHTML(int id)
-        {
-            var model = _repo.Find(id);
-            if (model == null)
-            {
-                return NotFound();
-            }
-            //return View(model.ToModel());
-            //XML
-            //JSON
-            model.ImagemCapa = null;
-            return Json(model);
         }
 
         [HttpGet]
