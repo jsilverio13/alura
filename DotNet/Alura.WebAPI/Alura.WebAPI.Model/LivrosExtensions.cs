@@ -1,5 +1,5 @@
-﻿using System.IO;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace Alura.ListaLeitura.Modelos
 {
@@ -42,7 +42,7 @@ namespace Alura.ListaLeitura.Modelos
                 Subtitulo = livro.Subtitulo,
                 Resumo = livro.Resumo,
                 Autor = livro.Autor,
-                Capa = $"/api/capas/{livro.Id}",
+                Capa = $"api/livros/{livro.Id}/capas/",
                 Lista = livro.Lista.ParaString()
             };
         }
