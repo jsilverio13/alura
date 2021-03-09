@@ -8,7 +8,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace Alura.WebAPI.WebApp.Controllers.Api
+namespace Alura.WebAPI.AuthProvider.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

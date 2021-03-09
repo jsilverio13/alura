@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 
-namespace Alura.WebAPI.WebApp.Controllers.Api
+namespace Alura.WebAPI.Api.Controllers
 {
     [Authorize]
     [ApiController]
@@ -41,7 +41,7 @@ namespace Alura.WebAPI.WebApp.Controllers.Api
 
                 _repo.Incluir(livro);
 
-                var uri = Url.Action("Recupera", new { id = livro.Id });
+                var uri = Url.Action("Recuperar", new { id = livro.Id });
 
                 return Created(uri, livro);
             }
