@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Alura.ListaLeitura.WebApp.Controllers
+namespace Alura.WebAPI.WebApp.Controllers
 {
     [Authorize]
     public class HomeController : Controller

@@ -1,12 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using Alura.ListaLeitura.Seguranca;
+﻿using Alura.ListaLeitura.Seguranca;
 using Alura.ListaLeitura.WebApp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
-namespace Alura.ListaLeitura.WebApp.Controllers
+namespace Alura.WebAPI.WebApp.Controllers
 {
     public class UsuarioController : Controller
     {
@@ -39,7 +38,7 @@ namespace Alura.ListaLeitura.WebApp.Controllers
                 {
                     return RedirectToAction("Index", "Home");
                 }
-                ModelState.AddModelError(String.Empty, "Erro na autenticação");
+                ModelState.AddModelError(string.Empty, "Erro na autenticação");
                 return View(model);
             }
             return View(model);
@@ -63,7 +62,6 @@ namespace Alura.ListaLeitura.WebApp.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");
                 }
@@ -77,6 +75,5 @@ namespace Alura.ListaLeitura.WebApp.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Login");
         }
-
     }
 }
