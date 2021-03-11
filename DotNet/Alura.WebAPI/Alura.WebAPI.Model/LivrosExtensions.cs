@@ -19,6 +19,19 @@ namespace Alura.ListaLeitura.Modelos
             }
         }
 
+        public static LivroUpload ToUpload(this LivroApi livro)
+        {
+            return new LivroUpload
+            {
+                Id = livro.Id,
+                Titulo = livro.Titulo,
+                Subtitulo = livro.Subtitulo,
+                Resumo = livro.Resumo,
+                Autor = livro.Autor,
+                Lista = livro.Lista.ParaTipo()
+            };
+        }
+
         public static Livro ToLivro(this LivroUpload model)
         {
             return new Livro
@@ -58,6 +71,11 @@ namespace Alura.ListaLeitura.Modelos
                 Autor = livro.Autor,
                 Lista = livro.Lista
             };
+        }
+
+        public static string EnvolveComAspasDuplas(this string valor)
+        {
+            return $"\"{valor}\"";
         }
     }
 }
