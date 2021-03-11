@@ -1,13 +1,13 @@
-﻿using Alura.ListaLeitura.Modelos;
-using Alura.ListaLeitura.Persistencia;
+﻿using Alura.WebAPI.DAL.Livros;
+using Alura.WebAPI.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
-using Lista = Alura.ListaLeitura.Modelos.ListaLeitura;
 
 namespace Alura.WebAPI.Api.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ListasLeituraController : ControllerBase
@@ -26,7 +26,7 @@ namespace Alura.WebAPI.Api.Controllers
             var lendo = CriarLista(TipoListaLeitura.Lendo);
             var lidos = CriarLista(TipoListaLeitura.Lidos);
 
-            var colecao = new List<Lista> { paraLer, lendo, lidos };
+            var colecao = new List<ListaLeitura> { paraLer, lendo, lidos };
 
             return Ok(colecao);
         }
@@ -39,9 +39,9 @@ namespace Alura.WebAPI.Api.Controllers
             return Ok(lista);
         }
 
-        private Lista CriarLista(TipoListaLeitura tipo)
+        private ListaLeitura CriarLista(TipoListaLeitura tipo)
         {
-            return new Lista
+            return new ListaLeitura
             {
                 Tipo = tipo.ToString(),
                 Livros = _repository.All.Where(l => l.Lista == tipo).Select(l => l.ToApi()).ToList()

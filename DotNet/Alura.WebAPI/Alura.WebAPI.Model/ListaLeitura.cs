@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Alura.ListaLeitura.Modelos
+namespace Alura.WebAPI.Model
 {
     public static class TipoListaLeituraExtensions
     {

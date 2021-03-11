@@ -1,4 +1,4 @@
-﻿using Alura.ListaLeitura.Seguranca;
+﻿using Alura.WebAPI.DAL.Usuarios;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -44,12 +44,7 @@ namespace Alura.WebAPI.AuthProvider
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseHsts();
-            }
 
-            app.UseHttpsRedirection();
             app.UseMvc();
         }
     }

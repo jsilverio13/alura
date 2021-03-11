@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 
-namespace Alura.ListaLeitura.Persistencia
+namespace Alura.WebAPI.DAL.Livros
 {
-    public class RepositorioBaseEF<TEntity>: IRepository<TEntity> where TEntity: class
+    public class RepositorioBaseEF<TEntity> : IRepository<TEntity> where TEntity : class
     {
         private readonly LeituraContext _context;
 

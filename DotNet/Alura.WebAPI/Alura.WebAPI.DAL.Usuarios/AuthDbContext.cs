@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Alura.ListaLeitura.Seguranca
+namespace Alura.WebAPI.DAL.Usuarios
 {
     public class AuthDbContext : IdentityDbContext<Usuario>
     {

@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Serialization;
 
-namespace Alura.ListaLeitura.Modelos
+namespace Alura.WebAPI.Model
 {
     public class Livro
     {
@@ -26,8 +25,6 @@ namespace Alura.ListaLeitura.Modelos
         public string Resumo { get; set; }
         public string Capa { get; set; }
         public string Lista { get; set; }
-
-    
     }
 
     public class LivroUpload

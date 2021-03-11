@@ -1,4 +1,4 @@
-﻿using Alura.ListaLeitura.Modelos;
+﻿using Alura.WebAPI.Model;
 using Alura.WebAPI.WebApp.HttpClients;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

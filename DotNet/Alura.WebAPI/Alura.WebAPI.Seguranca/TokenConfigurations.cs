@@ -1,4 +1,4 @@
-﻿namespace Alura.ListaLeitura.Seguranca
+﻿namespace Alura.WebAPI.Seguranca
 {
     public class TokenConfigurations
     {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace Alura.ListaLeitura.WebApp
+namespace Alura.WebAPI.WebApp
 {
     public class Program
     {

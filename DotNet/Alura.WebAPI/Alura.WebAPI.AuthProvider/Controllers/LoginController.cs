@@ -1,4 +1,5 @@
-﻿using Alura.ListaLeitura.Seguranca;
+﻿using Alura.WebAPI.DAL.Usuarios;
+using Alura.WebAPI.Seguranca;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

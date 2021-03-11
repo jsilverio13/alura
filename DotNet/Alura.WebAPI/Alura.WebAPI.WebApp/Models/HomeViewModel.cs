@@ -1,7 +1,7 @@
-﻿using Alura.ListaLeitura.Modelos;
+﻿using Alura.WebAPI.Model;
 using System.Collections.Generic;
 
-namespace Alura.ListaLeitura.WebApp.Models
+namespace Alura.WebAPI.WebApp.Models
 {
     public class HomeViewModel
     {

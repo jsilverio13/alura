@@ -1,7 +1,7 @@
-﻿using Alura.ListaLeitura.Modelos;
-using Alura.ListaLeitura.Persistencia;
-using Alura.ListaLeitura.Seguranca;
-using Alura.WebAPI.Api.Formatters;
+﻿using Alura.WebAPI.Api.Formatters;
+using Alura.WebAPI.DAL.Livros;
+using Alura.WebAPI.DAL.Usuarios;
+using Alura.WebAPI.Model;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;

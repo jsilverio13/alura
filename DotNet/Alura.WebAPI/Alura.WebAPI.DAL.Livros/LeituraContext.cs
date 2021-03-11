@@ -1,17 +1,17 @@
-﻿using Alura.ListaLeitura.Modelos;
+﻿using Alura.WebAPI.Model;
 using Microsoft.EntityFrameworkCore;
 
-namespace Alura.ListaLeitura.Persistencia
+namespace Alura.WebAPI.DAL.Livros
 {
     public class LeituraContext : DbContext
     {
         public DbSet<Livro> Livros { get; set; }
 
-        public LeituraContext(DbContextOptions<LeituraContext> options) 
+        public LeituraContext(DbContextOptions<LeituraContext> options)
             : base(options)
         {
             //irá criar o banco e a estrutura de tabelas necessárias
-            this.Database.EnsureCreated();
+            Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

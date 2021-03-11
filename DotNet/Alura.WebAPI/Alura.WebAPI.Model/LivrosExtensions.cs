@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.IO;
 
-namespace Alura.ListaLeitura.Modelos
+namespace Alura.WebAPI.Model
 {
     public static class LivrosExtensions
     {

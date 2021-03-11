@@ -1,8 +1,8 @@
-﻿using Alura.ListaLeitura.Modelos;
+﻿using Alura.WebAPI.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Alura.ListaLeitura.Persistencia
+namespace Alura.WebAPI.DAL.Livros
 {
     internal class LivroConfiguration : IEntityTypeConfiguration<Livro>
     {
