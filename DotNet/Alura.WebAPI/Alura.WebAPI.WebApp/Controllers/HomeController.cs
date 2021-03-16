@@ -33,9 +33,9 @@ namespace Alura.WebAPI.WebApp.Controllers
 
             var model = new HomeViewModel
             {
-                ParaLer = await ListaDoTipo(TipoListaLeitura.ParaLer),
-                Lendo = await ListaDoTipo(TipoListaLeitura.Lendo),
-                Lidos = await ListaDoTipo(TipoListaLeitura.Lidos)
+                ParaLer = await ListaDoTipo(TipoListaLeitura.ParaLer).ConfigureAwait(false),
+                Lendo = await ListaDoTipo(TipoListaLeitura.Lendo).ConfigureAwait(false),
+                Lidos = await ListaDoTipo(TipoListaLeitura.Lidos).ConfigureAwait(false)
             };
 
             return View(model);

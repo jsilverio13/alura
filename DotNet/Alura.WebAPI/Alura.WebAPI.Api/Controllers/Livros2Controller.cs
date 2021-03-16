@@ -1,4 +1,5 @@
-﻿using Alura.WebAPI.DAL.Livros;
+﻿using Alura.WebAPI.Api.Filters;
+using Alura.WebAPI.DAL.Livros;
 using Alura.WebAPI.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,13 +8,14 @@ using System.Linq;
 namespace Alura.WebAPI.Api.Controllers
 {
     [Authorize]
-    [ApiVersion("1.0")]
+    [ApiVersion("2.0")]
     [Route("api/v{version:apiVersion}/Livros")]
-    public class LivrosController : ControllerBase
+    [ApiController]
+    public class Livros2Controller : ControllerBase
     {
         private readonly IRepository<Livro> _repo;
 
-        public LivrosController(IRepository<Livro> repository)
+        public Livros2Controller(IRepository<Livro> repository)
         {
             _repo = repository;
         }
@@ -29,7 +31,7 @@ namespace Alura.WebAPI.Api.Controllers
                 return NotFound();
             }
 
-            return Ok(model.ToApi());
+            return Ok(model);
         }
 
         [HttpPost]
@@ -87,11 +89,21 @@ namespace Alura.WebAPI.Api.Controllers
         }
 
         [HttpGet]
-        public IActionResult ListaLivros()
+        public IActionResult ListaLivros
+        (
+              [FromQuery] LivroFiltro filtro
+            , [FromQuery] LivroOrdem ordem
+            , [FromQuery] LivroPaginacao paginacao
+        )
         {
-            var model = _repo.All.Select(l => l.ToApi()).ToList();
+            var livroPaginado =
+                _repo.All
+                .AplicarFiltro(filtro)
+                .AplicarOrdem(ordem)
+                .Select(l => l.ToApi())
+                .ToLivroPaginado(paginacao);
 
-            return Ok(model);
+            return Ok(livroPaginado);
         }
 
         [HttpGet("{id}/capa")]
@@ -110,3 +122,4 @@ namespace Alura.WebAPI.Api.Controllers
         }
     }
 }
+

@@ -61,6 +61,9 @@ namespace Alura.WebAPI.Api
                 };
             });
 
+
+            services.AddApiVersioning();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

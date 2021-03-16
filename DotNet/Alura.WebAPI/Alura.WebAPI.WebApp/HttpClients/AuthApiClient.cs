@@ -15,12 +15,12 @@ namespace Alura.WebAPI.WebApp.HttpClients
 
         public async Task<LoginResult> PostLoginAsync(LoginModel model)
         {
-            var response = await _httpClient.PostAsJsonAsync("login", model);
+            var response = await _httpClient.PostAsJsonAsync("login", model).ConfigureAwait(false);
 
             var result = new LoginResult
             {
                 Succeeded = response.IsSuccessStatusCode,
-                Token = await response.Content.ReadAsStringAsync()
+                Token = await response.Content.ReadAsStringAsync().ConfigureAwait(false)
             };
 
             return result;

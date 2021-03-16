@@ -24,7 +24,7 @@ namespace Alura.WebAPI.WebApp.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login()
         {
-            await HttpContext.SignOutAsync();
+            await HttpContext.SignOutAsync().ConfigureAwait(false);
             return View();
         }
 
@@ -35,9 +35,7 @@ namespace Alura.WebAPI.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _authApiClient.PostLoginAsync(model);
-
-                //var result = await _signInManager.PasswordSignInAsync(model.Login, model.Password, false, false);
+                var result = await _authApiClient.PostLoginAsync(model).ConfigureAwait(false);
 
                 if (result.Succeeded)
                 {
@@ -49,7 +47,7 @@ namespace Alura.WebAPI.WebApp.Controllers
 
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal).ConfigureAwait(false);
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -73,13 +71,6 @@ namespace Alura.WebAPI.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                //var user = new Usuario { UserName = model.Login };
-                //var result = await _userManager.CreateAsync(user, model.Password);
-                //if (result.Succeeded)
-                //{
-                //    await _signInManager.SignInAsync(user, isPersistent: false);
-                //    return RedirectToAction("Index", "Home");
-                //}
             }
             return View(model);
         }
@@ -87,9 +78,9 @@ namespace Alura.WebAPI.WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync();
+            await HttpContext.SignOutAsync().ConfigureAwait(false);
 
-            return RedirectToAction("Login");
+            return RedirectToAction(nameof(Login));
         }
     }
 }

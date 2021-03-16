@@ -8,7 +8,9 @@ using System.Linq;
 namespace Alura.WebAPI.Api.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [ApiVersion("1.0")]
+    [ApiVersion("2.0")]
+    [Route("api/v{version:apiVersion}/ListasLeitura")]
     [ApiController]
     public class ListasLeituraController : ControllerBase
     {

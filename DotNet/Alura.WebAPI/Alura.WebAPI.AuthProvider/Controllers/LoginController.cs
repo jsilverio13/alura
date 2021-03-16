@@ -28,7 +28,7 @@ namespace Alura.WebAPI.AuthProvider.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(model.Login, model.Password, false, false);
+                var result = await _signInManager.PasswordSignInAsync(model.Login, model.Password, false, false).ConfigureAwait(false);
 
                 if (result.Succeeded)
                 {
