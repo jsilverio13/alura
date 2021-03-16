@@ -1,7 +1,7 @@
 ﻿using Alura.WebAPI.Model;
 using System.Linq;
 
-namespace Alura.WebAPI.Api.Filters
+namespace Alura.WebAPI.Api.Queries
 {
     public class LivroFiltro
     {

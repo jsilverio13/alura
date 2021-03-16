@@ -3,7 +3,7 @@ using System.Linq;
 using System.Linq.Dynamic.Core;
 
 
-namespace Alura.WebAPI.Api.Filters
+namespace Alura.WebAPI.Api.Queries
 {
     public class LivroOrdem
     {

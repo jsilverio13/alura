@@ -1,4 +1,5 @@
-﻿using Alura.WebAPI.Api.Filters;
+﻿using Alura.WebAPI.Api.Exceptions;
+using Alura.WebAPI.Api.Queries;
 using Alura.WebAPI.DAL.Livros;
 using Alura.WebAPI.Model;
 using Microsoft.AspNetCore.Authorization;
@@ -10,6 +11,7 @@ namespace Alura.WebAPI.Api.Controllers
     [Authorize]
     [ApiVersion("2.0")]
     [Route("api/v{version:apiVersion}/Livros")]
+    [ApiExplorerSettings(GroupName = "v2")]
     [ApiController]
     public class Livros2Controller : ControllerBase
     {
@@ -48,7 +50,7 @@ namespace Alura.WebAPI.Api.Controllers
                 return Created(uri, livro);
             }
 
-            return BadRequest();
+            return BadRequest(ErrorResponse.FromModelState(ModelState));
         }
 
         [HttpPut]
@@ -70,7 +72,7 @@ namespace Alura.WebAPI.Api.Controllers
                 return Ok();
             }
 
-            return BadRequest();
+            return BadRequest(ErrorResponse.FromModelState(ModelState));
         }
 
         [HttpDelete]
@@ -122,4 +124,3 @@ namespace Alura.WebAPI.Api.Controllers
         }
     }
 }
-

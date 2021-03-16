@@ -1,4 +1,5 @@
-﻿using Alura.WebAPI.Api.Formatters;
+﻿using Alura.WebAPI.Api.Filters;
+using Alura.WebAPI.Api.Formatters;
 using Alura.WebAPI.DAL.Livros;
 using Alura.WebAPI.DAL.Usuarios;
 using Alura.WebAPI.Model;
@@ -9,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System;
 
 namespace Alura.WebAPI.Api
@@ -39,7 +41,12 @@ namespace Alura.WebAPI.Api
 
             services.AddMvc
                 (
-                    options => options.OutputFormatters.Add(new LivroCsvFormatter())
+                    options =>
+                    {
+                        options.OutputFormatters.Add(new LivroCsvFormatter());
+                        options.Filters.Add(typeof(ErrorResponseFilter));
+                    }
+
                 ).AddXmlSerializerFormatters();
 
             services.AddAuthentication(options =>
@@ -61,8 +68,29 @@ namespace Alura.WebAPI.Api
                 };
             });
 
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
 
             services.AddApiVersioning();
+
+            services.AddSwaggerGen(s =>
+            {
+                s.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Livros API",
+                    Description = "Documentação da API",
+                    Version = "1.0",
+                });
+
+                s.SwaggerDoc("v2", new OpenApiInfo
+                {
+                    Title = "Livros API",
+                    Description = "Documentação da API",
+                    Version = "2.0",
+                });
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -80,6 +108,12 @@ namespace Alura.WebAPI.Api
 
             app.UseAuthentication();
             app.UseMvc();
+            app.UseSwagger();
+            app.UseSwaggerUI(s =>
+            {
+                s.SwaggerEndpoint("/swagger/v1/swagger.json", "Versão 1.0");
+                s.SwaggerEndpoint("/swagger/v2/swagger.json", "Versão 2.0");
+            });
         }
     }
 }

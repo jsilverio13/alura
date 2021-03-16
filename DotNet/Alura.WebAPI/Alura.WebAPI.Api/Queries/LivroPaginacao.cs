@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Alura.WebAPI.Api.Filters
+namespace Alura.WebAPI.Api.Queries
 {
     public class LivroPaginacao
     {
