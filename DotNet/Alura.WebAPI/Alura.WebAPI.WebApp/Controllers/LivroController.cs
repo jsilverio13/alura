@@ -2,8 +2,6 @@
 using Alura.WebAPI.WebApp.HttpClients;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Alura.WebAPI.WebApp.Controllers
@@ -30,8 +28,15 @@ namespace Alura.WebAPI.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _api.PostLivroAsync(model).ConfigureAwait(false);
-
+                try
+                {
+                    await _api.PostLivroAsync(model);
+                }
+                catch (System.Exception e)
+                {
+                    System.Console.WriteLine($"Erro: {e.Message}");
+                    throw;
+                }
                 return RedirectToAction("Index", "Home");
             }
             return View(model);
@@ -40,32 +45,23 @@ namespace Alura.WebAPI.WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> ImagemCapa(int id)
         {
-            using (var httpClient = new HttpClient { BaseAddress = new Uri("http://localhost:6000/api/") })
+            byte[] img = await _api.GetCapaLivroAsync(id);
+            if (img != null)
             {
-                var img = await _api.GetCapaLivrosAsync(id).ConfigureAwait(false);
-
-                if (img != null)
-                {
-                    return File(img, "image/png");
-                }
-                return File("~/images/capas/capa-vazia.png", "image/png");
+                return File(img, "image/png");
             }
+            return File("~/images/capas/capa-vazia.png", "image/png");
         }
 
         [HttpGet]
         public async Task<IActionResult> Detalhes(int id)
         {
-            using (var httpClient = new HttpClient { BaseAddress = new Uri("http://localhost:6000/api/") })
+            var model = await _api.GetLivroAsync(id);
+            if (model == null)
             {
-                var livroApi = await _api.GetLivrosAsync(id).ConfigureAwait(false);
-
-                if (livroApi == null)
-                {
-                    return NotFound();
-                }
-
-                return View(livroApi.ToUpload());
+                return NotFound();
             }
+            return View(model.ToUpload());
         }
 
         [HttpPost]
@@ -74,8 +70,7 @@ namespace Alura.WebAPI.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _api.PutLivroAsync(model).ConfigureAwait(false);
-
+                await _api.PutLivroAsync(model);
                 return RedirectToAction("Index", "Home");
             }
             return View(model);
@@ -85,14 +80,12 @@ namespace Alura.WebAPI.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Remover(int id)
         {
-            var model = await _api.GetLivrosAsync(id).ConfigureAwait(false);
-
+            var model = await _api.GetLivroAsync(id);
             if (model == null)
             {
                 return NotFound();
             }
-            await _api.DeleteLivroAsync(id).ConfigureAwait(false);
-
+            await _api.DeleteLivroAsync(id);
             return RedirectToAction("Index", "Home");
         }
     }

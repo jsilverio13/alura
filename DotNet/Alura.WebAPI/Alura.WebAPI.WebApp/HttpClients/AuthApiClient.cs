@@ -1,9 +1,22 @@
 ﻿using Alura.WebAPI.Seguranca;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Alura.WebAPI.WebApp.HttpClients
 {
+    public class LoginResult
+    {
+        public string Token { get; set; }
+        public bool Succeeded { get; set; }
+
+        public LoginResult(string token, HttpStatusCode statusCode)
+        {
+            Token = token;
+            Succeeded = (statusCode == HttpStatusCode.OK);
+        }
+    }
+
     public class AuthApiClient
     {
         private readonly HttpClient _httpClient;
@@ -15,22 +28,14 @@ namespace Alura.WebAPI.WebApp.HttpClients
 
         public async Task<LoginResult> PostLoginAsync(LoginModel model)
         {
-            var response = await _httpClient.PostAsJsonAsync("login", model).ConfigureAwait(false);
-
-            var result = new LoginResult
-            {
-                Succeeded = response.IsSuccessStatusCode,
-                Token = await response.Content.ReadAsStringAsync().ConfigureAwait(false)
-            };
-
-            return result;
+            var resposta = await _httpClient.PostAsJsonAsync("login", model).ConfigureAwait(false);
+            return new LoginResult(await resposta.Content.ReadAsStringAsync().ConfigureAwait(false), resposta.StatusCode);
         }
-    }
 
-    public class LoginResult
-    {
-        public bool Succeeded { get; set; }
-
-        public string Token { get; set; }
+        public async Task PostRegisterAsync(RegisterViewModel model)
+        {
+            var resposta = await _httpClient.PostAsJsonAsync("usuarios", model).ConfigureAwait(false);
+            resposta.EnsureSuccessStatusCode();
+        }
     }
 }

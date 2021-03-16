@@ -5,7 +5,7 @@ using System;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Alura.WebAPI.Api.Formatters
+namespace Alura.WebAPI.WebApp.Formatters
 {
     public class LivroCsvFormatter : TextOutputFormatter
     {

@@ -1,7 +1,6 @@
-﻿using Alura.WebAPI.Api.Filters;
+﻿using Alura.WebAPI.Api.Filtros;
 using Alura.WebAPI.Api.Formatters;
 using Alura.WebAPI.DAL.Livros;
-using Alura.WebAPI.DAL.Usuarios;
 using Alura.WebAPI.Model;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,8 +9,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Swagger;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace Alura.WebAPI.Api
 {
@@ -24,7 +27,6 @@ namespace Alura.WebAPI.Api
             Configuration = config;
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<LeituraContext>(options =>
@@ -32,22 +34,68 @@ namespace Alura.WebAPI.Api
                 options.UseSqlServer(Configuration.GetConnectionString("ListaLeitura"));
             });
 
-            services.AddDbContext<AuthDbContext>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("AuthDB"));
-            });
-
             services.AddTransient<IRepository<Livro>, RepositorioBaseEF<Livro>>();
 
-            services.AddMvc
-                (
-                    options =>
-                    {
-                        options.OutputFormatters.Add(new LivroCsvFormatter());
-                        options.Filters.Add(typeof(ErrorResponseFilter));
-                    }
+            services.AddMvc(options =>
+            {
+                options.OutputFormatters.Add(new LivroCsvFormatter());
+                //filtro de exceção
+                options.Filters.Add(typeof(ErroResponseExceptionFilter));
+            }).AddXmlSerializerFormatters();
 
-                ).AddXmlSerializerFormatters();
+            services.AddSwaggerGen(options =>
+            {
+                options.DocInclusionPredicate((docName, apiDesc) =>
+                {
+                    if (!apiDesc.TryGetMethodInfo(out MethodInfo methodInfo)) return false;
+
+                    var versions = methodInfo.DeclaringType
+                        .GetCustomAttributes(true)
+                        .OfType<ApiVersionAttribute>()
+                        .SelectMany(attr => attr.Versions);
+
+                    return versions.Any(v => $"v{v.ToString()}" == docName);
+                });
+
+                options.AddSecurityDefinition("Bearer", new ApiKeyScheme
+                {
+                    Name = "Authorization",
+                    In = "header",
+                    Type = "apiKey",
+                    Description = "Autenticação Bearer via JWT"
+                });
+                options.AddSecurityRequirement(
+                    new Dictionary<string, IEnumerable<string>> {
+                        { "Bearer", new string[] { } }
+                });
+
+                options.EnableAnnotations();
+
+                options.DescribeAllEnumsAsStrings();
+                options.DescribeStringEnumsInCamelCase();
+
+                options.DocumentFilter<TagDescriptionsDocumentFilter>();
+                options.OperationFilter<AuthResponsesOperationFilter>();
+                options.OperationFilter<AddInfoToParamVersionOperationFilter>();
+
+                options.SwaggerDoc("v1.0", new Info { Title = "Lista de Leitura API - v1.0", Version = "1.0" });
+                options.SwaggerDoc(
+                    "v2.0",
+                    new Info
+                    {
+                        Title = "Lista de Leitura API",
+                        Description = "API com serviços relacionados às listas de leitura, produzidas para a Alura.",
+                        Version = "2.0"
+                    }
+                );
+            });
+
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
+
+            services.AddApiVersioning();
 
             services.AddAuthentication(options =>
             {
@@ -68,52 +116,29 @@ namespace Alura.WebAPI.Api
                 };
             });
 
-            services.Configure<ApiBehaviorOptions>(options =>
-            {
-                options.SuppressModelStateInvalidFilter = true;
-            });
-
-            services.AddApiVersioning();
-
-            services.AddSwaggerGen(s =>
-            {
-                s.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Title = "Livros API",
-                    Description = "Documentação da API",
-                    Version = "1.0",
-                });
-
-                s.SwaggerDoc("v2", new OpenApiInfo
-                {
-                    Title = "Livros API",
-                    Description = "Documentação da API",
-                    Version = "2.0",
-                });
-            });
-
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddCors();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public static void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
+
+            app.UseCors(builder => builder.WithOrigins("http://localhost"));
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
             {
-                app.UseHsts();
-            }
+                c.SwaggerEndpoint("/swagger/v1.0/swagger.json", "Version 1.0");
+                c.SwaggerEndpoint("/swagger/v2.0/swagger.json", "Version 2.0");
+            });
 
             app.UseAuthentication();
+
             app.UseMvc();
-            app.UseSwagger();
-            app.UseSwaggerUI(s =>
-            {
-                s.SwaggerEndpoint("/swagger/v1/swagger.json", "Versão 1.0");
-                s.SwaggerEndpoint("/swagger/v2/swagger.json", "Versão 2.0");
-            });
         }
     }
 }

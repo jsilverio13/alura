@@ -19,19 +19,6 @@ namespace Alura.WebAPI.Model
             }
         }
 
-        public static LivroUpload ToUpload(this LivroApi livro)
-        {
-            return new LivroUpload
-            {
-                Id = livro.Id,
-                Titulo = livro.Titulo,
-                Subtitulo = livro.Subtitulo,
-                Resumo = livro.Resumo,
-                Autor = livro.Autor,
-                Lista = livro.Lista.ParaTipo()
-            };
-        }
-
         public static Livro ToLivro(this LivroUpload model)
         {
             return new Livro
@@ -55,7 +42,7 @@ namespace Alura.WebAPI.Model
                 Subtitulo = livro.Subtitulo,
                 Resumo = livro.Resumo,
                 Autor = livro.Autor,
-                Capa = $"api/livros/{livro.Id}/capas/",
+                ImagemCapa = $"/api/livros/{livro.Id}/capa",
                 Lista = livro.Lista.ParaString()
             };
         }
@@ -73,9 +60,17 @@ namespace Alura.WebAPI.Model
             };
         }
 
-        public static string EnvolveComAspasDuplas(this string valor)
+        public static LivroUpload ToUpload(this LivroApi livro)
         {
-            return $"\"{valor}\"";
+            return new LivroUpload
+            {
+                Id = livro.Id,
+                Titulo = livro.Titulo,
+                Subtitulo = livro.Subtitulo,
+                Resumo = livro.Resumo,
+                Autor = livro.Autor,
+                Lista = livro.Lista.ParaTipo()
+            };
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Alura.WebAPI.Model;
 using Microsoft.AspNetCore.Http;
+using System;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -12,101 +13,120 @@ namespace Alura.WebAPI.WebApp.HttpClients
         private readonly HttpClient _httpClient;
         private readonly IHttpContextAccessor _acessor;
 
-        public LivroApiClient(HttpClient httpClient, IHttpContextAccessor acessor)
+        public LivroApiClient(HttpClient client, IHttpContextAccessor accessor)
         {
-            _httpClient = httpClient;
-            _acessor = acessor;
+            _httpClient = client;
+            _acessor = accessor;
         }
 
-        public async Task<byte[]> GetCapaLivrosAsync(int id)
+        private void AddBearerToken()
         {
-            AddBearerToken();
-            var response = await _httpClient.GetAsync($"livros/{id}/capa").ConfigureAwait(false);
-
-            response.EnsureSuccessStatusCode();
-
-            return await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+            var token = _acessor.HttpContext.User.Claims.First(c => c.Type == "Token").Value;
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
 
-        public async Task<LivroApi> GetLivrosAsync(int id)
+        public async Task<byte[]> GetCapaLivroAsync(int id)
         {
             AddBearerToken();
-            var response = await _httpClient.GetAsync($"livros/{id}").ConfigureAwait(false);
 
-            response.EnsureSuccessStatusCode();
+            var resposta = await _httpClient.GetAsync($"livros/{id}/capa?api-version=1.0").ConfigureAwait(false);
+            resposta.EnsureSuccessStatusCode();
+            return await resposta.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+        }
 
-            return await response.Content.ReadAsAsync<LivroApi>().ConfigureAwait(false);
+        public async Task<LivroApi> GetLivroAsync(int id)
+        {
+            AddBearerToken();
+            var resposta = await _httpClient.GetAsync($"livros/{id}?api-version=1.0").ConfigureAwait(false);
+            resposta.EnsureSuccessStatusCode();
+            return await resposta.Content.ReadAsAsync<LivroApi>().ConfigureAwait(false);
         }
 
         public async Task DeleteLivroAsync(int id)
         {
             AddBearerToken();
-            var response = await _httpClient.DeleteAsync($"livros/{id}").ConfigureAwait(false);
-
-            response.EnsureSuccessStatusCode();
+            var resposta = await _httpClient.DeleteAsync($"livros/{id}?api-version=1.0").ConfigureAwait(false);
+            resposta.EnsureSuccessStatusCode();
+            if (resposta.StatusCode != System.Net.HttpStatusCode.NoContent)
+            {
+                throw new InvalidOperationException("Código de Status Http 204 esperado!");
+            }
         }
 
-        public async Task<ListaLeitura> GetLeituraAsync(TipoListaLeitura tipo)
+        public async Task PostLivroAsync(LivroUpload livro)
         {
             AddBearerToken();
-            var response = await _httpClient.GetAsync($"listasleitura/{tipo}").ConfigureAwait(false);
-
-            response.EnsureSuccessStatusCode();
-
-            return await response.Content.ReadAsAsync<ListaLeitura>().ConfigureAwait(false);
+            HttpContent content = CreateMultipartContent(livro.ToLivro());
+            var resposta = await _httpClient.PostAsync("livros?api-version=1.0", content).ConfigureAwait(false);
+            resposta.EnsureSuccessStatusCode();
+            if (resposta.StatusCode != System.Net.HttpStatusCode.Created)
+            {
+                throw new InvalidOperationException("Código de Status Http 201 esperado!");
+            }
         }
 
-        public async Task PostLivroAsync(LivroUpload model)
+        public async Task PutLivroAsync(LivroUpload livro)
         {
             AddBearerToken();
-            HttpContent content = CreateMultiPartFormDataContent(model);
-
-            var reponse = await _httpClient.PostAsync($"livros", content).ConfigureAwait(false);
-
-            reponse.EnsureSuccessStatusCode();
+            HttpContent content = CreateMultipartContent(livro.ToLivro());
+            var resposta = await _httpClient.PutAsync("livros?api-version=1.0", content).ConfigureAwait(false);
+            resposta.EnsureSuccessStatusCode();
+            if (resposta.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                throw new InvalidOperationException("Código de Status Http 200 esperado!");
+            }
         }
 
-        public async Task PutLivroAsync(LivroUpload model)
+        private static string EnvolveComAspasDuplas(string valor)
         {
-            AddBearerToken();
-            HttpContent content = CreateMultiPartFormDataContent(model);
-
-            var reponse = await _httpClient.PutAsync($"livros", content).ConfigureAwait(false);
-
-            reponse.EnsureSuccessStatusCode();
+            return $"\u0022{valor}\u0022";
         }
 
-        private static HttpContent CreateMultiPartFormDataContent(LivroUpload model)
+        private HttpContent CreateMultipartContent(Livro livro)
         {
             var content = new MultipartFormDataContent
             {
-                { new StringContent(model.Titulo), "titulo".EnvolveComAspasDuplas()  },
-                { new StringContent(model.Subtitulo), "subtitulo".EnvolveComAspasDuplas() },
-                { new StringContent(model.Resumo), "resumo".EnvolveComAspasDuplas() },
-                { new StringContent(model.Autor), "autor".EnvolveComAspasDuplas() },
-                { new StringContent(model.Lista.ParaString()), "lista".EnvolveComAspasDuplas() }
+                { new StringContent(livro.Titulo), EnvolveComAspasDuplas("titulo") },
+                { new StringContent(livro.Lista.ParaString()), EnvolveComAspasDuplas("lista") }
             };
 
-            if (model.Id > 0)
+            if (livro.Id > 0)
             {
-                content.Add(new StringContent(model.Id.ToString()), "id".EnvolveComAspasDuplas());
+                content.Add(new StringContent(Convert.ToString(livro.Id)), EnvolveComAspasDuplas("id"));
             }
 
-            if (model.Capa != null)
+            if (!string.IsNullOrEmpty(livro.Subtitulo))
             {
-                var imagemContent = new ByteArrayContent(model.Capa.ConvertToBytes());
-                content.Headers.ContentType = new MediaTypeHeaderValue("image/png");
-                content.Add(imagemContent, "capa".EnvolveComAspasDuplas(), "capa.png".EnvolveComAspasDuplas());
+                content.Add(new StringContent(livro.Subtitulo), EnvolveComAspasDuplas("subtitulo"));
+            }
+
+            if (!string.IsNullOrEmpty(livro.Resumo))
+            {
+                content.Add(new StringContent(livro.Resumo), EnvolveComAspasDuplas("resumo"));
+            }
+
+            if (!string.IsNullOrEmpty(livro.Autor))
+            {
+                content.Add(new StringContent(livro.Autor), EnvolveComAspasDuplas("autor"));
+            }
+
+            if (livro.ImagemCapa != null)
+            {
+                var imageContent = new ByteArrayContent(livro.ImagemCapa);
+                imageContent.Headers.ContentType = MediaTypeHeaderValue.Parse("image/png");
+                content.Add(imageContent, EnvolveComAspasDuplas("capa"), EnvolveComAspasDuplas("capa.png"));
             }
 
             return content;
         }
 
-        private void AddBearerToken()
+        public async Task<ListaLeitura> GetListaLeituraAsync(TipoListaLeitura tipo)
         {
-            string token = _acessor.HttpContext.User.Claims.First(c => c.Type == "Token").Value;
+            AddBearerToken();
 
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var resposta = await _httpClient.GetAsync($"listasleitura/{tipo}?api-version=1.0").ConfigureAwait(false);
+            resposta.EnsureSuccessStatusCode();
+            return await resposta.Content.ReadAsAsync<ListaLeitura>().ConfigureAwait(false);
         }
     }
 }

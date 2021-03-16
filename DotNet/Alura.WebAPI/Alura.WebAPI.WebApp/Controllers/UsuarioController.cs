@@ -1,10 +1,10 @@
 ﻿using Alura.WebAPI.Seguranca;
 using Alura.WebAPI.WebApp.HttpClients;
-using Alura.WebAPI.WebApp.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -13,18 +13,17 @@ namespace Alura.WebAPI.WebApp.Controllers
 {
     public class UsuarioController : Controller
     {
-        private readonly AuthApiClient _authApiClient;
+        private readonly AuthApiClient _api;
 
-        public UsuarioController(AuthApiClient authApiClient)
+        public UsuarioController(AuthApiClient authApi)
         {
-            _authApiClient = authApiClient;
+            _api = authApi;
         }
 
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> Login()
         {
-            await HttpContext.SignOutAsync().ConfigureAwait(false);
             return View();
         }
 
@@ -35,23 +34,37 @@ namespace Alura.WebAPI.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _authApiClient.PostLoginAsync(model).ConfigureAwait(false);
-
+                var result = await _api.PostLoginAsync(model);
                 if (result.Succeeded)
                 {
                     var claims = new List<Claim>
                     {
                         new Claim(ClaimTypes.Name, model.Login),
-                        new Claim("Token", result.Token)
+                        new Claim("Token", result.Token) //em uma claim eu guardo o token!
                     };
 
-                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                    var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal).ConfigureAwait(false);
+                    var claimsIdentity = new ClaimsIdentity(
+                        claims,
+                        CookieAuthenticationDefaults.AuthenticationScheme
+                    );
+
+                    var authProp = new AuthenticationProperties
+                    {
+                        IssuedUtc = DateTime.UtcNow,
+                        //configurar expiração do cookie para um valor menor que a expiração do token
+                        ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(25),
+                        IsPersistent = true
+                    };
+
+                    //e finalmente autenticar via cookie com essa identidade
+                    await HttpContext.SignInAsync(
+                        CookieAuthenticationDefaults.AuthenticationScheme,
+                        new ClaimsPrincipal(claimsIdentity),
+                        authProp).ConfigureAwait(false);
 
                     return RedirectToAction("Index", "Home");
                 }
-                ModelState.AddModelError(string.Empty, "Erro na autenticação");
+                ModelState.AddModelError(String.Empty, "Erro na autenticação");
                 return View(model);
             }
             return View(model);
@@ -71,6 +84,8 @@ namespace Alura.WebAPI.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                await _api.PostRegisterAsync(model);
+                return RedirectToAction("Index", "Home");
             }
             return View(model);
         }
@@ -78,8 +93,7 @@ namespace Alura.WebAPI.WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync().ConfigureAwait(false);
-
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme).ConfigureAwait(false);
             return RedirectToAction(nameof(Login));
         }
     }

@@ -1,6 +1,5 @@
 ﻿using Alura.WebAPI.DAL.Usuarios;
 using Alura.WebAPI.Seguranca;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -9,10 +8,10 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace Alura.WebAPI.AuthProvider.Controllers
+namespace Alura.WebAPI.AuthProvider
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class LoginController : ControllerBase
     {
         private readonly SignInManager<Usuario> _signInManager;
@@ -23,41 +22,36 @@ namespace Alura.WebAPI.AuthProvider.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
-        public async Task<IActionResult> Login(LoginModel model)
+        public async Task<IActionResult> Token(LoginModel model)
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(model.Login, model.Password, false, false).ConfigureAwait(false);
-
+                var result = await _signInManager.PasswordSignInAsync(model.Login, model.Password, true, true).ConfigureAwait(false);
                 if (result.Succeeded)
                 {
-                    var claims = new[]
+                    var direitos = new[]
                     {
                         new Claim(JwtRegisteredClaimNames.Sub, model.Login),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                     };
 
-                    var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("alura-webapi-authentication-valid"));
-                    var credencials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                    var chave = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("alura-webapi-authentication-valid"));
+                    var credenciais = new SigningCredentials(chave, SecurityAlgorithms.HmacSha256);
 
                     var token = new JwtSecurityToken(
                         issuer: "Alura.WebApp",
                         audience: "Postman",
-                        claims: claims,
-                        signingCredentials: credencials,
+                        claims: direitos,
+                        signingCredentials: credenciais,
                         expires: DateTime.Now.AddMinutes(30)
-                        );
+                    );
 
                     var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
-
                     return Ok(tokenString);
                 }
-
-                return Unauthorized();
+                return Unauthorized(); //401
             }
-
-            return BadRequest();
+            return BadRequest(); //400
         }
     }
 }
