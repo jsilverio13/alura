@@ -142,11 +142,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Context\LojaContext.cs" />
-    <Compile Include="Produto.cs" />
-    <Compile Include="ProdutoDAO.cs" />
+    <Compile Include="Repository\Context\LojaContext.cs" />
+    <Compile Include="Model\Produto.cs" />
+    <Compile Include="DAO\ProdutoDAO.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\Interfaces\IProdutoDAOEntity.cs" />
+    <Compile Include="Repository\ProdutoDAOEntity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

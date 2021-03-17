@@ -1,42 +1,44 @@
-﻿using System;
+﻿using Alura.Loja.Testes.ConsoleApp.Model;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
-namespace Alura.Loja.Testes.ConsoleApp
+namespace Alura.Loja.Testes.ConsoleApp.DAO
 {
-    internal class ProdutoDAO : IDisposable
+    public class ProdutoDAO : IDisposable
     {
-        private SqlConnection conexao;
+        private readonly SqlConnection conexao;
 
         public ProdutoDAO()
         {
-            this.conexao = new SqlConnection("Server=(localdb)\\mssqllocaldb;Database=LojaDB;Trusted_Connection=true;");
-            this.conexao.Open();
+            conexao = new SqlConnection("Server=(localdb)\\mssqllocaldb;Database=LojaDB;Trusted_Connection=true;");
+            conexao.Open();
         }
 
         public void Dispose()
         {
-            this.conexao.Close();
+            conexao.Close();
         }
 
-        internal void Adicionar(Produto p)
+        internal void Adicionar(Produto produto)
         {
             try
             {
                 var insertCmd = conexao.CreateCommand();
                 insertCmd.CommandText = "INSERT INTO Produtos (Nome, Categoria, Preco) VALUES (@nome, @categoria, @preco)";
 
-                var paramNome = new SqlParameter("nome", p.Nome);
+                var paramNome = new SqlParameter("nome", produto.Nome);
                 insertCmd.Parameters.Add(paramNome);
 
-                var paramCategoria = new SqlParameter("categoria", p.Categoria);
+                var paramCategoria = new SqlParameter("categoria", produto.Categoria);
                 insertCmd.Parameters.Add(paramCategoria);
 
-                var paramPreco = new SqlParameter("preco", p.Preco);
+                var paramPreco = new SqlParameter("preco", produto.Preco);
                 insertCmd.Parameters.Add(paramPreco);
 
                 insertCmd.ExecuteNonQuery();
-            } catch (SqlException e)
+            }
+            catch (SqlException e)
             {
                 throw new SystemException(e.Message, e);
             }
@@ -59,8 +61,8 @@ namespace Alura.Loja.Testes.ConsoleApp
                 updateCmd.Parameters.Add(paramId);
 
                 updateCmd.ExecuteNonQuery();
-
-            } catch (SqlException e)
+            }
+            catch (SqlException e)
             {
                 throw new SystemException(e.Message, e);
             }
@@ -77,8 +79,8 @@ namespace Alura.Loja.Testes.ConsoleApp
                 deleteCmd.Parameters.Add(paramId);
 
                 deleteCmd.ExecuteNonQuery();
-
-            } catch(SqlException e)
+            }
+            catch (SqlException e)
             {
                 throw new SystemException(e.Message, e);
             }
@@ -94,11 +96,13 @@ namespace Alura.Loja.Testes.ConsoleApp
             var resultado = selectCmd.ExecuteReader();
             while (resultado.Read())
             {
-                Produto p = new Produto();
-                p.Id = Convert.ToInt32(resultado["Id"]);
-                p.Nome = Convert.ToString(resultado["Nome"]);
-                p.Categoria = Convert.ToString(resultado["Categoria"]);
-                p.Preco = Convert.ToDouble(resultado["Preco"]);
+                var p = new Produto
+                {
+                    Id = Convert.ToInt32(resultado["Id"]),
+                    Nome = Convert.ToString(resultado["Nome"]),
+                    Categoria = Convert.ToString(resultado["Categoria"]),
+                    Preco = Convert.ToDouble(resultado["Preco"])
+                };
                 lista.Add(p);
             }
             resultado.Close();

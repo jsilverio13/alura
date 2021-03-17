@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Alura.Loja.Testes.ConsoleApp.Model;
+using Microsoft.EntityFrameworkCore;
 
-namespace Alura.Loja.Testes.ConsoleApp.Context
+namespace Alura.Loja.Testes.ConsoleApp.Repository.Context
 {
     public class LojaContext : DbContext
     {
