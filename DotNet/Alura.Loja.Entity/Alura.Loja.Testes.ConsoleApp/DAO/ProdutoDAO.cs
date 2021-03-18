@@ -33,8 +33,8 @@ namespace Alura.Loja.Testes.ConsoleApp.DAO
                 var paramCategoria = new SqlParameter("categoria", produto.Categoria);
                 insertCmd.Parameters.Add(paramCategoria);
 
-                var paramPreco = new SqlParameter("preco", produto.Preco);
-                insertCmd.Parameters.Add(paramPreco);
+                //var paramPreco = new SqlParameter("preco", produto.PrecoUnitario);
+                //insertCmd.Parameters.Add(paramPreco);
 
                 insertCmd.ExecuteNonQuery();
             }
@@ -49,11 +49,11 @@ namespace Alura.Loja.Testes.ConsoleApp.DAO
             try
             {
                 var updateCmd = conexao.CreateCommand();
-                updateCmd.CommandText = "UPDATE Produtos SET Nome = @nome, Categoria = @categoria, Preco = @preco WHERE Id = @id";
+                updateCmd.CommandText = "UPDATE Produtos SET Nome = @nome, Categoria = @categoria, PrecoUnitario = @precoUnitario WHERE Id = @id";
 
                 var paramNome = new SqlParameter("nome", p.Nome);
                 var paramCategoria = new SqlParameter("categoria", p.Categoria);
-                var paramPreco = new SqlParameter("preco", p.Preco);
+                var paramPreco = new SqlParameter("precoUnitario", p.PrecoUnitario);
                 var paramId = new SqlParameter("id", p.Id);
                 updateCmd.Parameters.Add(paramNome);
                 updateCmd.Parameters.Add(paramCategoria);
@@ -101,7 +101,7 @@ namespace Alura.Loja.Testes.ConsoleApp.DAO
                     Id = Convert.ToInt32(resultado["Id"]),
                     Nome = Convert.ToString(resultado["Nome"]),
                     Categoria = Convert.ToString(resultado["Categoria"]),
-                    Preco = Convert.ToDouble(resultado["Preco"])
+                    PrecoUnitario = Convert.ToDouble(resultado["PrecoUnitario"])
                 };
                 lista.Add(p);
             }

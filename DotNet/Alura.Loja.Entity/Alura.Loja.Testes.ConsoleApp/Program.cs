@@ -18,7 +18,7 @@ namespace Alura.Loja.Testes.ConsoleApp
             {0 , Sair },
         };
 
-        private static void Main()
+        public static void Main()
         {
             MontarMenu();
             Console.ReadKey();
@@ -63,7 +63,7 @@ namespace Alura.Loja.Testes.ConsoleApp
             {
                 Nome = "Harry Potter e a Ordem da Fênix",
                 Categoria = "Livros",
-                Preco = 19.89
+                PrecoUnitario = 19.89
             };
 
             using (var repo = new ProdutoDAOEntity())
@@ -78,21 +78,21 @@ namespace Alura.Loja.Testes.ConsoleApp
             {
                 Nome = "Harry Potter e a Ordem da Fênix",
                 Categoria = "Livros",
-                Preco = 19.89
+                PrecoUnitario = 19.89
             };
 
             var p2 = new Produto
             {
                 Nome = "Senhor dos Anéis 1",
                 Categoria = "Livros",
-                Preco = 19.89
+                PrecoUnitario = 19.89
             };
 
             var p3 = new Produto
             {
                 Nome = "O Monge e o Executivo",
                 Categoria = "Livros",
-                Preco = 19.89
+                PrecoUnitario = 19.89
             };
 
             using (var repo = new ProdutoDAOEntity())
