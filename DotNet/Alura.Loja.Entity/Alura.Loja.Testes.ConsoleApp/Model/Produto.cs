@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
 
 namespace Alura.Loja.Testes.ConsoleApp.Model
 {
@@ -8,9 +8,11 @@ namespace Alura.Loja.Testes.ConsoleApp.Model
         public string Nome { get; set; }
         public string Categoria { get; set; }
         public double PrecoUnitario { get; set; }
+        public string Unidade { get; set; }
 
-        [DefaultValue(1)]
-        public int Unidade { get; set; } = 1;
+        public List<PromocaoProduto> Promocoes { get; set; }
+
+        public List<Compra> Compras { get; set; }
 
         public override string ToString()
         {

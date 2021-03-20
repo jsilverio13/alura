@@ -169,6 +169,24 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Migrations\20210320013605_Cliente.cs" />
+    <Compile Include="Migrations\20210320013605_Cliente.designer.cs">
+      <DependentUpon>20210320013605_Cliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Cliente.cs" />
+    <Compile Include="Migrations\20210320005820_Compra.cs" />
+    <Compile Include="Migrations\20210320005820_Compra.designer.cs">
+      <DependentUpon>20210320005820_Compra.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20210320010036_Compra2.cs" />
+    <Compile Include="Migrations\20210320010036_Compra2.designer.cs">
+      <DependentUpon>20210320010036_Compra2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20210320011603_Promocao.cs" />
+    <Compile Include="Migrations\20210320011603_Promocao.designer.cs">
+      <DependentUpon>20210320011603_Promocao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Compra.cs" />
     <Compile Include="Migrations\20210318182237_Inicial.cs" />
     <Compile Include="Migrations\20210318182237_Inicial.designer.cs">
       <DependentUpon>20210318182237_Inicial.cs</DependentUpon>
@@ -178,6 +196,14 @@
       <DependentUpon>20210318182521_Unidade.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\LojaContextModelSnapshot.cs" />
+    <Compile Include="Examples\Manipulacao.cs" />
+    <Compile Include="Model\Endereco.cs" />
+    <Compile Include="Model\Promocao.cs" />
+    <Compile Include="Model\PromocaoProduto.cs" />
+    <Compile Include="Examples\ConsultaRelacionados.cs" />
+    <Compile Include="Examples\Relacionamento1Para1.cs" />
+    <Compile Include="Examples\RelacionamentoNparaN.cs" />
+    <Compile Include="Examples\Relacionamento1ParaN.cs" />
     <Compile Include="Repository\Context\LojaContext.cs" />
     <Compile Include="Model\Produto.cs" />
     <Compile Include="DAO\ProdutoDAO.cs" />
