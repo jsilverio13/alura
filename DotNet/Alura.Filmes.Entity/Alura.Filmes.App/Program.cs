@@ -1,5 +1,6 @@
 ﻿using Alura.Filmes.App.Dados;
 using Alura.Filmes.App.Extensions;
+using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace Alura.Filmes.App
@@ -12,11 +13,22 @@ namespace Alura.Filmes.App
             {
                 contexto.LogSQLToConsole();
 
-                foreach (var ator in contexto.Atores)
+                var idiomas = contexto.Idiomas
+                    .Include(i => i.FilmesFalados);
+
+                foreach (var idioma in idiomas)
                 {
-                    Console.WriteLine(ator);
+                    Console.WriteLine(idioma);
+
+                    foreach (var filme in idioma.FilmesFalados)
+                    {
+                        Console.WriteLine(filme);
+                    }
+                    Console.WriteLine("\n");
                 }
             }
+
+            Console.ReadKey();
         }
     }
 }
