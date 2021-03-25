@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31112.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alura.LeilaoOnline.XUnit.Core", "Core\Alura.LeilaoOnline.XUnit.Core\Alura.LeilaoOnline.XUnit.Core.csproj", "{5C919F71-1DD2-411F-9CC2-B1802E54F603}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{690EB2EC-17AD-47B6-8E6F-9884FC48FA88}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3D86762F-85BD-4CD7-9305-53CB82CC9830}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alura.LeilaoOnline.XUnit.Tests", "Tests\Alura.LeilaoOnline.XUnit.Tests\Alura.LeilaoOnline.XUnit.Tests.csproj", "{693D65E2-D39B-45A6-9540-8DE697BE7894}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5C919F71-1DD2-411F-9CC2-B1802E54F603}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C919F71-1DD2-411F-9CC2-B1802E54F603}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C919F71-1DD2-411F-9CC2-B1802E54F603}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C919F71-1DD2-411F-9CC2-B1802E54F603}.Release|Any CPU.Build.0 = Release|Any CPU
+		{693D65E2-D39B-45A6-9540-8DE697BE7894}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{693D65E2-D39B-45A6-9540-8DE697BE7894}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{693D65E2-D39B-45A6-9540-8DE697BE7894}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{693D65E2-D39B-45A6-9540-8DE697BE7894}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5C919F71-1DD2-411F-9CC2-B1802E54F603} = {690EB2EC-17AD-47B6-8E6F-9884FC48FA88}
+		{693D65E2-D39B-45A6-9540-8DE697BE7894} = {3D86762F-85BD-4CD7-9305-53CB82CC9830}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {563EA19C-1F30-4E1C-A9AD-D3BE14574E32}
+	EndGlobalSection
+EndGlobal
