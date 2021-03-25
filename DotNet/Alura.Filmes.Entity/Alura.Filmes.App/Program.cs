@@ -1,6 +1,8 @@
 ﻿using Alura.Filmes.App.Dados;
 using Alura.Filmes.App.Extensions;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Data.SqlClient;
 
 namespace Alura.Filmes.App
 {
@@ -12,18 +14,21 @@ namespace Alura.Filmes.App
             {
                 contexto.LogSQLToConsole();
 
-                Console.WriteLine("Clientes");
-                foreach (var cliente in contexto.Clientes)
-                {
-                    Console.WriteLine(cliente);
-                }
+                var categ = "Comedy"; //36
 
-                Console.WriteLine("");
-                Console.WriteLine("Funcionarios");
-                foreach (var funcionario in contexto.Funcionarios)
+                var paramCateg = new SqlParameter("category_name", categ);
+
+                var paramTotal = new SqlParameter
                 {
-                    Console.WriteLine(funcionario);
-                }
+                    ParameterName = "@total_actors",
+                    Size = 4,
+                    Direction = System.Data.ParameterDirection.Output
+                };
+
+                contexto.Database
+                    .ExecuteSqlCommand("total_actors_from_given_category @category_name, @total_actors OUT", paramCateg, paramTotal);
+
+                Console.WriteLine($"O total de atores na categoria {categ} é de {paramTotal.Value}.");
             }
 
             Console.ReadKey();
