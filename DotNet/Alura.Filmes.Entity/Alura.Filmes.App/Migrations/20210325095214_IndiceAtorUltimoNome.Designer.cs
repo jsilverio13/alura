@@ -11,9 +11,10 @@ using System;
 namespace Alura.Filmes.App.Migrations
 {
     [DbContext(typeof(AluraFilmesContexto))]
-    partial class AluraFilmesContextoModelSnapshot : ModelSnapshot
+    [Migration("20210325095214_IndiceAtorUltimoNome")]
+    partial class IndiceAtorUltimoNome
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,8 +44,6 @@ namespace Alura.Filmes.App.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasAlternateKey("PrimeiroNome", "UltimoNome");
-
                     b.HasIndex("UltimoNome")
                         .HasName("IDX_actor_last_name");
 
@@ -68,10 +67,6 @@ namespace Alura.Filmes.App.Migrations
                     b.Property<short?>("Duracao")
                         .HasColumnName("length");
 
-                    b.Property<string>("TextoClassificacao")
-                        .HasColumnName("rating")
-                        .HasColumnType("varchar(10)");
-
                     b.Property<string>("Titulo")
                         .IsRequired()
                         .HasColumnName("title")
@@ -80,9 +75,7 @@ namespace Alura.Filmes.App.Migrations
                     b.Property<byte>("language_id");
 
                     b.Property<DateTime>("last_update")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime");
 
                     b.Property<byte?>("original_language_id");
 
@@ -124,9 +117,7 @@ namespace Alura.Filmes.App.Migrations
                         .HasColumnType("char(20)");
 
                     b.Property<DateTime>("last_update")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime");
 
                     b.HasKey("Id");
 

@@ -125,14 +125,48 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dados\AluraFilmesContexto.cs" />
+    <Compile Include="Dados\Configuration\PessoaConfiguration.cs" />
+    <Compile Include="Dados\Configuration\FuncionarioConfiguration.cs" />
     <Compile Include="Dados\Configuration\FilmeAtorConfiguration.cs" />
+    <Compile Include="Dados\Configuration\ClienteConfiguration.cs" />
     <Compile Include="Dados\Configuration\IdiomaConfiguration.cs" />
     <Compile Include="Dados\Configuration\FilmeConfiguration.cs" />
     <Compile Include="Dados\Configuration\AtorConfiguration.cs" />
+    <Compile Include="Extensions\ClassificacaoIndicativaExtensions.cs" />
     <Compile Include="Migrations\20210323223707_Final.cs" />
     <Compile Include="Migrations\20210323223707_Final.designer.cs">
       <DependentUpon>20210323223707_Final.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20210325095214_IndiceAtorUltimoNome.cs" />
+    <Compile Include="Migrations\20210325095214_IndiceAtorUltimoNome.designer.cs">
+      <DependentUpon>20210325095214_IndiceAtorUltimoNome.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20210325095404_UniqueAtorPrimeiroUltimoNome.cs" />
+    <Compile Include="Migrations\20210325095404_UniqueAtorPrimeiroUltimoNome.designer.cs">
+      <DependentUpon>20210325095404_UniqueAtorPrimeiroUltimoNome.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20210325095842_FilmeClassificacao.cs" />
+    <Compile Include="Migrations\20210325095842_FilmeClassificacao.designer.cs">
+      <DependentUpon>20210325095842_FilmeClassificacao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20210325100003_FilmeClassificacaoGetDate.cs" />
+    <Compile Include="Migrations\20210325100003_FilmeClassificacaoGetDate.designer.cs">
+      <DependentUpon>20210325100003_FilmeClassificacaoGetDate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20210325100345_IdiomaGetDate.cs" />
+    <Compile Include="Migrations\20210325100345_IdiomaGetDate.designer.cs">
+      <DependentUpon>20210325100345_IdiomaGetDate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20210325100405_FilmeCheckConstraint.cs" />
+    <Compile Include="Migrations\20210325100405_FilmeCheckConstraint.designer.cs">
+      <DependentUpon>20210325100405_FilmeCheckConstraint.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20210325102510_Enumerado.cs" />
+    <Compile Include="Migrations\20210325102510_Enumerado.designer.cs">
+      <DependentUpon>20210325102510_Enumerado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Negocio\Cliente.cs" />
+    <Compile Include="Negocio\ClassificacaoIndicativa.cs" />
     <Compile Include="Negocio\Filme.cs" />
     <Compile Include="Extensions\DbContextExtensions.cs" />
     <Compile Include="Migrations\20210322192207_Inicial.cs" />
@@ -142,7 +176,9 @@
     <Compile Include="Migrations\AluraFilmesContextoModelSnapshot.cs" />
     <Compile Include="Negocio\Ator.cs" />
     <Compile Include="Negocio\FilmeAtor.cs" />
+    <Compile Include="Negocio\Funcionario.cs" />
     <Compile Include="Negocio\Idioma.cs" />
+    <Compile Include="Negocio\Pessoa.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

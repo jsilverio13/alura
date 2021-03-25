@@ -39,7 +39,16 @@ namespace Alura.Filmes.App.Dados.Configuration
             builder
                 .Property<DateTime>("last_update")
                 .HasColumnType("datetime")
+                .HasDefaultValueSql("getdate()")
                 .IsRequired();
+
+            builder
+                .Property(f => f.TextoClassificacao)
+                .HasColumnName("rating")
+                .HasColumnType("varchar(10)");
+
+            builder
+               .Ignore(f => f.Classificacao);
 
             builder.Property<byte>("language_id");
             builder.Property<byte?>("original_language_id");

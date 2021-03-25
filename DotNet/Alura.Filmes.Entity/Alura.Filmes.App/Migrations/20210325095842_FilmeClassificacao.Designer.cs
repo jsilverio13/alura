@@ -11,9 +11,10 @@ using System;
 namespace Alura.Filmes.App.Migrations
 {
     [DbContext(typeof(AluraFilmesContexto))]
-    partial class AluraFilmesContextoModelSnapshot : ModelSnapshot
+    [Migration("20210325095842_FilmeClassificacao")]
+    partial class FilmeClassificacao
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,16 +62,16 @@ namespace Alura.Filmes.App.Migrations
                         .HasColumnName("release_year")
                         .HasColumnType("varchar(4)");
 
+                    b.Property<string>("Classificacao")
+                        .HasColumnName("rating")
+                        .HasColumnType("varchar(10)");
+
                     b.Property<string>("Descricao")
                         .HasColumnName("description")
                         .HasColumnType("text");
 
                     b.Property<short?>("Duracao")
                         .HasColumnName("length");
-
-                    b.Property<string>("TextoClassificacao")
-                        .HasColumnName("rating")
-                        .HasColumnType("varchar(10)");
 
                     b.Property<string>("Titulo")
                         .IsRequired()
@@ -80,9 +81,7 @@ namespace Alura.Filmes.App.Migrations
                     b.Property<byte>("language_id");
 
                     b.Property<DateTime>("last_update")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime");
 
                     b.Property<byte?>("original_language_id");
 
@@ -124,9 +123,7 @@ namespace Alura.Filmes.App.Migrations
                         .HasColumnType("char(20)");
 
                     b.Property<DateTime>("last_update")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime");
 
                     b.HasKey("Id");
 
