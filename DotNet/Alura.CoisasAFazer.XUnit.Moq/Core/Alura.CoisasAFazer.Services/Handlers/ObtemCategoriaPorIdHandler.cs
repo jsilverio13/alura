@@ -6,12 +6,13 @@ namespace Alura.CoisasAFazer.Services.Handlers
 {
     public class ObtemCategoriaPorIdHandler
     {
-        IRepositorioTarefas _repo;
+        private readonly IRepositorioTarefas _repo;
 
-        public ObtemCategoriaPorIdHandler()
+        public ObtemCategoriaPorIdHandler(IRepositorioTarefas repositorio)
         {
-            _repo = new RepositorioTarefa();
+            _repo = repositorio;
         }
+
         public Categoria Execute(ObtemCategoriaPorId comando)
         {
             return _repo.ObtemCategoriaPorId(comando.IdCategoria);

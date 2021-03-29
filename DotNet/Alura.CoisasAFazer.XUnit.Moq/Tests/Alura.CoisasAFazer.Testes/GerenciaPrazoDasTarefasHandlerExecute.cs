@@ -26,22 +26,24 @@ namespace Alura.CoisasAFazer.Testes
                 new Tarefa(7, "Concluir o relatório", new Categoria("Trabalho"), new DateTime(2018,5,7), null, StatusTarefa.Pendente),
                 new Tarefa(10, "Beber água", new Categoria("Saúde"), new DateTime(2018,12,31), null, StatusTarefa.Criada),
                 //dentro do prazo em 1/1/2019
-                new Tarefa(8, "Comparecer à reunião", new Categoria("Trabalho"), new DateTime(2018,11,12), new DateTime(2018,11,30), StatusTarefa.Concluida),
-                new Tarefa(2, "Arrumar a cama", new Categoria("Casa"), new DateTime(2019,4,5), null, StatusTarefa.Criada),
-                new Tarefa(3, "Escovar os dentes", new Categoria("Higiene"), new DateTime(2019,1,2), null, StatusTarefa.Criada),
-                new Tarefa(5, "Comprar presente pro João", new Categoria("Compras"), new DateTime(2019,10,8), null, StatusTarefa.Criada),
-                new Tarefa(6, "Comprar ração", new Categoria("Compras"), new DateTime(2019,11,20), null, StatusTarefa.Criada),
+                new Tarefa(8, "Comparecer à reunião", new Categoria("Trabalho"), new DateTime(2022,11,12), new DateTime(2022,11,30), StatusTarefa.Concluida),
+                new Tarefa(2, "Arrumar a cama", new Categoria("Casa"), new DateTime(2022,4,5), null, StatusTarefa.Criada),
+                new Tarefa(3, "Escovar os dentes", new Categoria("Higiene"), new DateTime(2022,1,2), null, StatusTarefa.Criada),
+                new Tarefa(5, "Comprar presente pro João", new Categoria("Compras"), new DateTime(2022,10,8), null, StatusTarefa.Criada),
+                new Tarefa(6, "Comprar ração", new Categoria("Compras"), new DateTime(2022,11,20), null, StatusTarefa.Criada),
             };
+
             var options = new DbContextOptionsBuilder<DbTarefasContext>()
                 .UseInMemoryDatabase("Testes de Integração")
                 .Options;
+
             using (var contexto = new DbTarefasContext(options))
             {
-                var repo = new RepositorioTarefa();
+                var repo = new RepositorioTarefa(contexto);
                 repo.IncluirTarefas(massaInicial.ToArray());
-
-                var comando = new GerenciaPrazoDasTarefas();
-                var handler = new GerenciaPrazoDasTarefasHandler();
+                var dataHoraAtual = new DateTime(2021, 1, 1);
+                var comando = new GerenciaPrazoDasTarefas(dataHoraAtual);
+                var handler = new GerenciaPrazoDasTarefasHandler(repo);
 
                 //act
                 handler.Execute(comando);
@@ -56,11 +58,11 @@ namespace Alura.CoisasAFazer.Testes
         public void AoExecutarDeveAtualizarTarefasNoRepo()
         {
             //arrange/setup do mock
-            var dataHoraAtual = new DateTime(2019, 1, 1);
+            var dataHoraAtual = new DateTime(2021, 1, 1);
             var mock = new Mock<IRepositorioTarefas>();
             var repo = mock.Object;
-            var comando = new GerenciaPrazoDasTarefas();
-            var handler = new GerenciaPrazoDasTarefasHandler();
+            var comando = new GerenciaPrazoDasTarefas(dataHoraAtual);
+            var handler = new GerenciaPrazoDasTarefasHandler(repo);
 
             //act
             handler.Execute(comando);

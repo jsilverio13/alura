@@ -1,18 +1,17 @@
-﻿using System;
-using System.Linq;
-using Alura.CoisasAFazer.Core.Commands;
+﻿using Alura.CoisasAFazer.Core.Commands;
 using Alura.CoisasAFazer.Core.Models;
 using Alura.CoisasAFazer.Infrastructure;
+using System.Linq;
 
 namespace Alura.CoisasAFazer.Services.Handlers
 {
     public class GerenciaPrazoDasTarefasHandler
     {
-        IRepositorioTarefas _repo;
+        private readonly IRepositorioTarefas _repo;
 
-        public GerenciaPrazoDasTarefasHandler()
+        public GerenciaPrazoDasTarefasHandler(IRepositorioTarefas repositorio)
         {
-            _repo = new RepositorioTarefa();
+            _repo = repositorio;
         }
 
         public void Execute(GerenciaPrazoDasTarefas comando)

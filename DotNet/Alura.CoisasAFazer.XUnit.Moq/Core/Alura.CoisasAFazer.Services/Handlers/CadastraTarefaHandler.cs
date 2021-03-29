@@ -1,35 +1,46 @@
-﻿using Alura.CoisasAFazer.Core.Models;
-using Alura.CoisasAFazer.Core.Commands;
+﻿using Alura.CoisasAFazer.Core.Commands;
+using Alura.CoisasAFazer.Core.Models;
 using Alura.CoisasAFazer.Infrastructure;
-using System;
 using Microsoft.Extensions.Logging;
 
 namespace Alura.CoisasAFazer.Services.Handlers
 {
     public class CadastraTarefaHandler
     {
-        IRepositorioTarefas _repo;
-        ILogger<CadastraTarefaHandler> _logger;
+        private readonly IRepositorioTarefas _repo;
+        private readonly ILogger<CadastraTarefaHandler> _logger;
 
-        public CadastraTarefaHandler()
+        public CadastraTarefaHandler
+        (
+             IRepositorioTarefas repositorio
+            , ILogger<CadastraTarefaHandler> logger
+        )
         {
-            _repo = new RepositorioTarefa();
-            _logger = new LoggerFactory().CreateLogger<CadastraTarefaHandler>();
+            _repo = repositorio;
+            _logger = logger;
         }
 
-        public void Execute(CadastraTarefa comando)
+        public CommandResult Execute(CadastraTarefa comando)
         {
-            var tarefa = new Tarefa
-            (
-                id: 0,
-                titulo: comando.Titulo,
-                prazo: comando.Prazo,
-                categoria: comando.Categoria,
-                concluidaEm: null,
-                status: StatusTarefa.Criada
-            );
-            _logger.LogDebug("Persistindo a tarefa...");
-            _repo.IncluirTarefas(tarefa);
+            try
+            {
+                var tarefa = new Tarefa
+                   (
+                       id: 0,
+                       titulo: comando.Titulo,
+                       prazo: comando.Prazo,
+                       categoria: comando.Categoria,
+                       concluidaEm: null,
+                       status: StatusTarefa.Criada
+                   );
+                _logger.LogDebug("Persistindo a tarefa...");
+                _repo.IncluirTarefas(tarefa);
+                return new CommandResult(true);
+            }
+            catch (System.Exception)
+            {
+                return new CommandResult(false);
+            }
         }
     }
 }

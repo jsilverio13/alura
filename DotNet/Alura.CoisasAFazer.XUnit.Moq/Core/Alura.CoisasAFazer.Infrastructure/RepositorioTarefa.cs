@@ -1,17 +1,17 @@
-﻿using System;
+﻿using Alura.CoisasAFazer.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Alura.CoisasAFazer.Core.Models;
 
 namespace Alura.CoisasAFazer.Infrastructure
 {
     public class RepositorioTarefa : IRepositorioTarefas
     {
-        DbTarefasContext _ctx;
+        private readonly DbTarefasContext _ctx;
 
-        public RepositorioTarefa()
+        public RepositorioTarefa(DbTarefasContext context)
         {
-            _ctx = new DbTarefasContext();
+            _ctx = context;
         }
 
         public void AtualizarTarefas(params Tarefa[] tarefas)

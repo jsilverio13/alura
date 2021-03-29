@@ -2,7 +2,6 @@ using Alura.CoisasAFazer.Core.Commands;
 using Alura.CoisasAFazer.Core.Models;
 using Alura.CoisasAFazer.Infrastructure;
 using Alura.CoisasAFazer.Services.Handlers;
-using Alura.CoisasAFazer.Testes.TestDubles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -18,7 +17,7 @@ namespace Alura.CoisasAFazer.Testes
         public void QuandoSQLExceptionEhLancadaDeveComunicarResultadoNoComando()
         {
             //arrange
-            var comando = new CadastraTarefa("Estudar Xunit", new Core.Models.Categoria("Estudo"), new DateTime(2019, 12, 31));
+            var comando = new CadastraTarefa("Estudar Xunit", new Categoria("Estudo"), new DateTime(2019, 12, 31));
             //setup do dublê
             var mock = new Mock<IRepositorioTarefas>();
             var repo = mock.Object;
@@ -27,73 +26,53 @@ namespace Alura.CoisasAFazer.Testes
 
             var logger = new Mock<ILogger<CadastraTarefaHandler>>().Object;
 
-            var handler = new CadastraTarefaHandler();
+            var handler = new CadastraTarefaHandler(mock.Object, logger);
 
-            //act: mudança no design da solução! TDD
+            //act
+
+            var resultado = handler.Execute(comando);
+
+            Assert.False(resultado.IsSuccess);
         }
 
         [Fact]
         public void DadaTarefaComInformacoesValidasDeveIncluirNoRepositorio()
         {
             //arrange
-            var comando = new CadastraTarefa("Estudar Xunit", new Core.Models.Categoria("Estudo"), new DateTime(2019, 12, 31));
-            //setup do dublê
-            var repo = new RepoFakeTarefas();
-            var mock = new Mock<ILogger<CadastraTarefaHandler>>();
-            var logger = mock.Object;
+            var comando = new CadastraTarefa("Estudar Xunit", new Categoria("Estudo"), new DateTime(2019, 12, 31));
 
-            var handler = new CadastraTarefaHandler();
-
-            //act
-
-            var tarefa = repo.ObtemTarefas(t => t.Categoria.Descricao == "Estudo").FirstOrDefault();
-            Assert.NotNull(tarefa);
-            Assert.Equal("Estudar Xunit", tarefa.Titulo);
-            Assert.Equal(new DateTime(2019, 12, 31), tarefa.Prazo);
-        }
-
-        [Fact]
-        public void DataTarefaComInformacoesValidasDeveIncluirNoRepositorio_InMemoryDatabase()
-        {
-            //arrange
-            var comando = new CadastraTarefa("Estudar Xunit", new Core.Models.Categoria("Estudo"), new DateTime(2019, 12, 31));
-
-            //setup do dublê
             var options = new DbContextOptionsBuilder<DbTarefasContext>()
-                .UseInMemoryDatabase("Teste de Integração")
+                .UseInMemoryDatabase(nameof(DbTarefasContext))
                 .Options;
-            var contexto = new DbTarefasContext(options);
-            var repo = new RepositorioTarefa();
 
+            var contexto = new DbTarefasContext(options);
+            var repo = new RepositorioTarefa(contexto);
             var mock = new Mock<ILogger<CadastraTarefaHandler>>();
             var logger = mock.Object;
 
-            var handler = new CadastraTarefaHandler();
+            var handler = new CadastraTarefaHandler(repo, logger);
 
             //act
             handler.Execute(comando);
 
-            //assert
             var tarefa = repo.ObtemTarefas(t => t.Categoria.Descricao == "Estudo").FirstOrDefault();
             Assert.NotNull(tarefa);
             Assert.Equal("Estudar Xunit", tarefa.Titulo);
             Assert.Equal(new DateTime(2019, 12, 31), tarefa.Prazo);
         }
-
-        private delegate void CaptureLogMessage(LogLevel l, EventId id, object o, Exception e, Func<object, Exception, string> func);
 
         [Fact]
         public void DadaTarefaComInformacoesValidasDeveLogarAOperacao()
         {
             //arrange
-            var comando = new CadastraTarefa("Estudar Xunit", new Core.Models.Categoria("Estudo"), new DateTime(2019, 12, 31));
+            var comando = new CadastraTarefa("Estudar Xunit", new Categoria("Estudo"), new DateTime(2019, 12, 31));
 
             //setup dos dublês
             var options = new DbContextOptionsBuilder<DbTarefasContext>()
                 .UseInMemoryDatabase("Teste de Integração")
                 .Options;
             var contexto = new DbTarefasContext(options);
-            var repo = new RepositorioTarefa();
+            var repo = new RepositorioTarefa(contexto);
 
             var mock = new Mock<ILogger<CadastraTarefaHandler>>();
 
@@ -106,7 +85,7 @@ namespace Alura.CoisasAFazer.Testes
             mock.Setup(x => x.Log(LogLevel.Debug, It.IsAny<EventId>(), It.IsAny<object>(), It.IsAny<Exception>(), It.IsAny<Func<object, Exception, string>>())).Callback(capture);
             var logger = mock.Object;
 
-            var handler = new CadastraTarefaHandler();
+            var handler = new CadastraTarefaHandler(repo, logger);
 
             //act
             handler.Execute(comando);
@@ -115,5 +94,7 @@ namespace Alura.CoisasAFazer.Testes
             //COMO VERIFICAR SE O LOG FOI REALIZADO?
             Assert.Contains("Persistindo a tarefa...", logOutput);
         }
+
+        private delegate void CaptureLogMessage(LogLevel l, EventId id, object o, Exception e, Func<object, Exception, string> func);
     }
 }

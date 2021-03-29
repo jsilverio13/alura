@@ -17,8 +17,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alura.CoisasAFazer.WebApp",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alura.CoisasAFazer.Testes", "Tests\Alura.CoisasAFazer.Testes\Alura.CoisasAFazer.Testes.csproj", "{04BB6D19-C0CC-46A5-97F8-A0D65917469E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alura.CoisasAFazer.ConsoleApp", "Tests\Alura.CoisasAFazer.ConsoleApp\Alura.CoisasAFazer.ConsoleApp.csproj", "{79E658F7-F7E6-4F3D-94D3-5EB5074CC8D2}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,10 +43,6 @@ Global
 		{04BB6D19-C0CC-46A5-97F8-A0D65917469E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04BB6D19-C0CC-46A5-97F8-A0D65917469E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04BB6D19-C0CC-46A5-97F8-A0D65917469E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{79E658F7-F7E6-4F3D-94D3-5EB5074CC8D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{79E658F7-F7E6-4F3D-94D3-5EB5074CC8D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{79E658F7-F7E6-4F3D-94D3-5EB5074CC8D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{79E658F7-F7E6-4F3D-94D3-5EB5074CC8D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,7 +53,6 @@ Global
 		{40D8BD60-FC11-454A-8E2B-03AA801E592E} = {670522DB-C1A6-48AD-8B58-DEAD356C4010}
 		{33A3FD7A-FED3-4E79-953C-BE31EC561F7A} = {670522DB-C1A6-48AD-8B58-DEAD356C4010}
 		{04BB6D19-C0CC-46A5-97F8-A0D65917469E} = {99F2C0DF-46A5-4E43-95C1-CB0821DA7284}
-		{79E658F7-F7E6-4F3D-94D3-5EB5074CC8D2} = {99F2C0DF-46A5-4E43-95C1-CB0821DA7284}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9379DB86-5F18-4A1A-851A-43F7BF219755}

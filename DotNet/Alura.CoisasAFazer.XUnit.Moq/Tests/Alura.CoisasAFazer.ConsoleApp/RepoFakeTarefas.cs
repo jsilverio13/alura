@@ -8,7 +8,7 @@ namespace Alura.CoisasAFazer.ConsoleApp
 {
     public class RepoFakeTarefas : IRepositorioTarefas
     {
-        List<Tarefa> lista = new List<Tarefa>();
+        readonly List<Tarefa> lista = new List<Tarefa>();
 
         public void AtualizarTarefas(params Tarefa[] tarefas)
         {
