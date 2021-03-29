@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Alura.CoisasAFazer.Core.Models
 {
@@ -11,7 +9,6 @@ namespace Alura.CoisasAFazer.Core.Models
     {
         public Tarefa()
         {
-
         }
 
         public Tarefa(int id, string titulo, Categoria categoria, DateTime prazo, DateTime? concluidaEm, StatusTarefa status)

@@ -1,5 +1,5 @@
-﻿using System;
-using Alura.CoisasAFazer.Core.Models;
+﻿using Alura.CoisasAFazer.Core.Models;
+using System;
 
 namespace Alura.CoisasAFazer.Core.Commands
 {
