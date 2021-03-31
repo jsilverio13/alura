@@ -11,10 +11,10 @@ namespace Alura.Tunes.Linq.Linq1
         {
             using (var contexto = new AluraTunesEntities())
             {
-                var vendaMediana = Mediana(contexto.NotasFiscais.Select(ag => ag.Total));
+                var vendaMediana = Mediana(contexto.NotaFiscals.Select(ag => ag.Total));
                 Console.WriteLine($"Venda Mediana: R$ {vendaMediana}");
 
-                vendaMediana = contexto.NotasFiscais.Mediana(ag => ag.Total);
+                vendaMediana = contexto.NotaFiscals.Mediana(ag => ag.Total);
                 Console.WriteLine($"Venda Mediana: R$ {vendaMediana}");
             }
 

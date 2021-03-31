@@ -10,7 +10,7 @@ namespace Alura.Tunes.Linq.Linq1
         {
             using (var contexto = new AluraTunesEntities())
             {
-                var query = from g in contexto.Generos
+                var query = from g in contexto.Generoes
                             select g;
 
                 foreach (var genero in query)
@@ -18,7 +18,7 @@ namespace Alura.Tunes.Linq.Linq1
                     Console.WriteLine($"{genero.GeneroId}\t{genero.Nome}");
                 }
 
-                var faixaEgenero = from g in contexto.Generos
+                var faixaEgenero = from g in contexto.Generoes
                                    join f in contexto.Faixas
                                     on g.GeneroId equals f.GeneroId
                                    select new { f, g };

@@ -1,5 +1,4 @@
-﻿using AluraTunesData;
-using System;
+﻿using System;
 
 namespace Alura.Tunes.Linq
 {
@@ -7,10 +6,7 @@ namespace Alura.Tunes.Linq
     {
         public static void Main()
         {
-            using (var contexto = new AluraTunesEntities())
-            {
-            }
-
+            Linq2.LinqParallel.Execute();
             Console.ReadKey();
         }
     }

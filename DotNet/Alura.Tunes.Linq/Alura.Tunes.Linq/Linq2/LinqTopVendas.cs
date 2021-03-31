@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace Alura.Tunes.Linq
+namespace Alura.Tunes.Linq.Linq2
 {
     public static class LinqTopVendas
     {
@@ -27,7 +27,7 @@ namespace Alura.Tunes.Linq
                 Console.WriteLine($"{produtoMaisVendido.FaixaId}\t{produtoMaisVendido.Nome}\t{produtoMaisVendido.Total}");
 
                 var query =
-                    from inf in contexto.ItemsNotaFiscal
+                    from inf in contexto.ItemNotaFiscals
                     where inf.FaixaId == produtoMaisVendido.FaixaId
                     select new
                     {

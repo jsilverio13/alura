@@ -14,7 +14,7 @@ namespace Alura.Tunes.Linq.Linq2
             {
                 int numeroPagina = 5;
 
-                var numeroNotasFiscais = contexto.NotasFiscais.Count();
+                var numeroNotasFiscais = contexto.NotaFiscals.Count();
                 decimal numerosPaginas = Math.Ceiling(Convert.ToDecimal(numeroNotasFiscais / TAMANHO_PAGINA));
 
                 for (int p = 1; p <= numerosPaginas; p++)
@@ -29,7 +29,7 @@ namespace Alura.Tunes.Linq.Linq2
         private static void ImprimirPagina(AluraTunesEntities contexto, int numeroPagina)
         {
             var query =
-                                from nf in contexto.NotasFiscais
+                                from nf in contexto.NotaFiscals
                                 orderby nf.NotaFiscalId
                                 select new
                                 {

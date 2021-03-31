@@ -10,9 +10,9 @@ namespace Alura.Tunes.Linq.Linq2
         {
             using (var contexto = new AluraTunesEntities())
             {
-                decimal media = contexto.NotasFiscais.Average(n => n.Total);
+                decimal media = contexto.NotaFiscals.Average(n => n.Total);
                 var query =
-                  from nf in contexto.NotasFiscais
+                  from nf in contexto.NotaFiscals
                   where nf.Total > media
                   orderby nf.Total descending
                   select new

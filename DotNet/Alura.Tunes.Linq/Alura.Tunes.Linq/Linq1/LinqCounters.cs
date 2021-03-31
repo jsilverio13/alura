@@ -21,7 +21,7 @@ namespace Alura.Tunes.Linq.Linq1
 
                 Console.WriteLine();
 
-                var query2 = from inf in contexto.ItemsNotaFiscal
+                var query2 = from inf in contexto.ItemNotaFiscals
                              where inf.Faixa.Album.Artista.Nome == "Led Zeppelin"
                              select new { totalDoItem = inf.Quantidade * inf.PrecoUnitario };
 
@@ -31,7 +31,7 @@ namespace Alura.Tunes.Linq.Linq1
 
                 Console.WriteLine();
 
-                var query3 = from inf in contexto.ItemsNotaFiscal
+                var query3 = from inf in contexto.ItemNotaFiscals
                              where inf.Faixa.Album.Artista.Nome == "Led Zeppelin"
                              group inf by inf.Faixa.Album into agrupado
                              let vendasPorAlbum = agrupado.Sum(a => a.Quantidade * a.PrecoUnitario)
@@ -52,15 +52,15 @@ namespace Alura.Tunes.Linq.Linq1
 
                 contexto.Database.Log = Console.WriteLine;
 
-                var maiorVenda = contexto.NotasFiscais.Max(nf => nf.Total);
-                var menorVenda = contexto.NotasFiscais.Min(nf => nf.Total);
-                var vendaMedia = contexto.NotasFiscais.Average(nf => nf.Total);
+                var maiorVenda = contexto.NotaFiscals.Max(nf => nf.Total);
+                var menorVenda = contexto.NotaFiscals.Min(nf => nf.Total);
+                var vendaMedia = contexto.NotaFiscals.Average(nf => nf.Total);
 
                 Console.WriteLine($"A maior venda é de R$ {maiorVenda}");
                 Console.WriteLine($"A menor venda é de R$ {menorVenda}");
                 Console.WriteLine($"A venda média é de R$ {vendaMedia}");
 
-                var vendas = (from nf in contexto.NotasFiscais
+                var vendas = (from nf in contexto.NotaFiscals
                               group nf by 1 into agrupado
                               select new
                               {
