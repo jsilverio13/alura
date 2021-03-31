@@ -50,13 +50,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LinqCounters.cs" />
-    <Compile Include="LinqMaxMinAverage.cs" />
-    <Compile Include="LinqToOrder.cs" />
-    <Compile Include="LinqFilterEntities.cs" />
-    <Compile Include="LinqToEntities.cs" />
-    <Compile Include="LinqToXml.cs" />
-    <Compile Include="LinqToObjects.cs" />
+    <Compile Include="Linq1\LinqCounters.cs" />
+    <Compile Include="Linq1\LinqMaxMinAverage.cs" />
+    <Compile Include="Linq1\LinqToOrder.cs" />
+    <Compile Include="Linq1\LinqFilterEntities.cs" />
+    <Compile Include="Linq1\LinqToEntities.cs" />
+    <Compile Include="Linq1\LinqToXml.cs" />
+    <Compile Include="Linq1\LinqToObjects.cs" />
+    <Compile Include="Linq2\LinqPaginacao.cs" />
+    <Compile Include="Linq2\LinqSubQuery.cs" />
+    <Compile Include="Linq2\LinqTopVendas.cs" />
     <Compile Include="Models\Genero.cs" />
     <Compile Include="Models\Musica.cs" />
     <Compile Include="Program.cs" />
@@ -76,6 +79,7 @@
       <Name>AluraTunesEF</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

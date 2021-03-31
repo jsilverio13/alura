@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Xml.Linq;
 
-namespace Alura.Tunes.Linq
+namespace Alura.Tunes.Linq.Linq1
 {
     public static class LinqToXml
     {

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Alura.Tunes.Linq
+namespace Alura.Tunes.Linq.Linq1
 {
     public static class LinqToObjects
     {

@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Alura.Tunes.Linq
+namespace Alura.Tunes.Linq.Linq1
 {
     public static class LinqMaxMinAverage
     {
