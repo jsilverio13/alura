@@ -9,7 +9,7 @@ namespace MongoDBDotNet.Examples.Exemplos
     {
         public static void Execute()
         {
-            var conexaoBiblioteca = new Connect();
+            var conexaoBiblioteca = new DataBaseLivros();
             Console.WriteLine("Listando Documentos");
 
             foreach (var doc in conexaoBiblioteca.Livros.Find(new BsonDocument()).ToList())

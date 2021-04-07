@@ -23,7 +23,7 @@ namespace MongoDBDotNet.Examples.Exemplos
                 }
             };
 
-            var conexao = new Connect();
+            var conexao = new DataBaseLivros();
 
             //incluindo documento
 

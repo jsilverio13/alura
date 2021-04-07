@@ -10,7 +10,7 @@ namespace MongoDBDotNet.Examples.Exemplos
     {
         public static void Execute()
         {
-            var conexaoBiblioteca = new Connect();
+            var conexaoBiblioteca = new DataBaseLivros();
 
             Console.WriteLine("Listando Documentos Maior 100 paginas");
 

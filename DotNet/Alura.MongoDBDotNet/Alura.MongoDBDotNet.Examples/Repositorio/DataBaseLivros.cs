@@ -3,7 +3,7 @@ using MongoDBDotNet.Examples.Models;
 
 namespace MongoDBDotNet.Examples.Repositorio
 {
-    public class Connect
+    public class DataBaseLivros
     {
         public const string STRING_DE_CONEXAO = "mongodb://localhost:27017";
         public const string NOME_DA_BASE = "Biblioteca";
@@ -17,7 +17,7 @@ namespace MongoDBDotNet.Examples.Repositorio
             get { return _baseDeDados.GetCollection<Livro>(NOME_DA_COLECAO); }
         }
 
-        public Connect()
+        public DataBaseLivros()
         {
             Cliente = new MongoClient(STRING_DE_CONEXAO);
 

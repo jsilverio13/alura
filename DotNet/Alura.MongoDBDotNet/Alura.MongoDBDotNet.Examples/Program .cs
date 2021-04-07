@@ -6,7 +6,7 @@ namespace MongoDBDotNet.Examples
     {
         public static void Main()
         {
-            Exemplos.DeletandoDocumento.Execute();
+            Exemplos.BuscaAeroportos.Execute();
             Console.ReadKey();
         }
     }

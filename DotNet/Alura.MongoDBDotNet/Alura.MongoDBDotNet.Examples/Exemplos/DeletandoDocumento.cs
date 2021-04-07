@@ -10,7 +10,7 @@ namespace MongoDBDotNet.Examples.Exemplos
     {
         public static void Execute()
         {
-            var conexaoBiblioteca = new Connect();
+            var conexaoBiblioteca = new DataBaseLivros();
 
             Console.WriteLine("Buscar os livros de M. Assis");
             var construtor = Builders<Livro>.Filter;
