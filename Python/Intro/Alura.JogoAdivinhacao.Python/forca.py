@@ -10,7 +10,7 @@ def jogar():
     acertou = False
     erros = 0
     tentativas = 7
-
+    
     while(not enforcou and not acertou):
         chute = pedir_chute()
 
