@@ -231,7 +231,6 @@ conta_do_gui = (15, 1000)
 # conta_do_gui.deposita() # variação OO
 conta_do_gui[1]
 
-conta_do_gui[1] += 100
 
 
 def deposita(conta):  # variação "funcional"(separando o comportamento dos dados)
