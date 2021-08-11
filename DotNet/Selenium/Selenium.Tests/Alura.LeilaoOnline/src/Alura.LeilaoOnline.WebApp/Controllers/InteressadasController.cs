@@ -4,6 +4,8 @@ using Alura.LeilaoOnline.WebApp.Extensions;
 using Alura.LeilaoOnline.WebApp.Filtros;
 using Alura.LeilaoOnline.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Alura.LeilaoOnline.WebApp.Controllers
@@ -22,7 +24,27 @@ namespace Alura.LeilaoOnline.WebApp.Controllers
             _repoInteressada = repoInteressada;
         }
 
-        public IActionResult Index()
+        private IEnumerable<Leilao> PesquisaLeiloes(PesquisaLeiloesViewModel pesquisa)
+        {
+            if (pesquisa.Andamento == null && pesquisa.Categorias == null && pesquisa.Termo == null)
+                return null;
+            var leiloes = _repoLeilao.Todos;
+            if (!string.IsNullOrEmpty(pesquisa.Andamento))
+            {
+                leiloes = leiloes.Where(l => l.Estado == EstadoLeilao.LeilaoEmAndamento);
+            }
+            if (!string.IsNullOrWhiteSpace(pesquisa.Termo))
+            {
+                leiloes = leiloes.Where(l => l.Titulo.Contains(pesquisa.Termo, StringComparison.InvariantCultureIgnoreCase));
+            }
+            if (pesquisa.Categorias != null && pesquisa.Categorias.Length > 0)
+            {
+                leiloes = leiloes.Where(l => pesquisa.Categorias.Contains(l.Categoria));
+            }
+            return leiloes.ToList();
+        }
+
+        public IActionResult Index(PesquisaLeiloesViewModel pesquisa)
         {
             var usuarioLogado = this.HttpContext.Session.Get<Usuario>("usuarioLogado");
             var interessada = _repoInteressada
@@ -30,7 +52,8 @@ namespace Alura.LeilaoOnline.WebApp.Controllers
             var model = new DashboardInteressadaViewModel
             {
                 MinhasOfertas = interessada.Lances,
-                LeiloesFavoritos = interessada.Favoritos.Select(f => f.LeilaoFavorito)
+                LeiloesFavoritos = interessada.Favoritos.Select(f => f.LeilaoFavorito),
+                LeiloesPesquisados = PesquisaLeiloes(pesquisa)
             };
             return View(model);
         }

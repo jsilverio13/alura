@@ -11,7 +11,7 @@ namespace Alura.LeilaoOnline.WebApp.Extensions
             session.SetString(key, json);
         }
 
-        public static T Get<T>(this ISession session, string key) where T : class
+        public static T Get<T>(this ISession session, string key) where T:class
         {
             var json = session.GetString(key);
             if (string.IsNullOrEmpty(json))

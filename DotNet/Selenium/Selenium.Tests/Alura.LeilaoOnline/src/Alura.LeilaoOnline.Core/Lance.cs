@@ -6,10 +6,8 @@ namespace Alura.LeilaoOnline.Core
     {
         public int Id { get; set; }
         public double Valor { get; private set; }
-
         [Required]
         public Interessada Cliente { get; set; }
-
         [Required]
         public Leilao Leilao { get; set; }
 

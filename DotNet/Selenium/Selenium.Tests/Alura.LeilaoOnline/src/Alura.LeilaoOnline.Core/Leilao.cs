@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
 using System.Linq;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Alura.LeilaoOnline.Core
 {
@@ -13,13 +13,10 @@ namespace Alura.LeilaoOnline.Core
             {
                 case EstadoLeilao.LeilaoAntesDoPregao:
                     return "Pregão não iniciado";
-
                 case EstadoLeilao.LeilaoEmAndamento:
                     return "Pregão em andamento";
-
                 case EstadoLeilao.LeilaoFinalizado:
                     return "Pregão encerrado";
-
                 default:
                     return "Estado não encontrado";
             }
@@ -39,19 +36,14 @@ namespace Alura.LeilaoOnline.Core
         private readonly IModalidadeAvaliacao _avaliador;
 
         public int Id { get; set; }
-
         [Required]
         public string Titulo { get; set; }
-
         [Required]
         public string Descricao { get; set; }
-
         [Required]
         public string Categoria { get; set; }
-
         [Required]
         public string Imagem { get; set; }
-
         public double ValorInicial { get; set; }
         public DateTime InicioPregao { get; set; }
         public DateTime TerminoPregao { get; set; }
@@ -63,6 +55,7 @@ namespace Alura.LeilaoOnline.Core
         //para uso do EF Core
         private Leilao()
         {
+
         }
 
         public Leilao(string titulo, IModalidadeAvaliacao avaliador)

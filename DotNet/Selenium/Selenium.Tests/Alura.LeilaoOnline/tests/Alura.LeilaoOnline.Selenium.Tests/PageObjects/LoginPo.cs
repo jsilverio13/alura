@@ -17,20 +17,47 @@ namespace Alura.LeilaoOnline.Selenium.Tests.PageObjects
             _byBotaoLogin = By.Id("btnLogin");
         }
 
-        public void Visitar()
+        public LoginPo Visitar()
         {
             _driver.Navigate().GoToUrl("http://localhost:5000/Autenticacao/Login");
+            return this;
         }
 
-        public void PreencherFormulario(string login, string senha)
+        public LoginPo PreencheFormulario(string login, string senha)
+        {
+            return
+                InformarEmail(login)
+                    .InformarSenha(senha);
+        }
+
+        public LoginPo InformarEmail(string login)
         {
             _driver.FindElement(_byInputLogin).SendKeys(login);
-            _driver.FindElement(_byInputSenha).SendKeys(senha);
+            return this;
         }
 
-        public void SubmeterFormulario()
+        public LoginPo InformarSenha(string senha)
+        {
+            _driver.FindElement(_byInputSenha).SendKeys(senha);
+            return this;
+        }
+
+        public LoginPo EfetuarLogin()
+        {
+            return SubmeteFormulario();
+        }
+
+        public LoginPo SubmeteFormulario()
         {
             _driver.FindElement(_byBotaoLogin).Submit();
+            return this;
+        }
+
+        public void EfetuarLoginComCredenciais(string login, string senha)
+        {
+            Visitar()
+                .PreencheFormulario(login, senha)
+                .SubmeteFormulario();
         }
     }
 }

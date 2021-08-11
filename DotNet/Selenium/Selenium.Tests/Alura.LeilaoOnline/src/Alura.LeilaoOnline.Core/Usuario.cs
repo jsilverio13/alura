@@ -16,8 +16,9 @@ namespace Alura.LeilaoOnline.Core
 
         public Interessada Interessada { get; set; }
 
-        public Usuario()
+        public static bool EhInteressada(Usuario usuario)
         {
+            return usuario?.Interessada != null;
         }
     }
 }

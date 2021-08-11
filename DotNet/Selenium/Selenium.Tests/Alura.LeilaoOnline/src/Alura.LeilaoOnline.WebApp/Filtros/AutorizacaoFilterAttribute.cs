@@ -1,7 +1,7 @@
-﻿using Alura.LeilaoOnline.Core;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Alura.LeilaoOnline.WebApp.Extensions;
+using Alura.LeilaoOnline.Core;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Alura.LeilaoOnline.WebApp.Filtros
 {

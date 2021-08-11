@@ -1,9 +1,9 @@
-﻿using Alura.LeilaoOnline.Selenium.Tests.Fixtures;
+﻿using Alura.LeilaoOnline.Selenium.Tests.Config.Fixtures;
 using Alura.LeilaoOnline.Selenium.Tests.PageObjects;
 using OpenQA.Selenium;
 using Xunit;
 
-namespace Alura.LeilaoOnline.Selenium.Tests
+namespace Alura.LeilaoOnline.Selenium.Tests.Testes
 {
     [Collection("Chrome Driver")]
     public class AoEfetuarLogin
@@ -21,12 +21,13 @@ namespace Alura.LeilaoOnline.Selenium.Tests
         public void DadoCredenciaisValidasDeveIrParaDashboard()
         {
             // Arrange
-
-            _loginPo.Visitar();
-            _loginPo.PreencherFormulario("jeff@gmail.com", "741963");
             // Act
 
-            _loginPo.SubmeterFormulario();
+            _loginPo
+                .Visitar()
+                .InformarEmail("jeff@gmail.com")
+                .InformarSenha("741963")
+                .SubmeteFormulario();
 
             // Assert
 
@@ -37,12 +38,12 @@ namespace Alura.LeilaoOnline.Selenium.Tests
         public void DadoCredenciaisInvalidasDeveContinuarLogin()
         {
             // Arrange
-
-            _loginPo.Visitar();
-            _loginPo.PreencherFormulario("jeff@gmail.com", "");
             // Act
-
-            _loginPo.SubmeterFormulario();
+            _loginPo
+                .Visitar()
+                .InformarEmail("jeff@gmail.com")
+                .InformarSenha("")
+                .SubmeteFormulario();
 
             // Assert
 

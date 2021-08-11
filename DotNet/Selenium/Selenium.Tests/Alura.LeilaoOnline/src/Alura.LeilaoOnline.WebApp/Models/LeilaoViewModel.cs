@@ -1,8 +1,8 @@
-﻿using Alura.LeilaoOnline.Core;
+﻿using System;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
+using Alura.LeilaoOnline.Core;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace Alura.LeilaoOnline.WebApp.Models
 {

@@ -10,6 +10,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Autenticacao\Login.cshtml" />
+    <None Include="Views\Home\Detalhes.cshtml" />
+    <None Include="Views\Home\Index.cshtml" />
+    <None Include="Views\Interessadas\Index.cshtml" />
+    <None Include="Views\Leiloes\Categoria.cshtml" />
+    <None Include="Views\Leiloes\Index.cshtml" />
+    <None Include="Views\Leiloes\Novo.cshtml" />
+    <None Include="Views\Shared\DisplayTemplates\LeilaoAntesDoPregao.cshtml" />
+    <None Include="Views\Shared\DisplayTemplates\LeilaoEmAndamento.cshtml" />
+    <None Include="Views\Shared\DisplayTemplates\LeilaoFinalizado.cshtml" />
+    <None Include="Views\Shared\_Cabecalho.cshtml" />
+    <None Include="Views\Shared\_Layout.cshtml" />
+    <None Include="Views\Shared\_ModalLance.cshtml" />
+    <None Include="Views\Shared\_Registro.cshtml" />
+    <None Include="Views\Shared\_Rodape.cshtml" />
+    <None Include="Views\Usuarios\Agradecimento.cshtml" />
     <None Include="wwwroot\js\site.js" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />

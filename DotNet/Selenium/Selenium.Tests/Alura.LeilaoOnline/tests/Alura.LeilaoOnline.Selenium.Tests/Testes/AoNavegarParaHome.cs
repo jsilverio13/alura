@@ -1,9 +1,9 @@
-﻿using Alura.LeilaoOnline.Selenium.Tests.Fixtures;
+﻿using Alura.LeilaoOnline.Selenium.Tests.Config.Fixtures;
 using Alura.LeilaoOnline.Selenium.Tests.PageObjects;
 using OpenQA.Selenium;
 using Xunit;
 
-namespace Alura.LeilaoOnline.Selenium.Tests
+namespace Alura.LeilaoOnline.Selenium.Tests.Testes
 {
     [Collection("Chrome Driver")]
     public class AoNavegarParaHome
