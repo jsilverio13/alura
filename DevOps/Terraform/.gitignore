@@ -10,6 +10,7 @@
 *.tfstate
 *.tfstate.*
 *.pem
+*.terraform.lock
 
 # Crash log files
 crash.log
