@@ -13,4 +13,8 @@ spec:
       envFrom:
         - configMapRef:
             name: sistema-configmap
+      resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
      

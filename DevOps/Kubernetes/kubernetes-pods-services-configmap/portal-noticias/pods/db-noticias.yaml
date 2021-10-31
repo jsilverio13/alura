@@ -13,8 +13,3 @@ spec:
       envFrom:
         - configMapRef:
             name: db-configmap
-
-        
-
-
-     
