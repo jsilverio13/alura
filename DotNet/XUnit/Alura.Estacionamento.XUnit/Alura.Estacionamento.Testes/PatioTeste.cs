@@ -1,22 +1,17 @@
 ﻿using Alura.Estacionamento.Alura.Estacionamento.Modelos;
 using Alura.Estacionamento.Modelos;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
-using Xunit.Sdk;
 
 namespace Alura.Estacionamento.Tests
 {
     public class PatioTeste:IDisposable
     {
 
-        private Veiculo veiculo = new Veiculo();
-        private Operador operador;
-        private Patio estacionamento;
+        private readonly Veiculo veiculo = new Veiculo();
+        private readonly Operador operador;
+        private readonly Patio estacionamento;
 
         public ITestOutputHelper Output { get; }
         public PatioTeste(ITestOutputHelper output)

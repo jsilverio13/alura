@@ -1,7 +1,5 @@
 ﻿using Alura.Estacionamento.Alura.Estacionamento.Modelos;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace Alura.Estacionamento.Modelos
 {
@@ -92,12 +90,12 @@ namespace Alura.Estacionamento.Modelos
         //Métodos
         public void Acelerar(int tempoSeg)
         {
-            this.VelocidadeAtual += (tempoSeg * 10);
+            VelocidadeAtual += (tempoSeg * 10);
         }
 
         public void Frear(int tempoSeg)
         {
-            this.VelocidadeAtual -= (tempoSeg * 15);
+            VelocidadeAtual -= (tempoSeg * 15);
         }
                
         //Construtor
@@ -113,21 +111,18 @@ namespace Alura.Estacionamento.Modelos
 
         public void AlterarDadosVeiculo(Veiculo veiculo)
         {
-            this.Placa = veiculo.Placa;
-            this.Proprietario = veiculo.Proprietario;
-            this.Cor = veiculo.Cor;
-            this.Modelo = veiculo.Modelo;
+            Placa = veiculo.Placa;
+            Proprietario = veiculo.Proprietario;
+            Cor = veiculo.Cor;
+            Modelo = veiculo.Modelo;
         }
 
-        public override string ToString()
-        {
-            return $"Ficha do veículo:\n" +
-                   $"Tipo do veículo:{this.Tipo}" +
-                   $"Proprietário:{this.Proprietario}" +
-                   $"Modelo: {this.Modelo}" +
-                   $"Placa: {this.Placa}" +
-                   $"Cor: {this.Cor}";
-        }
+        public override string ToString() => $"Ficha do veículo:\n" +
+                   $"Tipo do veículo:{Tipo}" +
+                   $"Proprietário:{Proprietario}" +
+                   $"Modelo: {Modelo}" +
+                   $"Placa: {Placa}" +
+                   $"Cor: {Cor}";
 
     }
 }

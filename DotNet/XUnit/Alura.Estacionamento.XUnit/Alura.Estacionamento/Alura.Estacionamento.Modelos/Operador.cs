@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Alura.Estacionamento.Alura.Estacionamento.Modelos
 {
@@ -16,12 +12,12 @@ namespace Alura.Estacionamento.Alura.Estacionamento.Modelos
 
         public Operador()
         {
-            this.Matricula = new Guid().ToString().Substring(0, 8);
+            Matricula = new Guid().ToString().Substring(0, 8);
         }
         public override string ToString()
         {
-            return $"Operador: {this.Nome} \n" +
-                   $"Matricula: {this.Matricula}";
+            return $"Operador: {Nome} \n" +
+                   $"Matricula: {Matricula}";
         }
 
     }

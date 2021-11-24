@@ -1,7 +1,6 @@
 ﻿using Alura.Estacionamento.Alura.Estacionamento.Modelos;
 using Alura.Estacionamento.Modelos;
 using System;
-using System.Collections.Generic;
 
 namespace Alura.Estacionamento
 {
@@ -9,7 +8,7 @@ namespace Alura.Estacionamento
     {
         // Cria uma lista de objetos do tipo veículos, para armazenar
         // os veículos (automovéis e motos) que estão no estacionamento;
-        static Patio estacionamento = new();         
+        static readonly Patio estacionamento = new();         
 
         static void Main(string[] args)
         {

@@ -9,7 +9,7 @@ namespace Alura.Estacionamento.Tests
     public class VeiculoTeste
     {
         public ITestOutputHelper Output { get; }
-        private Veiculo veiculo;
+        private readonly Veiculo veiculo;
 
         public VeiculoTeste(ITestOutputHelper output)
         {
