@@ -1,12 +1,12 @@
 /* Código simplório, apenas para fornecer o serviço para a aplicação */
 
-import express from 'express';
-var app = express();
-import routes from '../app/routes';
-import path from 'path';
-import { json } from 'body-parser';
+var express = require('express')
+    ,app = express()
+    ,routes = require('../app/routes')
+    ,path =  require('path')
+    ,bodyParser = require('body-parser');
 
-app.use(json());
+app.use(bodyParser.json());
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -16,4 +16,4 @@ app.use(function(req, res, next) {
 
 routes(app);
 
-export default app;
+module.exports = app;

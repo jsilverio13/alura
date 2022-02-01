@@ -1,9 +1,9 @@
 /* Código simplório, apenas para fornecer o serviço para a aplicação */
 
-import { dados } from '../api';
+var api = require('../api');
 
-export default function(app) {
+module.exports  = function(app) {
         
     app.route('/dados')
-        .get(dados);          
+        .get(api.dados);          
 };

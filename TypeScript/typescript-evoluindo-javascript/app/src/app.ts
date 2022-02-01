@@ -10,3 +10,12 @@ if (form) {
 } else {
     throw Error('Não foi possível inicialiar a aplicação. Form NULL')
 }
+
+const botaoImporta = document.querySelector('#botao-importa');
+if (botaoImporta) {
+    botaoImporta.addEventListener('click', () => {
+        controller.importarDados();
+    });
+} else {
+    throw Error('Não foi possível inicialiar a aplicação. botaoImporta NULL')
+}
