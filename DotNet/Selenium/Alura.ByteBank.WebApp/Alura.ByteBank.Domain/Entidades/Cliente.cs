@@ -5,11 +5,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Alura.ByteBank.Dominio.Entidades
 {
-    
     public class Cliente
     {
         [Key]
         public int Id { get; set; }
+
         private string _cpf;
         public Guid Identificador { get; set; }
 
@@ -23,19 +23,19 @@ namespace Alura.ByteBank.Dominio.Entidades
             }
             set
             {
-               
-                if(this.ValidaCPF(value)==false)
+                if (ValidaCPF(value) == false)
                 {
                     throw new FormatException("CPF inválido.");
                 }
                 _cpf = value;
             }
         }
+
         private string _nome;
 
         [Required]
         [MinLength(3, ErrorMessage = "Campo deve ter no mínimo 3 caracteres.")]
-        public String Nome
+        public string Nome
         {
             get { return _nome; }
             set
@@ -44,22 +44,24 @@ namespace Alura.ByteBank.Dominio.Entidades
                 {
                     throw new FormatException("Nome do titular deve possuir pelo menos 3 caractere.");
                 }
-                if (value==string.Empty)
+                if (value == string.Empty)
                 {
                     throw new FormatException("Nome do titular não pode ser vazio.");
                 }
                 _nome = value;
             }
         }
+
         public string Profissao { get; set; }
         public virtual ICollection<ContaCorrente> Contas { get; set; }
+
         public Cliente()
         {
-            Contas = new Collection<ContaCorrente>();            
+            Contas = new Collection<ContaCorrente>();
         }
 
         private bool ValidaCPF(string cpfParaValidacao)
-        {           
+        {
             int[] multiplicador1 = new int[9] { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
             int[] multiplicador2 = new int[10] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
             string tempCpf;
@@ -106,7 +108,6 @@ namespace Alura.ByteBank.Dominio.Entidades
             }
             digito = digito + resto.ToString();
             return cpfParaValidacao.EndsWith(digito);
-            
         }
     }
 }

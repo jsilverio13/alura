@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Alura.ByteBank.Aplicacao.DTO
 {
@@ -15,7 +11,8 @@ namespace Alura.ByteBank.Aplicacao.DTO
         public int AgenciaId { get; set; }
         public AgenciaDTO Agencia { get; set; }
         public Guid Identificador { get; set; }
-        public double Saldo{get;set;}
+        public double Saldo { get; set; }
+
         public ContaCorrenteDTO()
         {
             Identificador = Guid.NewGuid();
@@ -24,10 +21,10 @@ namespace Alura.ByteBank.Aplicacao.DTO
         public override string ToString()
         {
             return "===Dados da Conta===\n" +
-                   $"Numero Conta: {this.Numero}\n" +
-                   $"Saldo Conta: {this.Saldo}\n" +
-                   $"Id Conta: {this.Identificador}\n" +
-                   $"Titular Conta(Cliente): {this.Cliente.Nome}";
+                   $"Numero Conta: {Numero}\n" +
+                   $"Saldo Conta: {Saldo}\n" +
+                   $"Id Conta: {Identificador}\n" +
+                   $"Titular Conta(Cliente): {Cliente.Nome}";
         }
 
         public Guid PixConta { get; set; }

@@ -2,19 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Alura.ByteBank.Infraestrutura.Testes
 {
-    public class PixRepositorio:IPixRepositorio
+    public class PixRepositorio : IPixRepositorio
     {
-        
         public List<PixDTO> Pixs { get; set; }
 
         public PixRepositorio()
         {
-            this.Pixs = new List<PixDTO>()
+            Pixs = new List<PixDTO>()
             {
                 new PixDTO(){Chave = new Guid("a0b80d53-c0dd-4897-ab90-c0615ad80d5a"),Saldo=10},
                 new PixDTO(){Chave = new Guid("f6555014-4fed-4631-b6da-ad524288457a"),Saldo=236},
@@ -31,11 +28,10 @@ namespace Alura.ByteBank.Infraestrutura.Testes
 
         public PixDTO consultaPix(Guid chave)
         {
-            PixDTO dto = (from pix in this.Pixs
+            PixDTO dto = (from pix in Pixs
                           where pix.Chave == chave
                           select pix).SingleOrDefault();
             return dto;
         }
-
     }
 }

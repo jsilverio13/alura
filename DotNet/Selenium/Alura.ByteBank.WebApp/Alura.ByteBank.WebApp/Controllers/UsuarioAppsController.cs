@@ -1,17 +1,17 @@
-﻿using System.Threading.Tasks;
+﻿using Alura.ByteBank.Dados.Repositorio;
+using Alura.ByteBank.Dominio.Entidades;
+using Alura.ByteBank.WebApp.Util;
+using Alura.ByteBank.WebApp.Views.ViewModel;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Alura.ByteBank.Dominio.Entidades;
-using Alura.ByteBank.Dados.Repositorio;
-using Alura.ByteBank.WebApp.Views.ViewModel;
-using Alura.ByteBank.WebApp.Util;
-using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 
 namespace Alura.ByteBank.WebApp.Controllers
 {
     public class UsuarioAppsController : Controller
     {
-        private UsuarioAppRepositorio _context;
+        private readonly UsuarioAppRepositorio _context;
 
         public UsuarioAppsController()
         {
@@ -33,7 +33,7 @@ namespace Alura.ByteBank.WebApp.Controllers
             }
 
             var usuarioApp = _context.ObterPorId(id);
-               
+
             if (usuarioApp == null)
             {
                 return NotFound();
@@ -52,8 +52,9 @@ namespace Alura.ByteBank.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind("Id,UserName,Email,Senha")] UsuarioApp usuarioApp)
         {
-            if (ModelState.IsValid)            {
-                _context.Adicionar(usuarioApp);             
+            if (ModelState.IsValid)
+            {
+                _context.Adicionar(usuarioApp);
                 return RedirectToAction(nameof(Index));
             }
             return View(usuarioApp);
@@ -89,7 +90,7 @@ namespace Alura.ByteBank.WebApp.Controllers
             {
                 try
                 {
-                    _context.Atualizar(id,usuarioApp);                   
+                    _context.Atualizar(id, usuarioApp);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -116,7 +117,7 @@ namespace Alura.ByteBank.WebApp.Controllers
             }
 
             var usuarioApp = _context.ObterPorId(id);
-               
+
             if (usuarioApp == null)
             {
                 return NotFound();
@@ -153,17 +154,17 @@ namespace Alura.ByteBank.WebApp.Controllers
             {
                 string salto = Configuracao.Secret + usuario.Senha;
                 string senha = Criptografia.sha256encrypt(salto);
-                var _usuario = _context.ObterPorEmail(usuario.Email);                
-                if (_usuario!=null)
+                var _usuario = _context.ObterPorEmail(usuario.Email);
+                if (_usuario != null)
                 {
                     var token = TokenService.GenerateToken(_usuario);
                     if (_usuario.Senha == senha)
                     {
                         HttpContext.Request.Headers.Remove("Authorization");
-                        HttpContext.Request.Headers.Add("Authorization","Bearer " + token);
+                        HttpContext.Request.Headers.Add("Authorization", "Bearer " + token);
                         HttpContext.Session.SetString("JWToken", token);
-                        HttpContext.Session.SetString("user", _usuario.UserName);                        
-                        return RedirectToAction("Index","Home");
+                        HttpContext.Session.SetString("user", _usuario.UserName);
+                        return RedirectToAction("Index", "Home");
                     }
                 }
             }
@@ -173,8 +174,8 @@ namespace Alura.ByteBank.WebApp.Controllers
         [HttpPost]
         public IActionResult Logout()
         {
-            HttpContext.Session.Clear();           
-           return RedirectToAction("Login","UsuarioApps");
+            HttpContext.Session.Clear();
+            return RedirectToAction("Login", "UsuarioApps");
         }
     }
 }

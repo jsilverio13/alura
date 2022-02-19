@@ -9,33 +9,42 @@ namespace Alura.ByteBank.Dominio.Entidades
     {
         [Key]
         public int Id { get; set; }
+
         private int _numero;
-        public int Numero { 
-             get { return _numero; } 
-             set { 
-                 if(value <= 0)
+
+        public int Numero
+        {
+            get { return _numero; }
+            set
+            {
+                if (value <= 0)
                 {
                     throw new FormatException("Campo número da agência não pode ser 0.");
                 }
                 _numero = value;
-             } 
+            }
         }
-        private String _nome;
-        public String Nome {
+
+        private string _nome;
+
+        public string Nome
+        {
             get { return _nome; }
-            set { 
-               if(value.Length <3)
+            set
+            {
+                if (value.Length < 3)
                 {
                     throw new FormatException("Nome da agência deve possuir pelo menos 3 caractere.");
                 }
                 _nome = value;
-            } 
+            }
         }
-        private String _endereco;
+
+        private string _endereco;
 
         [Required]
-        [MinLength(10,ErrorMessage ="Campo deve ter no mínimo 10 caracteres.")]
-        public String Endereco
+        [MinLength(10, ErrorMessage = "Campo deve ter no mínimo 10 caracteres.")]
+        public string Endereco
         {
             get { return _endereco; }
             set
@@ -47,11 +56,13 @@ namespace Alura.ByteBank.Dominio.Entidades
                 _endereco = value;
             }
         }
+
         public virtual ICollection<ContaCorrente> Contas { get; set; }
         public Guid Identificador { get; set; }
+
         public Agencia()
         {
-            Contas = new Collection<ContaCorrente>();            
+            Contas = new Collection<ContaCorrente>();
         }
     }
 }

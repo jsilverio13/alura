@@ -6,8 +6,6 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -20,9 +18,8 @@ namespace Alura.ByteBank.Infraestrutura.Testes
 
         public AgenciaRepositorioTestes(ITestOutputHelper _saidaConsoleTeste)
         {
-            
             var servico = new ServiceCollection();
-            servico.AddTransient<IAgenciaRepositorio,AgenciaRepositorio>();
+            servico.AddTransient<IAgenciaRepositorio, AgenciaRepositorio>();
             var provedor = servico.BuildServiceProvider();
             _repositorio = provedor.GetService<IAgenciaRepositorio>();
 
@@ -34,7 +31,7 @@ namespace Alura.ByteBank.Infraestrutura.Testes
         [Fact]
         public void TestaObterTodasAgenciasRepositorio()
         {
-            //Arrange         
+            //Arrange
 
             //Act
             List<Agencia> lista = _repositorio.ObterTodos();
@@ -53,7 +50,6 @@ namespace Alura.ByteBank.Infraestrutura.Testes
 
             //Assert
             Assert.NotNull(agencia);
-
         }
 
         [Theory]
@@ -61,20 +57,19 @@ namespace Alura.ByteBank.Infraestrutura.Testes
         [InlineData(2)]
         public void TestaObterAgenciasPorVariosIdRepositorio(int id)
         {
-            //Arrange       
+            //Arrange
 
             //Act
             var agencia = _repositorio.ObterPorId(id);
 
             //Assert
             Assert.NotNull(agencia);
-
         }
 
         [Fact]
         public void TesteInsereUmaNovaAgenciaNaBaseDeDadosRepositorio()
         {
-            //Arrange            
+            //Arrange
             string nome = "Agencia Guarapari";
             int numero = 125982;
             Guid identificador = Guid.NewGuid();
@@ -94,10 +89,11 @@ namespace Alura.ByteBank.Infraestrutura.Testes
             //Assert
             Assert.True(retorno);
         }
+
         [Fact]
         public void TestaAtualizacaoInformacaoDeterminadaAgenciaRepositorio()
         {
-            //Arrange      
+            //Arrange
             var agencia = _repositorio.ObterPorId(2);
             var nomeNovo = "Agencia Nova";
             agencia.Nome = nomeNovo;
@@ -113,27 +109,27 @@ namespace Alura.ByteBank.Infraestrutura.Testes
         public void TestaRemoverInformacaoDeterminadaAgencia()
         {
             //Arrange
+            var agencias = _repositorio.ObterTodos();
+
+            var id = agencias.Last().Id;
+
             //Act
-            var atualizado = _repositorio.Excluir(5);
+            var removido = _repositorio.Excluir(id);
 
             //Assert
-            Assert.True(atualizado);
+            Assert.True(removido);
         }
-
 
         //Exceções
         [Fact]
         public void TestaExcecaoConsultaPorAgenciaPorId()
         {
-
-            //Act     
+            //Act
             //Assert
             Assert.Throws<Exception>(
                 () => _repositorio.ObterPorId(33)
              );
-
         }
-
 
         // Testes com Mock
         [Fact]

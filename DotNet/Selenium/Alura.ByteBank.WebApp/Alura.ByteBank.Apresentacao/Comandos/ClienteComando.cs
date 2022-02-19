@@ -6,51 +6,50 @@ using Alura.ByteBank.Dominio.Interfaces.Servicos;
 using Alura.ByteBank.Dominio.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Alura.ByteBank.Apresentacao.Comandos
 {
     internal class ClienteComando
     {
-        IClienteRepositorio _repositorio;
-        IClienteServico _servico;
-        ClienteServicoApp clienteServicoApp;
+        private readonly IClienteRepositorio _repositorio;
+        private readonly IClienteServico _servico;
+        private readonly ClienteServicoApp _clienteServicoApp;
+
         public ClienteComando()
         {
             _repositorio = new ClienteRepositorio();
             _servico = new ClienteServico(_repositorio);
-            clienteServicoApp = new ClienteServicoApp(_servico);
+            _clienteServicoApp = new ClienteServicoApp(_servico);
         }
 
         public bool Adicionar(ClienteDTO cliente)
         {
-            return clienteServicoApp.Adicionar(cliente);
+            return _clienteServicoApp.Adicionar(cliente);
         }
-        public bool Atualizar(int id,ClienteDTO cliente)
+
+        public bool Atualizar(int id, ClienteDTO cliente)
         {
-            return clienteServicoApp.Atualizar(id,cliente);
+            return _clienteServicoApp.Atualizar(id, cliente);
         }
 
         public bool Excluir(int id)
         {
-            return clienteServicoApp.Excluir(id);
+            return _clienteServicoApp.Excluir(id);
         }
 
         public ClienteDTO ObterPorId(int id)
         {
-            return clienteServicoApp.ObterPorId(id);
+            return _clienteServicoApp.ObterPorId(id);
         }
+
         public ClienteDTO ObterPorGuid(Guid guid)
         {
-            return clienteServicoApp.ObterPorGuid(guid);
+            return _clienteServicoApp.ObterPorGuid(guid);
         }
 
         public List<ClienteDTO> ObterTodos()
         {
-           return clienteServicoApp.ObterTodos();
+            return _clienteServicoApp.ObterTodos();
         }
-
     }
 }

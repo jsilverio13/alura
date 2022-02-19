@@ -1,25 +1,19 @@
 ﻿using Alura.ByteBank.Aplicacao.DTO;
 using Alura.ByteBank.Aplicacao.Interfaces;
 using Alura.ByteBank.Dominio.Entidades;
-using Alura.ByteBank.Dominio.Interfaces.Repositorios;
 using Alura.ByteBank.Dominio.Interfaces.Servicos;
-using Alura.ByteBank.Dominio.Services;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Alura.ByteBank.Aplicacao.AplicacaoServico
 {
     public class ContaCorrenteServicoApp : IContaCorrenteServicoApp
     {
-
         private readonly IContaCorrenteServico _servico;
 
-        private AgenciaServicoApp agenciaServico;
-        private ClienteServicoApp clienteServico;
+        private readonly AgenciaServicoApp agenciaServico;
+        private readonly ClienteServicoApp clienteServico;
 
         private readonly Mapper _mapper;
 
@@ -28,18 +22,21 @@ namespace Alura.ByteBank.Aplicacao.AplicacaoServico
             agenciaServico = new AgenciaServicoApp(_agenciaServico);
             clienteServico = new ClienteServicoApp(_clienteServico);
             _servico = servico;
-            var config = new MapperConfiguration(cfg => {
+            var config = new MapperConfiguration(cfg =>
+            {
                 cfg.CreateMap<ContaCorrente, ContaCorrenteDTO>().ReverseMap();
                 cfg.CreateMap<Cliente, ClienteDTO>().ReverseMap();
                 cfg.CreateMap<Agencia, AgenciaDTO>().ReverseMap();
             });
             _mapper = new(config);
         }
+
         public void Dispose()
         {
             _servico.Dispose();
             GC.SuppressFinalize(this);
         }
+
         public bool Adicionar(ContaCorrenteDTO conta)
         {
             conta.Cliente = clienteServico.ObterPorId(conta.ClienteId);
@@ -66,6 +63,7 @@ namespace Alura.ByteBank.Aplicacao.AplicacaoServico
         {
             return _mapper.Map<ContaCorrente, ContaCorrenteDTO>(_servico.ObterPorGuid(guid));
         }
+
         public List<ContaCorrenteDTO> ObterTodos()
         {
             var contas = _servico.ObterTodos();
