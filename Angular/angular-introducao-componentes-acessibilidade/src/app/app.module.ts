@@ -1,10 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { YesNoButtonGroupModule } from './shared/components/yes-no-button-group/yes-no-button-group.module';
-import { DisableControlModule } from './shared/directives/disable-control/disable-control.module';
+import { ModalModule } from './shared/components/modal/modal.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -12,10 +13,10 @@ import { DisableControlModule } from './shared/directives/disable-control/disabl
   ],
   imports: [
     BrowserModule,
-    YesNoButtonGroupModule,
-    ReactiveFormsModule,
-    FormsModule,
-    DisableControlModule
+    AppRoutingModule,
+    ModalModule,
+    BrowserAnimationsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
