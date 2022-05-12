@@ -1,7 +1,10 @@
 import { AcoesService } from './acoes.service';
-import { Acoes } from './modelo/acoes';
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { debounceTime, distinctUntilChanged, filter, switchMap, tap } from 'rxjs/operators';
+import { merge } from 'rxjs';
+
+const ESPERA_DIGITACAO = 300;
 
 @Component({
   selector: 'app-acoes',
@@ -10,17 +13,14 @@ import { FormControl } from '@angular/forms';
 })
 export class AcoesComponent {
   acoesInput = new FormControl();
-  acoes:Acoes;
+  todasAcoes$ = this.acoesService.getAcoes();
+  filtroInput$ = this.acoesInput.valueChanges.pipe(
+    debounceTime(ESPERA_DIGITACAO),
+    filter((valorDigitado) => valorDigitado.length >= 3 || !valorDigitado.length),
+    distinctUntilChanged(),
+    switchMap((valorDigitado) => this.acoesService.getAcoes(valorDigitado))
+  );
+  acoes$ = merge(this.todasAcoes$, this.filtroInput$);
 
-  constructor(private acoesService:AcoesService) {
-
-  }
-
-  ngOnInit(){
-    this.acoesService.getAcoes().subscribe((retornoApi) => {
-      this.acoes = retornoApi.payload;
-    })
-  }
-
-
+  constructor(private acoesService: AcoesService) {}
 }
