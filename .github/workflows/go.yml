@@ -22,10 +22,12 @@ jobs:
             go-version: 1.18
         
         - name: Create-DB
-          run: docker-compose -f ./DevOps/CI/integracao-continua-testes-automatizados-pipeline-github-actions/src/docker-compose.yml  up -d --build
+          working-directory: ./DevOps/CI/integracao-continua-testes-automatizados-pipeline-github-actions/src/ 
+          run: docker-compose -f "docker-compose.yml" up -d --build
           
         - name: Test
-          run: go test -v DevOps/CI/integracao-continua-testes-automatizados-pipeline-github-actions/src/main_test.go
+          working-directory: ./DevOps/CI/integracao-continua-testes-automatizados-pipeline-github-actions/src/ 
+          run: go test -v main_test.go
       
     build:
         needs: test
@@ -33,7 +35,7 @@ jobs:
         strategy:
             matrix:
                 go_version: ['1.18', '1.17', '>=1.18']
-                
+
         steps:
         - uses: actions/checkout@v3
 
@@ -43,4 +45,5 @@ jobs:
             go-version: 1.18
       
         - name: Build
-          run: go build -v ./DevOps/CI/integracao-continua-testes-automatizados-pipeline-github-actions/src/main.go
+          working-directory: ./DevOps/CI/integracao-continua-testes-automatizados-pipeline-github-actions/src/ 
+          run: go build -v main.go
