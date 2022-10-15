@@ -22,10 +22,7 @@ jobs:
       run: docker-compose -f ./DevOps/CI/integracao-continua-testes-automatizados-pipeline-github-actions/src/docker-compose.yml  up -d --build
       
     - name: Test
-      run: go test -v DevOps/CI/integracao-continua-testes-automatizados-pipeline-github-actions/src/main_test.go
-      
-    - name: Build
-      run: go build -v DevOps/CI/integracao-continua-testes-automatizados-pipeline-github-actions/src/main.go
+      run: go test -v ./DevOps/CI/integracao-continua-testes-automatizados-pipeline-github-actions/src/main_test.go
       
   build:
       needs: test
@@ -39,4 +36,4 @@ jobs:
           go-version: 1.18
      
       - name: Build
-        run: go build -v DevOps/CI/integracao-continua-testes-automatizados-pipeline-github-actions/src/main.go
+        run: go build -v ./DevOps/CI/integracao-continua-testes-automatizados-pipeline-github-actions/src/main.go
