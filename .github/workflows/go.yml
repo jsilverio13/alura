@@ -19,7 +19,7 @@ jobs:
         - name: Set up Go
           uses: actions/setup-go@v3
           with:
-            go-version: 1.18
+            go-version: ${{ matrix.go_version }}
         
         - name: Create-DB
           working-directory: ./DevOps/CI/integracao-continua-testes-automatizados-pipeline-github-actions/src/ 
@@ -42,7 +42,7 @@ jobs:
         - name: Set up Go
           uses: actions/setup-go@v3
           with:
-            go-version: 1.18
+            go-version: ${{ matrix.go_version }}
       
         - name: Build
           working-directory: ./DevOps/CI/integracao-continua-testes-automatizados-pipeline-github-actions/src/ 
