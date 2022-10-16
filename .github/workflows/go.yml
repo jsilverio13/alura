@@ -60,7 +60,7 @@ jobs:
           uses: actions/upload-artifact@v3.1.0
           with:
             name: programa
-            path: ./DevOps/CI/integracao-continua-testes-automatizados-pipeline-github-actions/src/main.exe
+            path: ./DevOps/CI/integracao-continua-testes-automatizados-pipeline-github-actions/src/main
     
     docker:
       needs: build
