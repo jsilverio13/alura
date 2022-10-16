@@ -55,6 +55,12 @@ jobs:
         - name: Build
           working-directory: ./DevOps/CI/integracao-continua-testes-automatizados-pipeline-github-actions/src/ 
           run: go build -v main.go
+
+        - name: Upload a Build Artifact
+          uses: actions/upload-artifact@v3.1.0
+          with:
+            name: programa
+            path: ./DevOps/CI/integracao-continua-testes-automatizados-pipeline-github-actions/src/main.exe
     
     docker:
       needs: build

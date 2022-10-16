@@ -19,9 +19,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build and push Docker images
-        
         uses: docker/build-push-action@v3.1.1
-        
         with:
           context: .
           file: ./DevOps/CI/integracao-continua-testes-automatizados-pipeline-github-actions/src/Dockerfile
