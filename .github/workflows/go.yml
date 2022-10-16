@@ -55,3 +55,8 @@ jobs:
         - name: Build
           working-directory: ./DevOps/CI/integracao-continua-testes-automatizados-pipeline-github-actions/src/ 
           run: go build -v main.go
+    
+    docker:
+      needs: build
+      uses: ././github/workflows/dockerGo.yml
+
