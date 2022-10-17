@@ -7,39 +7,63 @@ on:
     branches: [ "master" ]
 
 jobs:
+    test:
+        runs-on: ${{ matrix.os }}
+        env:
+          HOST: localhost
+          PORT: 5432
+          USER: root
+          PASSWORD: root
+          DBNAME: root
+        strategy:
+            matrix:
+                go_version: ['>=1.18']
+                os: ['ubuntu-latest']
+                
+        steps:
+        - uses: actions/checkout@v3
 
-  test:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
+        - name: Set up Go
+          uses: actions/setup-go@v3
+          with:
+            go-version: ${{ matrix.go_version }}
+        
+        - name: Create-DB
+          working-directory: ./DevOps/CI/integracao-continua-testes-automatizados-pipeline-github-actions/src/ 
+          run: docker-compose -f "docker-compose.yml" up -d --build
+          
+        - name: Test
+          working-directory: ./DevOps/CI/integracao-continua-testes-automatizados-pipeline-github-actions/src/ 
+          run: go test -v main_test.go
+      
+    build:
+        needs: test
+        runs-on: ${{ matrix.os }}
+        strategy:
+            matrix:
+                go_version: ['>=1.18']
+                os: ['ubuntu-latest']
 
-    - name: Set up Go
-      uses: actions/setup-go@v3
-      with:
-        go-version: 1.18
+        steps:
+        - uses: actions/checkout@v3
+
+        - name: Set up Go
+          uses: actions/setup-go@v3
+          with:
+            go-version: ${{ matrix.go_version }}
+      
+        - name: Build
+          working-directory: ./DevOps/CI/integracao-continua-testes-automatizados-pipeline-github-actions/src/ 
+          run: go build -v main.go
+
+        - name: Upload a Build Artifact
+          uses: actions/upload-artifact@v3.1.0
+          with:
+            name: programa
+            path: ./DevOps/CI/integracao-continua-testes-automatizados-pipeline-github-actions/src/main
     
-    - name: Build-DB
-      run: docker-compose build DevOps/CI/integracao-continua-testes-automatizados-pipeline-github-actions/src/
-      
-    - name: Create-DB
-      run: docker-compose up -d DevOps/CI/integracao-continua-testes-automatizados-pipeline-github-actions/src/
-      
-    - name: Test
-      run: go test -v DevOps/CI/integracao-continua-testes-automatizados-pipeline-github-actions/src/main_test.go
-      
-    - name: Build
-      run: go build -v DevOps/CI/integracao-continua-testes-automatizados-pipeline-github-actions/src/main.go
-      
-  build:
-      needs: test
-      runs-on: ubuntu-latest
-      steps:
-      - uses: actions/checkout@v3
+    docker:
+      needs: build
+      uses: ./.github/workflows/dockerGo.yml
+      secrets: inherit
 
-      - name: Set up Go
-        uses: actions/setup-go@v3
-        with:
-          go-version: 1.18
-     
-      - name: Build
-        run: go build -v DevOps/CI/integracao-continua-testes-automatizados-pipeline-github-actions/src/main.go
