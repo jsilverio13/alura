@@ -1,5 +1,10 @@
 version: '3.8'
-  
+
+networks:
+  database:
+  monit:
+
+
 services:
 
   database:
@@ -7,7 +12,16 @@ services:
     container_name: database-api-cursos
     restart: unless-stopped
     healthcheck:
-      test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "root" ]
+      test:
+        [
+          "CMD",
+          "pg_isready",
+          "-q",
+          "-d",
+          "postgres",
+          "-U",
+          "root"
+        ]
       timeout: 45s
       interval: 10s
       retries: 10
@@ -22,3 +36,16 @@ services:
     volumes:
       - ./postgres/db:/docker-entrypoint-initdb.d/
       - ./postgres/data:/var/lib/postgresql/data
+    networks:
+      - database
+  grafana-api-cursos:
+    image: grafana/grafana
+    user: "$UID:$GID"
+    container_name: grafana-api-cursos
+    volumes:
+      - ./grafana:/var/lib/grafana
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    networks:
+      - monit
