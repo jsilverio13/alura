@@ -1,5 +1,5 @@
 global:
-    scrape_interval: 15s
+  scrape_interval: 15s
 
 scrape_configs:
 
@@ -16,4 +16,4 @@ scrape_configs:
   metrics_path: /actuator/prometheus
   static_configs:
   - targets:
-    - 192.168.0.48.8080
+    - api-cursos:8080
