@@ -7,16 +7,16 @@ import {
 	Post,
 	Put,
 } from '@nestjs/common';
-import { UsuarioRepository } from './usuario.repository';
 import { CriaUsuarioDTO as CriaUsuarioDTO } from './dto/criaUsuario.dto';
 import { UsuarioModel } from './usuario.model';
 import { v4 as uuid } from 'uuid';
 import { ListaUsuarioDto } from './dto/listaUsuario.dto';
 import { AtualizaUsuarioDto } from './dto/atualizaUsuarioDto';
+import { UsuarioService } from './usuario.service';
 
 @Controller('/usuarios')
 export class UsuarioController {
-	constructor(private usuarioRepository: UsuarioRepository) {}
+	constructor(private usuarioService: UsuarioService) {}
 
 	@Post()
 	async criaUsuario(@Body() dadosDoUsuario: CriaUsuarioDTO) {
@@ -25,7 +25,7 @@ export class UsuarioController {
 		usuarioModel.nome = dadosDoUsuario.nome;
 		usuarioModel.senha = dadosDoUsuario.senha;
 		usuarioModel.id = uuid();
-		this.usuarioRepository.salvar(usuarioModel);
+		this.usuarioService.criaUsuario(usuarioModel);
 
 		return {
 			usuario: new ListaUsuarioDto(usuarioModel.id, usuarioModel.nome),
@@ -35,12 +35,7 @@ export class UsuarioController {
 
 	@Get()
 	async listaUsuarios() {
-		const usuariosSalvos = await this.usuarioRepository.listar();
-		const usuariosLista = usuariosSalvos.map(
-			(usuario) => new ListaUsuarioDto(usuario.id, usuario.nome),
-		);
-
-		return usuariosLista;
+		return this.usuarioService.listaUsuarios();
 	}
 
 	@Put('/:id')
@@ -48,7 +43,7 @@ export class UsuarioController {
 		@Param('id') id: string,
 		@Body() novosDados: AtualizaUsuarioDto,
 	) {
-		const usuarioAtualizado = await this.usuarioRepository.atualizar(
+		const usuarioAtualizado = await this.usuarioService.atualizaUsuario(
 			id,
 			novosDados,
 		);
@@ -60,7 +55,7 @@ export class UsuarioController {
 
 	@Delete('/:id')
 	async removeUsuario(@Param('id') id: string) {
-		const usuarioRemovido = await this.usuarioRepository.remover(id);
+		const usuarioRemovido = await this.usuarioService.removeUsuario(id);
 
 		return {
 			usuario: usuarioRemovido,
