@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { ProdutoCaracteristicaModel } from './produto-caracteristica.model';
 import { ProdutoImagemModel } from './produto-imagem.model';
+import { PedidoItemModel } from '../pedido/pedido-item.model';
 
 @Entity({ name: 'produtos' })
 export class ProdutoModel {
@@ -53,4 +54,7 @@ export class ProdutoModel {
 
 	@CreateDateColumn({ name: 'deleted_at' })
 	deletedAt: string;
+
+	@OneToMany(() => PedidoItemModel, (itemPedido) => itemPedido.produto, {})
+	itensPedido: PedidoItemModel[];
 }

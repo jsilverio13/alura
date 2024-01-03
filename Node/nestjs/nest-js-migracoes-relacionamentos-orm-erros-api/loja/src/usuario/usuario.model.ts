@@ -1,8 +1,10 @@
+import { PedidoModel } from '../pedido/pedido.model';
 import {
 	Entity,
 	Column,
 	CreateDateColumn,
 	PrimaryGeneratedColumn,
+	OneToMany,
 } from 'typeorm';
 
 @Entity({ name: 'usuarios' })
@@ -19,6 +21,14 @@ export class UsuarioModel {
 	@Column({ name: 'senha', length: 255, nullable: false })
 	senha: string;
 
+	@Column({
+		name: 'endereco',
+		length: 255,
+		nullable: false,
+		default: 'sem_endereco',
+	})
+	endereco: string;
+
 	@CreateDateColumn({ name: 'created_at' })
 	createdAt: string;
 
@@ -27,4 +37,7 @@ export class UsuarioModel {
 
 	@CreateDateColumn({ name: 'deleted_at' })
 	deletedAt: string;
+
+	@OneToMany(() => PedidoModel, (pedido) => pedido.usuario)
+	pedidos: PedidoModel[];
 }
