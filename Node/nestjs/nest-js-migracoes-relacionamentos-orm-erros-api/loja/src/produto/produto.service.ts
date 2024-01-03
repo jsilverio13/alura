@@ -1,7 +1,7 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProdutoModel } from './produto.model';
 import { Repository } from 'typeorm';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { AtualizaProdutoDTO } from './dto/atualizaProduto.dto';
 import { CriaProdutoDTO } from './dto/criaProduto.dto';
 
@@ -55,7 +55,7 @@ export class ProdutoService {
 		const possivelProduto = await this.produtoRepository.findOneBy({ id: id });
 
 		if (!possivelProduto) {
-			throw new Error('Produto não existe');
+			throw new NotFoundException('Produto não existe');
 		}
 
 		return possivelProduto;

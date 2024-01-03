@@ -1,5 +1,5 @@
 import { UsuarioModel } from './usuario.model';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ListaUsuarioDto } from './dto/listaUsuario.dto';
 import { Repository } from 'typeorm';
@@ -63,9 +63,8 @@ export class UsuarioService {
 		const possivelUsuario = await this.usuarioRepository.findOneBy({ id: id });
 
 		if (!possivelUsuario) {
-			throw new Error('Usuário não existe');
+			throw new NotFoundException('Usuário não existe');
 		}
-
 		return possivelUsuario;
 	}
 }
