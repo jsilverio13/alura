@@ -1,48 +1,40 @@
-import { UsuarioModel } from './usuario.model';
+import { UsuarioEntity } from './usuario.entity';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ListaUsuarioDto } from './dto/listaUsuario.dto';
+import { ListaUsuarioDTO } from './dto/listaUsuario.dto';
 import { Repository } from 'typeorm';
-import { AtualizaUsuarioDto } from './dto/atualizaUsuarioDto';
+import { AtualizaUsuarioDTO } from './dto/atualizaUsuario.dto';
 import { CriaUsuarioDTO } from './dto/criaUsuario.dto';
 
 @Injectable()
 export class UsuarioService {
 	constructor(
-		@InjectRepository(UsuarioModel)
-		private readonly usuarioRepository: Repository<UsuarioModel>,
+		@InjectRepository(UsuarioEntity)
+		private readonly usuarioRepository: Repository<UsuarioEntity>,
 	) {}
 
 	async listaUsuarios() {
 		const usuariosSalvos = await this.usuarioRepository.find();
 		const usuariosLista = usuariosSalvos.map(
-			(usuario) => new ListaUsuarioDto(usuario.id, usuario.nome),
+			(usuario) => new ListaUsuarioDTO(usuario.id, usuario.nome),
 		);
 
 		return usuariosLista;
 	}
 
 	async criaUsuario(dadosUsuario: CriaUsuarioDTO) {
-		const usuarioModel = new UsuarioModel();
-		usuarioModel.email = dadosUsuario.email;
-		usuarioModel.nome = dadosUsuario.nome;
-		usuarioModel.senha = dadosUsuario.senha;
-		await this.usuarioRepository.save(usuarioModel);
+		const usuario = new UsuarioEntity();
+		Object.assign(usuario, dadosUsuario as UsuarioEntity);
 
-		return usuarioModel;
+		await this.usuarioRepository.save(usuario);
+
+		return usuario;
 	}
 
-	async atualizaUsuario(id: string, novosDados: AtualizaUsuarioDto) {
+	async atualizaUsuario(id: string, novosDados: AtualizaUsuarioDTO) {
 		const usuario = await this.buscarPorId(id);
 
-		Object.entries(novosDados).forEach(([chave, valor]) => {
-			if (chave === 'id') {
-				return;
-			}
-
-			usuario[chave] = valor;
-		});
-
+		Object.assign(usuario, novosDados as UsuarioEntity);
 		await this.usuarioRepository.update(id, usuario);
 	}
 

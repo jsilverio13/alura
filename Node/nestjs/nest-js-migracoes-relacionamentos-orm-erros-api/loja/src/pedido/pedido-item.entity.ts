@@ -1,9 +1,9 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { PedidoModel } from './pedido.model';
-import { ProdutoModel } from '../produto/produto.model';
+import { PedidoEntity } from './pedido.entity';
+import { ProdutoEntity } from '../produto/produto.entity';
 
 @Entity({ name: 'pedidos_itens' })
-export class PedidoItemModel {
+export class PedidoItemEntity {
 	@PrimaryGeneratedColumn('uuid')
 	id: string;
 
@@ -13,14 +13,14 @@ export class PedidoItemModel {
 	@Column({ name: 'preco_venda', nullable: false })
 	precoVenda: number;
 
-	@ManyToOne(() => PedidoModel, (pedido) => pedido.pedidosItens, {
+	@ManyToOne(() => PedidoEntity, (pedido) => pedido.pedidosItens, {
 		onDelete: 'CASCADE',
 		onUpdate: 'CASCADE',
 	})
-	pedido: PedidoModel;
+	pedido: PedidoEntity;
 
-	@ManyToOne(() => ProdutoModel, (produto) => produto.itensPedido, {
+	@ManyToOne(() => ProdutoEntity, (produto) => produto.itensPedido, {
 		cascade: ['update'],
 	})
-	produto: ProdutoModel;
+	produto: ProdutoEntity;
 }

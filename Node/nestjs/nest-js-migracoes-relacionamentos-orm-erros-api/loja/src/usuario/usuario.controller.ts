@@ -8,8 +8,8 @@ import {
 	Put,
 } from '@nestjs/common';
 import { CriaUsuarioDTO } from './dto/criaUsuario.dto';
-import { ListaUsuarioDto } from './dto/listaUsuario.dto';
-import { AtualizaUsuarioDto } from './dto/atualizaUsuarioDto';
+import { ListaUsuarioDTO } from './dto/listaUsuario.dto';
+import { AtualizaUsuarioDTO } from './dto/atualizaUsuario.dto';
 import { UsuarioService } from './usuario.service';
 
 @Controller('/usuarios')
@@ -21,7 +21,7 @@ export class UsuarioController {
 		const usuario = await this.usuarioService.criaUsuario(dadosDoUsuario);
 
 		return {
-			usuario: new ListaUsuarioDto(usuario.id, usuario.nome),
+			usuario: new ListaUsuarioDTO(usuario.id, usuario.nome),
 			mensagem: 'usuário criado com sucesso',
 		};
 	}
@@ -34,7 +34,7 @@ export class UsuarioController {
 	@Put('/:id')
 	async atualizaUsuario(
 		@Param('id') id: string,
-		@Body() novosDados: AtualizaUsuarioDto,
+		@Body() novosDados: AtualizaUsuarioDTO,
 	) {
 		const usuarioAtualizado = await this.usuarioService.atualizaUsuario(
 			id,

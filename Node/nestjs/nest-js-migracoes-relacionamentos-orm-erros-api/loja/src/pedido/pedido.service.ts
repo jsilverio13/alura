@@ -3,25 +3,25 @@ import {
 	Injectable,
 	NotFoundException,
 } from '@nestjs/common';
-import { PedidoModel } from './pedido.model';
+import { PedidoEntity } from './pedido.entity';
 import { In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UsuarioModel } from '../usuario/usuario.model';
+import { UsuarioEntity } from '../usuario/usuario.entity';
 import { PedidoStatus } from './enum/pedido-status.enum';
-import { PedidoItemModel } from './pedido-item.model';
+import { PedidoItemEntity } from './pedido-item.entity';
 import { CriaPedidoDTO } from './dto/cria-pedido.dto';
-import { AtualizaPedidoDto } from './dto/atualiza-pedido.dto';
-import { ProdutoModel } from '../produto/produto.model';
+import { AtualizaPedidoDTO } from './dto/atualiza-pedido.dto';
+import { ProdutoEntity } from '../produto/produto.entity';
 
 @Injectable()
 export class PedidoService {
 	constructor(
-		@InjectRepository(PedidoModel)
-		private readonly pedidoRepository: Repository<PedidoModel>,
-		@InjectRepository(UsuarioModel)
-		private readonly usuarioRepository: Repository<UsuarioModel>,
-		@InjectRepository(ProdutoModel)
-		private readonly produtoRepository: Repository<ProdutoModel>,
+		@InjectRepository(PedidoEntity)
+		private readonly pedidoRepository: Repository<PedidoEntity>,
+		@InjectRepository(UsuarioEntity)
+		private readonly usuarioRepository: Repository<UsuarioEntity>,
+		@InjectRepository(ProdutoEntity)
+		private readonly produtoRepository: Repository<ProdutoEntity>,
 	) {}
 
 	async cadatraPedido(usuarioId: string, dadosDoPedido: CriaPedidoDTO) {
@@ -36,39 +36,39 @@ export class PedidoService {
 		await this.trataDadosPedido(dadosDoPedido, produtosRelacionados);
 		const usuario = await this.buscaUsuario(usuarioId);
 
-		const pedidoModel = new PedidoModel();
+		const pedidoEntity = new PedidoEntity();
 
-		pedidoModel.status = PedidoStatus.EM_PROCESSAMENTO;
-		pedidoModel.usuario = usuario;
+		pedidoEntity.status = PedidoStatus.EM_PROCESSAMENTO;
+		pedidoEntity.usuario = usuario;
 
-		const itensPedidoModel = dadosDoPedido.itensPedido.map((itemPedido) => {
+		const itensPedidoEntity = dadosDoPedido.itensPedido.map((itemPedido) => {
 			const produtoRelacionado = produtosRelacionados.find(
 				(produto) => produto.id === itemPedido.produtoId,
 			);
 
-			const itemPedidoModel = new PedidoItemModel();
-			itemPedidoModel.produto = produtoRelacionado!;
-			itemPedidoModel.precoVenda = produtoRelacionado!.valor;
-			itemPedidoModel.quantidade = itemPedido.quantidade;
-			itemPedidoModel.produto.quantidadeDisponivel -= itemPedido.quantidade;
-			return itemPedidoModel;
+			const itemPedidoEntity = new PedidoItemEntity();
+			itemPedidoEntity.produto = produtoRelacionado!;
+			itemPedidoEntity.precoVenda = produtoRelacionado!.valor;
+			itemPedidoEntity.quantidade = itemPedido.quantidade;
+			itemPedidoEntity.produto.quantidadeDisponivel -= itemPedido.quantidade;
+			return itemPedidoEntity;
 		});
 
-		const valorTotal = itensPedidoModel.reduce((total, item) => {
+		const valorTotal = itensPedidoEntity.reduce((total, item) => {
 			return total + item.precoVenda * item.quantidade;
 		}, 0);
 
-		pedidoModel.pedidosItens = itensPedidoModel;
-		pedidoModel.valorTotal = valorTotal;
+		pedidoEntity.pedidosItens = itensPedidoEntity;
+		pedidoEntity.valorTotal = valorTotal;
 
-		const pedidoCriado = await this.pedidoRepository.save(pedidoModel);
+		const pedidoCriado = await this.pedidoRepository.save(pedidoEntity);
 
 		return pedidoCriado;
 	}
 
 	async trataDadosPedido(
 		dadosDoPedido: CriaPedidoDTO,
-		produtosRelacionados: ProdutoModel[],
+		produtosRelacionados: ProdutoEntity[],
 	) {
 		dadosDoPedido.itensPedido.forEach((itemPedido) => {
 			const produtoRelacionado = produtosRelacionados.find(
@@ -98,10 +98,10 @@ export class PedidoService {
 		});
 	}
 
-	async atualizaPedido(id: string, dto: AtualizaPedidoDto) {
+	async atualizaPedido(id: string, dto: AtualizaPedidoDTO) {
 		const pedido = await this.buscaPedido(id);
 
-		Object.assign(pedido, dto);
+		Object.assign(pedido, dto as PedidoEntity);
 
 		return this.pedidoRepository.save(pedido);
 	}

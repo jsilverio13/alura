@@ -5,12 +5,12 @@ import {
 	OneToMany,
 	PrimaryGeneratedColumn,
 } from 'typeorm';
-import { ProdutoCaracteristicaModel } from './produto-caracteristica.model';
-import { ProdutoImagemModel } from './produto-imagem.model';
-import { PedidoItemModel } from '../pedido/pedido-item.model';
+import { ProdutoCaracteristicaEntity } from './produto-caracteristica.entity';
+import { ProdutoImagemEntity } from './produto-imagem.entity';
+import { PedidoItemEntity } from '../pedido/pedido-item.entity';
 
 @Entity({ name: 'produtos' })
-export class ProdutoModel {
+export class ProdutoEntity {
 	@PrimaryGeneratedColumn('uuid')
 	id: string;
 
@@ -33,18 +33,18 @@ export class ProdutoModel {
 	categoria: string;
 
 	@OneToMany(
-		() => ProdutoCaracteristicaModel,
-		(produtoCaracteristicaModel) => produtoCaracteristicaModel.produto,
+		() => ProdutoCaracteristicaEntity,
+		(produtoCaracteristicaEntity) => produtoCaracteristicaEntity.produto,
 		{ cascade: true, eager: true },
 	)
-	caracteristicas: ProdutoCaracteristicaModel[];
+	caracteristicas: ProdutoCaracteristicaEntity[];
 
 	@OneToMany(
-		() => ProdutoImagemModel,
-		(produtoImagemModel) => produtoImagemModel.produto,
+		() => ProdutoImagemEntity,
+		(produtoImagemEntity) => produtoImagemEntity.produto,
 		{ cascade: true, eager: true },
 	)
-	imagens: ProdutoImagemModel[];
+	imagens: ProdutoImagemEntity[];
 
 	@CreateDateColumn({ name: 'created_at' })
 	createdAt: string;
@@ -55,6 +55,6 @@ export class ProdutoModel {
 	@CreateDateColumn({ name: 'deleted_at' })
 	deletedAt: string;
 
-	@OneToMany(() => PedidoItemModel, (itemPedido) => itemPedido.produto, {})
-	itensPedido: PedidoItemModel[];
+	@OneToMany(() => PedidoItemEntity, (itemPedido) => itemPedido.produto, {})
+	itensPedido: PedidoItemEntity[];
 }

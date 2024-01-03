@@ -9,11 +9,11 @@ import {
 	OneToMany,
 } from 'typeorm';
 import { PedidoStatus } from './enum/pedido-status.enum';
-import { UsuarioModel } from '../usuario/usuario.model';
-import { PedidoItemModel } from './pedido-item.model';
+import { UsuarioEntity } from '../usuario/usuario.entity';
+import { PedidoItemEntity } from './pedido-item.entity';
 
 @Entity({ name: 'pedidos' })
-export class PedidoModel {
+export class PedidoEntity {
 	@PrimaryGeneratedColumn('uuid')
 	id: string;
 
@@ -32,12 +32,12 @@ export class PedidoModel {
 	@DeleteDateColumn({ name: 'deleted_at' })
 	deletedAt: string;
 
-	@ManyToOne(() => UsuarioModel, (usuario) => usuario.pedidos)
-	usuario: UsuarioModel;
+	@ManyToOne(() => UsuarioEntity, (usuario) => usuario.pedidos)
+	usuario: UsuarioEntity;
 
-	@OneToMany(() => PedidoItemModel, (pedidoItem) => pedidoItem.pedido, {
+	@OneToMany(() => PedidoItemEntity, (pedidoItem) => pedidoItem.pedido, {
 		cascade: true,
 		eager: true,
 	})
-	pedidosItens: PedidoItemModel[];
+	pedidosItens: PedidoItemEntity[];
 }

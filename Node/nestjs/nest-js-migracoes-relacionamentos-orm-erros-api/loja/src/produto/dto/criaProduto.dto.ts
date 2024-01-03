@@ -11,7 +11,7 @@ import {
 	Min,
 	ValidateNested,
 } from 'class-validator';
-import { ProdutoModel } from '../produto.model';
+import { ProdutoEntity } from '../produto.entity';
 
 export class CaracteristicaProdutoDTO {
 	id: string;
@@ -24,7 +24,7 @@ export class CaracteristicaProdutoDTO {
 	@IsNotEmpty({ message: 'Descrição da característica não pode ser vazio' })
 	descricao: string;
 
-	produto: ProdutoModel;
+	produto: ProdutoEntity;
 }
 
 export class ImagemProdutoDTO {
@@ -37,7 +37,7 @@ export class ImagemProdutoDTO {
 	@IsNotEmpty({ message: 'Descrição da imagem não pode ser vazia' })
 	descricao: string;
 
-	produto: ProdutoModel;
+	produto: ProdutoEntity;
 }
 
 export class CriaProdutoDTO {

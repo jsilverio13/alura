@@ -1,4 +1,4 @@
-import { PedidoModel } from '../pedido/pedido.model';
+import { PedidoEntity } from '../pedido/pedido.entity';
 import {
 	Entity,
 	Column,
@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 
 @Entity({ name: 'usuarios' })
-export class UsuarioModel {
+export class UsuarioEntity {
 	@PrimaryGeneratedColumn('uuid')
 	id: string;
 
@@ -38,6 +38,6 @@ export class UsuarioModel {
 	@CreateDateColumn({ name: 'deleted_at' })
 	deletedAt: string;
 
-	@OneToMany(() => PedidoModel, (pedido) => pedido.usuario)
-	pedidos: PedidoModel[];
+	@OneToMany(() => PedidoEntity, (pedido) => pedido.usuario)
+	pedidos: PedidoEntity[];
 }

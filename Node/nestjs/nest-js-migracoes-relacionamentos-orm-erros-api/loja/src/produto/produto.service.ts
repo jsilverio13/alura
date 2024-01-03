@@ -1,5 +1,5 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { ProdutoModel } from './produto.model';
+import { ProdutoEntity } from './produto.entity';
 import { Repository } from 'typeorm';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { AtualizaProdutoDTO } from './dto/atualizaProduto.dto';
@@ -8,21 +8,15 @@ import { CriaProdutoDTO } from './dto/criaProduto.dto';
 @Injectable()
 export class ProdutoService {
 	constructor(
-		@InjectRepository(ProdutoModel)
-		private readonly produtoRepository: Repository<ProdutoModel>,
+		@InjectRepository(ProdutoEntity)
+		private readonly produtoRepository: Repository<ProdutoEntity>,
 	) {}
 
 	async criaProduto(dadosProduto: CriaProdutoDTO) {
-		const produto = new ProdutoModel();
+		const produto = new ProdutoEntity();
 
-		produto.nome = dadosProduto.nome;
-		produto.usuarioId = dadosProduto.usuarioId;
-		produto.valor = dadosProduto.valor;
-		produto.quantidadeDisponivel = dadosProduto.quantidadeDisponivel;
-		produto.descricao = dadosProduto.descricao;
-		produto.categoria = dadosProduto.categoria;
-		produto.caracteristicas = dadosProduto.caracteristicas;
-		produto.imagens = dadosProduto.imagens;
+		Object.assign(produto, dadosProduto as ProdutoEntity);
+
 		await this.produtoRepository.save(produto);
 
 		return produto;
@@ -40,13 +34,7 @@ export class ProdutoService {
 	async atualizaProduto(id: string, dadosProduto: AtualizaProdutoDTO) {
 		const produto = await this.buscarPorId(id);
 
-		const dadosNaoAtualizaveis = ['id', 'usuarioId'];
-		Object.entries(dadosProduto).forEach(([chave, valor]) => {
-			if (dadosNaoAtualizaveis.includes(chave)) {
-				return;
-			}
-			produto[chave] = valor;
-		});
+		Object.assign(produto, dadosProduto as ProdutoEntity);
 
 		await this.produtoRepository.update(id, produto);
 	}

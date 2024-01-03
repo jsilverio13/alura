@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { UsuarioModel } from './usuario.model';
-import { AtualizaUsuarioDto } from './dto/atualizaUsuarioDto';
+import { UsuarioEntity } from './usuario.entity';
+import { AtualizaUsuarioDTO } from './dto/atualizaUsuario.dto';
 
 @Injectable()
 export class UsuarioRepository {
-	private usuarios: UsuarioModel[] = [];
+	private usuarios: UsuarioEntity[] = [];
 
-	salvar(usuario: UsuarioModel) {
+	salvar(usuario: UsuarioEntity) {
 		this.usuarios.push(usuario);
 	}
 
@@ -14,7 +14,7 @@ export class UsuarioRepository {
 		return this.usuarios;
 	}
 
-	async atualizar(id: string, novosDados: Partial<UsuarioModel>) {
+	async atualizar(id: string, novosDados: Partial<UsuarioEntity>) {
 		const usuario = this.buscarPorId(id);
 
 		Object.entries(novosDados).forEach(([chave, valor]) => {
