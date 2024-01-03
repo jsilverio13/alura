@@ -30,6 +30,10 @@ export class UsuarioController {
 	async listaUsuarios() {
 		return this.usuarioService.listaUsuarios();
 	}
+	@Get('/:id')
+	async listaUmUsuario(@Param('id') id: string) {
+		return this.usuarioService.listaUmUsuario(id);
+	}
 
 	@Put('/:id')
 	async atualizaUsuario(

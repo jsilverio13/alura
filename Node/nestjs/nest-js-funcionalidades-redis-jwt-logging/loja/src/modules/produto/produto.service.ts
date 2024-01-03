@@ -31,6 +31,10 @@ export class ProdutoService {
 		await this.produtoRepository.remove(produto);
 	}
 
+	async listaUmProduto(id: string) {
+		return await this.produtoRepository.findOneBy({ id: id });
+	}
+
 	async atualizaProduto(id: string, dadosProduto: AtualizaProdutoDTO) {
 		const produto = await this.buscarPorId(id);
 

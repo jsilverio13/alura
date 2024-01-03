@@ -31,6 +31,12 @@ export class UsuarioService {
 		return usuario;
 	}
 
+	async listaUmUsuario(id: string) {
+		const usuario = await this.buscarPorId(id);
+
+		return new ListaUsuarioDTO(usuario.id, usuario.nome);
+	}
+
 	async atualizaUsuario(id: string, novosDados: AtualizaUsuarioDTO) {
 		const usuario = await this.buscarPorId(id);
 
