@@ -57,6 +57,15 @@ export class UsuarioService {
 		return possivelUsuario !== null;
 	}
 
+	async buscaPorEmail(email: string) {
+		const possivelUsuario = await this.usuarioRepository.findOneBy({
+			email: email,
+		});
+		if (!possivelUsuario) throw new NotFoundException('Usuário não encontrato');
+
+		return possivelUsuario;
+	}
+
 	private async buscarPorId(id: string) {
 		const possivelUsuario = await this.usuarioRepository.findOneBy({ id: id });
 

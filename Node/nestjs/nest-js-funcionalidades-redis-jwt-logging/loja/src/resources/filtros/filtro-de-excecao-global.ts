@@ -6,7 +6,6 @@ import {
 	HttpStatus,
 } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
-import { stat } from 'fs';
 
 @Catch()
 export class FiltroDeExcecaoGlobal implements ExceptionFilter {

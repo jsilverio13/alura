@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable } from '@nestjs/common';
 import {
 	ValidationArguments,
@@ -23,7 +24,7 @@ export class EmailUnicoValidator implements ValidatorConstraintInterface {
 }
 
 export const EmailUnico = (opcoesValidacao: ValidationOptions) => {
-	return (objeto: Object, propiedade: string) => {
+	return (objeto: object, propiedade: string) => {
 		registerDecorator({
 			target: objeto.constructor,
 			propertyName: propiedade,
