@@ -16,6 +16,7 @@ import { AutenticacaoModule } from './modules/autenticacao/autenticacao.module';
 import { PedidoModule } from './modules/pedido/pedido.module';
 import { ProdutoModule } from './modules/produto/produto.module';
 import { FiltroDeExcecaoGlobal } from './resources/filtros/filtro-de-excecao-global';
+import { LoggerGlobalInterceptor } from './resources/interceptors/logger-global.interceptor';
 
 @Module({
 	imports: [
@@ -47,6 +48,11 @@ import { FiltroDeExcecaoGlobal } from './resources/filtros/filtro-de-excecao-glo
 			provide: APP_INTERCEPTOR,
 			useClass: ClassSerializerInterceptor,
 		},
+		{
+			provide: APP_INTERCEPTOR,
+			useClass: LoggerGlobalInterceptor,
+		},
+		ConsoleLogger,
 	],
 })
 export class AppModule {}
