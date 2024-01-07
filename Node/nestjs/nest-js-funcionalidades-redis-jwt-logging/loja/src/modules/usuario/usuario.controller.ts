@@ -7,9 +7,9 @@ import {
 	Post,
 	Put,
 } from '@nestjs/common';
+import { AtualizaUsuarioDTO } from './dto/atualizaUsuario.dto';
 import { CriaUsuarioDTO } from './dto/criaUsuario.dto';
 import { ListaUsuarioDTO } from './dto/listaUsuario.dto';
-import { AtualizaUsuarioDTO } from './dto/atualizaUsuario.dto';
 import { UsuarioService } from './usuario.service';
 import { HashearSenhaPipe } from 'src/resources/pipes/hashear-senha-pipe';
 
@@ -19,27 +19,28 @@ export class UsuarioController {
 
 	@Post()
 	async criaUsuario(
-		@Body() dadosDoUsuario: CriaUsuarioDTO,
+		@Body() { ...dadosDoUsuario }: CriaUsuarioDTO,
 		@Body('senha', HashearSenhaPipe) senhaHasheada: string,
 	) {
-		const usuario = await this.usuarioService.criaUsuario({
+		const usuarioCriado = await this.usuarioService.criaUsuario({
 			...dadosDoUsuario,
 			senha: senhaHasheada,
 		});
-		console.log(usuario);
+
 		return {
-			usuario: new ListaUsuarioDTO(usuario.id, usuario.nome),
-			mensagem: 'usuário criado com sucesso',
+			messagem: 'usuário criado com sucesso',
+			usuario: new ListaUsuarioDTO(usuarioCriado.id, usuarioCriado.nome),
 		};
 	}
 
 	@Get()
-	async listaUsuarios() {
-		return this.usuarioService.listaUsuarios();
-	}
-	@Get('/:id')
-	async listaUmUsuario(@Param('id') id: string) {
-		return this.usuarioService.listaUmUsuario(id);
+	async listUsuarios() {
+		const usuariosSalvos = await this.usuarioService.listaUsuarios();
+
+		return {
+			mensagem: 'Usuários obtidos com sucesso.',
+			usuarios: usuariosSalvos,
+		};
 	}
 
 	@Put('/:id')
@@ -51,19 +52,20 @@ export class UsuarioController {
 			id,
 			novosDados,
 		);
+
 		return {
+			messagem: 'usuário atualizado com sucesso',
 			usuario: usuarioAtualizado,
-			mensagem: 'usuário atualizado com sucesso',
 		};
 	}
 
 	@Delete('/:id')
 	async removeUsuario(@Param('id') id: string) {
-		const usuarioRemovido = await this.usuarioService.removeUsuario(id);
+		const usuarioRemovido = await this.usuarioService.deletaUsuario(id);
 
 		return {
+			messagem: 'usuário removido com suceso',
 			usuario: usuarioRemovido,
-			mensagem: 'usuário removido com sucesso',
 		};
 	}
 }

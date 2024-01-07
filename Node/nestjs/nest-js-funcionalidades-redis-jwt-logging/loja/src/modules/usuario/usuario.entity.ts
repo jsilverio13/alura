@@ -3,9 +3,12 @@ import {
 	Entity,
 	Column,
 	CreateDateColumn,
+	UpdateDateColumn,
+	DeleteDateColumn,
 	PrimaryGeneratedColumn,
 	OneToMany,
 } from 'typeorm';
+import { Exclude } from 'class-transformer';
 
 @Entity({ name: 'usuarios' })
 export class UsuarioEntity {
@@ -18,24 +21,17 @@ export class UsuarioEntity {
 	@Column({ name: 'email', length: 70, nullable: false })
 	email: string;
 
+	@Exclude()
 	@Column({ name: 'senha', length: 255, nullable: false })
 	senha: string;
-
-	@Column({
-		name: 'endereco',
-		length: 255,
-		nullable: false,
-		default: 'sem_endereco',
-	})
-	endereco: string;
 
 	@CreateDateColumn({ name: 'created_at' })
 	createdAt: string;
 
-	@CreateDateColumn({ name: 'updated_at' })
+	@UpdateDateColumn({ name: 'updated_at' })
 	updatedAt: string;
 
-	@CreateDateColumn({ name: 'deleted_at' })
+	@DeleteDateColumn({ name: 'deleted_at' })
 	deletedAt: string;
 
 	@OneToMany(() => PedidoEntity, (pedido) => pedido.usuario)

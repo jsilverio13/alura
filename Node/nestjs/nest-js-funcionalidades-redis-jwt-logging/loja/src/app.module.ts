@@ -1,15 +1,21 @@
-import { Module } from '@nestjs/common';
-import { UsuarioModule } from './modules/usuario/usuario.module';
-import { ProdutoModule } from './modules/produto/produto.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { PostgresConfigService } from './config/postgres.config.service';
+import {
+	ClassSerializerInterceptor,
+	ConsoleLogger,
+	Module,
+} from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { PedidoModule } from './modules/pedido/pedido.module';
-import { APP_FILTER } from '@nestjs/core';
-import { FiltroDeExcecaoGlobal } from './resources/filtros/filtro-de-excecao-global';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
+import { PostgresConfigService } from './config/postgres.config.service';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
+
 import { CacheModule } from '@nestjs/cache-manager';
 import { redisStore } from 'cache-manager-redis-yet';
+import { UsuarioModule } from './modules/usuario/usuario.module';
 import { AutenticacaoModule } from './modules/autenticacao/autenticacao.module';
+import { PedidoModule } from './modules/pedido/pedido.module';
+import { ProdutoModule } from './modules/produto/produto.module';
+import { FiltroDeExcecaoGlobal } from './resources/filtros/filtro-de-excecao-global';
 
 @Module({
 	imports: [
@@ -32,6 +38,15 @@ import { AutenticacaoModule } from './modules/autenticacao/autenticacao.module';
 		AutenticacaoModule,
 	],
 	controllers: [],
-	providers: [{ provide: APP_FILTER, useClass: FiltroDeExcecaoGlobal }],
+	providers: [
+		{
+			provide: APP_FILTER,
+			useClass: FiltroDeExcecaoGlobal,
+		},
+		{
+			provide: APP_INTERCEPTOR,
+			useClass: ClassSerializerInterceptor,
+		},
+	],
 })
 export class AppModule {}
