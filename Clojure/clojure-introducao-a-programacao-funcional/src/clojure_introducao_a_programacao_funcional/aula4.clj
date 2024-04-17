@@ -10,9 +10,7 @@
 (println "valor padrão 0" (get precos 17 0))
 (println "valor padrão 0, mas existe" (get precos 2 0))
 
-
 (println (conj precos 5))
-
 (println precos)
 
 ;(println (conj 5 precos))
@@ -25,7 +23,7 @@
 
 (defn soma-1
   [valor]
-  (println "estou somando um em" valor)
+  (println "estou somando um  em " valor)
   (+ valor 1))
 
 (println (update precos 0 soma-1))
@@ -81,9 +79,10 @@
 
 (println (reduce minha-soma 0 precos))
 (println (reduce minha-soma 0 (range 10)))
+(println (reduce minha-soma 0 []))
+
 (println (reduce minha-soma 0 [15]))
 
-(println (reduce minha-soma 0 []))
 
 ;(def vazio [])
 ;(println (reduce minha-soma vazio))
