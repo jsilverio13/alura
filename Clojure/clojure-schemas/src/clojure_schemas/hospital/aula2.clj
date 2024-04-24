@@ -39,6 +39,7 @@
 
 
 
+#_{:clj-kondo/ignore [:redefined-var]}
 (def Paciente
   "Schema de um paciente"
   {:id (s/constrained s/Int pos?), :nome s/Str})
