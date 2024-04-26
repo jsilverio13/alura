@@ -5,4 +5,5 @@
             :url "https://www.eclipse.org/legal/epl-2.0/"}
   :dependencies [[org.clojure/clojure "1.11.1"]
                  [prismatic/schema "1.4.1"]]
+  :plugins [[lein-cloverage "1.2.2"]]
   :repl-options {:init-ns clojure-explorando-testes.core})
