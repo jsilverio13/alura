@@ -1,6 +1,4 @@
-(ns introducao-ao-datomic.core)
+(ns introducao-ao-datomic.core
+  (:require [clojure.pprint :refer [pprint]]))
 
-(defn foo
-  "I don't do a whole lot."
-  [x]
-  (println x "Hello, World!"))
+(pprint "It Works!")
