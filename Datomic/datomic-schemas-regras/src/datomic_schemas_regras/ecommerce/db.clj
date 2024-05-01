@@ -1,5 +1,8 @@
-(ns datomic-identidade-e-queries.ecommerce.db
-  (:require [datomic.api :as d]))
+(ns datomic-schemas-regras.ecommerce.db
+
+  (:require [clojure.pprint :refer [pprint]]
+            [datomic-schemas-regras.ecommerce.model :as model]
+            [datomic.api :as d]))
 
 (def db-uri "datomic:dev://localhost:4334/ecommerce")
 
@@ -9,20 +12,6 @@
 
 (defn apaga-banco! []
   (d/delete-database db-uri))
-
-; Produtos
-; id?
-; nome String 1 ==> Computador Novo
-; slug String 1 ==> /computador_novo
-; preco ponto flutuante 1 ==> 3500.10
-
-; id_entidade atributo valor
-; 15 :produto/nome Computador Novo     ID_TX     operacao
-; 15 :produto/slug /computador_novo    ID_TX     operacao
-; 15 :produto/preco 3500.10    ID_TX     operacao
-; 17 :produto/nome Telefone Caro    ID_TX     operacao
-; 17 :produto/slug /telefone    ID_TX     operacao
-; 17 :produto/preco 8888.88    ID_TX     operacao
 
 
 (def schema [{:db/ident       :produto/nome
@@ -64,36 +53,13 @@
 (defn cria-schema! [conn]
   (d/transact conn schema))
 
-; pull explicito atributo a atributo
-;(defn todos-os-produtos [db]
-;  (d/q '[:find (pull ?entidade [:produto/nome :produto/preco :produto/slug])
-;         :where [?entidade :produto/nome]] db))
 
-; pull generico, vantagem preguica, desvantagem pode trazer mais do que eu queira
+
 (defn todos-os-produtos [db]
   (d/q '[:find (pull ?entidade [*])
          :where [?entidade :produto/nome]] db))
 
-; no sql eh comum fazer:
-; String sql = "meu codigo sql";
-; conexao.query(sql)
 
-; esse aqui eh similar ao String sql
-; eh comum e voce pode querer extrair em um def ou let
-; porem... -q é notacao hungara... indica o TIPO... humm.. não parece ser legal
-; em clojure
-; vc vai encontrar esse padro em alguns exemplos e documentacao
-; nao recomendamos notacao hungara dessa maneira, ainda menos abreviada ;)
-(def todos-os-produtos-por-slug-fixo-q
-  '[:find ?entidade
-    :where [?entidade :produto/slug "/computador-novo"]])
-
-(defn todos-os-produtos-por-slug-fixo [db]
-  (d/q todos-os-produtos-por-slug-fixo-q db))
-
-; não estou usando notacao hungara e extract
-; eh comum no sql: String sql = "select * from where slug=::SLUG::"
-; conexao.query(sql, {::SLUG:: "/computador-novo})
 (defn todos-os-produtos-por-slug [db slug]
   (d/q '[:find ?entidade
          :in $ ?slug-procurado                              ; proposital diferente da variável de clojure para evitar erros
@@ -101,8 +67,6 @@
        db slug))
 
 
-; ?entity => ?entidade => ?produto => ?p
-; se não vai usar... _
 (defn todos-os-slugs [db]
   (d/q '[:find ?slug
          :where [_ :produto/slug ?slug]] db))
@@ -118,17 +82,6 @@
        db, preco-minimo-requisitado))
 
 
-; eu tenho 10mil...se eu tenho 1000 produtos com preco > 5000, so 10 produtos com quantidade < 10
-; passar por 10 mil
-;[(> preco  5000)]                                           ; => 5000 datom
-;[(< quantidade 10)]                                         ; => 10 datom
-;
-;; passar por 10 mil
-;[(< quantidade 10)]                                         ; => 10 datom
-;[(> preco  5000)]                                           ; => 10 datom
-;
-; em geral vamos deixar as condicoes da mais restritiva pra menos restritiva...
-; pois o plano de ação somos nós quem tomamos
 
 (defn todos-os-produtos-por-palavra-chave [db palavra-chave-buscada]
   (d/q '[:find (pull ?produto [*])
@@ -154,7 +107,6 @@
                                                [:categoria/id (:categoria/id categoria)]]))
           []
           produtos))
-
 
 (defn atribui-categorias! [conn produtos categoria]
 
@@ -182,24 +134,6 @@
        db))
 
 
-; exemplo com forward navigation
-; ?produto :produto/categoria >>>>>
-;(defn todos-os-produtos-da-categoria [db nome-da-categoria]
-;  (d/q '[:find (pull ?produto [:produto/nome :produto/slug {:produto/categoria [:categoria/nome]}])
-;         :in $ ?nome
-;         :where [?categoria :categoria/nome ?nome]
-;                [?produto :produto/categoria ?categoria]]
-;       db nome-da-categoria))
-
-; exemplo com backward navigation
-; >>>>>>>>>> :produto/_categoria ?categoria
-;; (defn todos-os-produtos-da-categoria [db nome-da-categoria]
-;;   (d/q '[:find (pull ?produto [:produto/nome :produto/slug {:produto/categoria [:categoria/nome]}])
-;;          :in $ ?nome
-;;          :where
-;;          [?categoria :categoria/nome ?nome]
-;;          [?produto :produto/categoria ?categoria]]
-;;        db nome-da-categoria))
 
 (defn todos-os-produtos-da-categoria [db nome-da-categoria]
   (d/q '[:find ?nome (pull ?categoria [:categoria/nome {:produto/_categoria [:produto/nome :produto/slug]}])
@@ -226,18 +160,6 @@
          [?produto :produto/preco ?preco]]
        db))
 
-; variação que faz duas queries soltas
-;(defn todos-os-produtos-mais-caros [db]
-;  (let [preco-mais-alto (ffirst (d/q '[:find (max ?preco)
-;                                       :where [_ :produto/preco ?preco]]
-;                                     db))]
-;    (d/q '[:find (pull ?produto [*])
-;           :in $ ?preco
-;           :where [?produto :produto/preco ?preco]]
-;         db preco-mais-alto)))
-
-; queremos fazer as duas queries de uma vez só
-; podemos criar nested queries
 (defn todos-os-produtos-mais-caros [db]
   (d/q '[:find (pull ?produto [*])
          :where [(q '[:find (max ?preco)
@@ -245,7 +167,6 @@
                     $) [[?preco]]]
          [?produto :produto/preco ?preco]]
        db))
-
 
 (defn todos-os-produtos-mais-baratos [db]
   (d/q '[:find (pull ?produto [*])
@@ -261,3 +182,20 @@
          :where [?transacao :tx-data/ip ?ip-buscado]
          [?produto :produto/id _ ?transacao]]
        db ip))
+
+#_{:clj-kondo/ignore [:inline-def]}
+(defn cria-dados-de-exemplo [conn]
+  (def eletronicos (model/nova-categoria "Eletrônicos"))
+  (def esporte (model/nova-categoria "Esporte"))
+  (pprint @(adiciona-categorias! conn [eletronicos, esporte]))
+
+  (def computador (model/novo-produto (model/uuid) "Computador Novo", "/computador-novo", 2500.10M))
+  (def celular (model/novo-produto (model/uuid) "Celular Caro", "/celular", 888888.10M))
+  (def calculadora {:produto/nome "Calculadora com 4 operações"})
+  (def celular-barato (model/novo-produto "Celular Barato", "/celular-barato", 0.1M))
+  (def xadrez (model/novo-produto "Tabuleiro de xadrez", "/tabuleiro-de-xadrez", 30M))
+  (pprint (adiciona-produtos! conn [computador, celular, calculadora, celular-barato, xadrez] "200.216.222.125"))
+
+
+  (atribui-categorias! conn [computador, celular, celular-barato] eletronicos)
+  (atribui-categorias! conn [xadrez] esporte))

@@ -1,0 +1,392 @@
+; Using host:port 127.0.0.1:37025 ...
+; Hooking up nREPL sessions ...
+; Connected session: clj
+; Evaluating code from settings: 'calva.autoEvaluateCode.onConnect.clj'
+nil
+clj꞉datomic-schemas-regras.core꞉> 
+"Please see https://calva.io/output/#about-stdout-in-the-repl-window
+about why stdout printed to this file is prepended with `;` to be line comments."
+clj꞉datomic-schemas-regras.core꞉> 
+; Jack-in done.
+clj꞉datomic-schemas-regras.core꞉> 
+; It Works! Hello, World!
+nil
+clj꞉datomic-schemas-regras.core꞉> 
+; Syntax error compiling at (aula1.clj:7:1).
+; No such var: db/apaga-banco!
+clj꞉datomic-schemas-regras.ecommerce.aula1꞉> 
+#'datomic-schemas-regras.ecommerce.db/todos-os-produtos-do-ip
+clj꞉datomic-schemas-regras.ecommerce.db꞉> 
+#'datomic-schemas-regras.ecommerce.model/nova-categoria
+clj꞉datomic-schemas-regras.ecommerce.model꞉> 
+true
+; 
+; SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+; SLF4J: Defaulting to no-operation (NOP) logger implementation
+; SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+clj꞉datomic-schemas-regras.ecommerce.aula1꞉> 
+false
+clj꞉datomic-schemas-regras.ecommerce.aula1꞉> 
+(db/apaga-banco!)
+false
+clj꞉datomic-schemas-regras.ecommerce.aula1꞉> 
+; {:db-before datomic.db.Db@635379dd,
+;  :db-after datomic.db.Db@cf2fa9fb,
+;  :tx-data
+;  [#datom[13194139534313 50 #inst "2024-05-01T04:01:35.667-00:00" 13194139534313 true] #datom[17592186045418 79 #uuid "dc75f7bc-4d34-4425-ae92-37aafecc6c35" 13194139534313 true] #datom[17592186045418 78 "Eletrônicos" 13194139534313 true] #datom[17592186045419 79 #uuid "5a945bdc-7ae1-4643-a62c-affeebff3e51" 13194139534313 true] #datom[17592186045419 78 "Esporte" 13194139534313 true]],
+;  :tempids
+;  {-9223300668110598125 17592186045418,
+;   -9223300668110598124 17592186045419}}
+; [[{:db/id 17592186045418,
+;    :categoria/nome "Eletrônicos",
+;    :categoria/id #uuid "dc75f7bc-4d34-4425-ae92-37aafecc6c35"}]
+;  [{:db/id 17592186045419,
+;    :categoria/nome "Esporte",
+;    :categoria/id #uuid "5a945bdc-7ae1-4643-a62c-affeebff3e51"}]]
+; {:db-before datomic.db.Db@7f319d21,
+;  :db-after datomic.db.Db@2022616d,
+;  :tx-data
+;  [#datom[13194139534316 50 #inst "2024-05-01T04:01:35.791-00:00" 13194139534316 true] #datom[17592186045421 76 #uuid "fbad7ee7-9749-4d9e-a366-9e079871da4e" 13194139534316 true] #datom[17592186045421 72 "Computador Novo" 13194139534316 true] #datom[17592186045421 73 "/computador-novo" 13194139534316 true] #datom[17592186045421 74 2500.10M 13194139534316 true] #datom[17592186045422 76 #uuid "94b86383-703d-46dc-b706-fb48870c2128" 13194139534316 true] #datom[17592186045422 72 "Celular Caro" 13194139534316 true] #datom[17592186045422 73 "/celular" 13194139534316 true] #datom[17592186045422 74 888888.10M 13194139534316 true] #datom[17592186045423 72 "Calculadora com 4 operações" 13194139534316 true] #datom[17592186045424 76 #uuid "b8d99213-a0df-4883-a5a8-a9eccac9c883" 13194139534316 true] #datom[17592186045424 72 "Celular Barato" 13194139534316 true] #datom[17592186045424 73 "/celular-barato" 13194139534316 true] #datom[17592186045424 74 0.1M 13194139534316 true] #datom[17592186045425 76 #uuid "75c1fc3f-032c-4184-b283-f1d0cbe17476" 13194139534316 true] #datom[17592186045425 72 "Tabuleiro de xadrez" 13194139534316 true] #datom[17592186045425 73 "/tabuleiro-de-xadrez" 13194139534316 true] #datom[17592186045425 74 30M 13194139534316 true] #datom[13194139534316 80 "200.216.222.125" 13194139534316 true]],
+;  :tempids
+;  {-9223300668110598123 17592186045421,
+;   -9223300668110598122 17592186045422,
+;   -9223300668110598121 17592186045423,
+;   -9223300668110598120 17592186045424,
+;   -9223300668110598119 17592186045425,
+;   "datomic.tx" 13194139534316}}
+; {:db-before datomic.db.Db@a3bcf13d,
+;  :db-after datomic.db.Db@c338cea5,
+;  :tx-data
+;  [#datom[13194139534324 50 #inst "2024-05-01T04:01:35.965-00:00" 13194139534324 true] #datom[17592186045429 72 "Camiseta" 13194139534324 true] #datom[17592186045429 73 "/camiseta" 13194139534324 true] #datom[17592186045429 74 30M 13194139534324 true] #datom[17592186045429 76 #uuid "a35b0339-ed16-4c73-bce2-6bd7423c87f6" 13194139534324 true] #datom[17592186045429 77 17592186045430 13194139534324 true] #datom[17592186045430 78 "Roupas" 13194139534324 true] #datom[17592186045430 79 #uuid "d3c53dab-b351-456f-8fd7-194166674d63" 13194139534324 true] #datom[13194139534324 80 "20.216.222.12" 13194139534324 true]],
+;  :tempids
+;  {-9223300668110598117 17592186045429,
+;   -9223300668110598116 17592186045430,
+;   "datomic.tx" 13194139534324}}
+; {:db-before datomic.db.Db@c338cea5,
+;  :db-after datomic.db.Db@1ba61c6d,
+;  :tx-data
+;  [#datom[13194139534327 50 #inst "2024-05-01T04:01:36.019-00:00" 13194139534327 true] #datom[17592186045432 72 "Dama" 13194139534327 true] #datom[17592186045432 73 "/dama" 13194139534327 true] #datom[17592186045432 74 15M 13194139534327 true] #datom[17592186045432 76 #uuid "6f10c74a-fe06-45f1-b23d-0a7f84fc9410" 13194139534327 true] #datom[17592186045432 77 17592186045419 13194139534327 true]],
+;  :tempids {-9223300668110598114 17592186045432}}
+; [[{:db/id 17592186045421,
+;    :produto/nome "Computador Novo",
+;    :produto/slug "/computador-novo",
+;    :produto/preco 2500.10M,
+;    :produto/id #uuid "fbad7ee7-9749-4d9e-a366-9e079871da4e",
+;    :produto/categoria #:db{:id 17592186045418}}]
+;  [{:db/id 17592186045422,
+;    :produto/nome "Celular Caro",
+;    :produto/slug "/celular",
+;    :produto/preco 888888.10M,
+;    :produto/id #uuid "94b86383-703d-46dc-b706-fb48870c2128",
+;    :produto/categoria #:db{:id 17592186045418}}]
+;  [{:db/id 17592186045423, :produto/nome "Calculadora com 4 operações"}]
+;  [{:db/id 17592186045424,
+;    :produto/nome "Celular Barato",
+;    :produto/slug "/celular-barato",
+;    :produto/preco 0.1M,
+;    :produto/id #uuid "b8d99213-a0df-4883-a5a8-a9eccac9c883",
+;    :produto/categoria #:db{:id 17592186045418}}]
+;  [{:db/id 17592186045425,
+;    :produto/nome "Tabuleiro de xadrez",
+;    :produto/slug "/tabuleiro-de-xadrez",
+;    :produto/preco 30M,
+;    :produto/id #uuid "75c1fc3f-032c-4184-b283-f1d0cbe17476",
+;    :produto/categoria #:db{:id 17592186045419}}]
+;  [{:db/id 17592186045429,
+;    :produto/nome "Camiseta",
+;    :produto/slug "/camiseta",
+;    :produto/preco 30M,
+;    :produto/id #uuid "a35b0339-ed16-4c73-bce2-6bd7423c87f6",
+;    :produto/categoria #:db{:id 17592186045430}}]
+;  [{:db/id 17592186045432,
+;    :produto/nome "Dama",
+;    :produto/slug "/dama",
+;    :produto/preco 15M,
+;    :produto/id #uuid "6f10c74a-fe06-45f1-b23d-0a7f84fc9410",
+;    :produto/categoria #:db{:id 17592186045419}}]]
+; [[{:db/id 17592186045422,
+;    :produto/nome "Celular Caro",
+;    :produto/slug "/celular",
+;    :produto/preco 888888.10M,
+;    :produto/id #uuid "94b86383-703d-46dc-b706-fb48870c2128",
+;    :produto/categoria #:db{:id 17592186045418}}]]
+; [[{:db/id 17592186045424,
+;    :produto/nome "Celular Barato",
+;    :produto/slug "/celular-barato",
+;    :produto/preco 0.1M,
+;    :produto/id #uuid "b8d99213-a0df-4883-a5a8-a9eccac9c883",
+;    :produto/categoria #:db{:id 17592186045418}}]]
+; [[{:db/id 17592186045421,
+;    :produto/nome "Computador Novo",
+;    :produto/slug "/computador-novo",
+;    :produto/preco 2500.10M,
+;    :produto/id #uuid "fbad7ee7-9749-4d9e-a366-9e079871da4e",
+;    :produto/categoria #:db{:id 17592186045418}}]
+;  [{:db/id 17592186045422,
+;    :produto/nome "Celular Caro",
+;    :produto/slug "/celular",
+;    :produto/preco 888888.10M,
+;    :produto/id #uuid "94b86383-703d-46dc-b706-fb48870c2128",
+;    :produto/categoria #:db{:id 17592186045418}}]
+;  [{:db/id 17592186045424,
+;    :produto/nome "Celular Barato",
+;    :produto/slug "/celular-barato",
+;    :produto/preco 0.1M,
+;    :produto/id #uuid "b8d99213-a0df-4883-a5a8-a9eccac9c883",
+;    :produto/categoria #:db{:id 17592186045418}}]
+;  [{:db/id 17592186045425,
+;    :produto/nome "Tabuleiro de xadrez",
+;    :produto/slug "/tabuleiro-de-xadrez",
+;    :produto/preco 30M,
+;    :produto/id #uuid "75c1fc3f-032c-4184-b283-f1d0cbe17476",
+;    :produto/categoria #:db{:id 17592186045419}}]]
+; [[{:db/id 17592186045429,
+;    :produto/nome "Camiseta",
+;    :produto/slug "/camiseta",
+;    :produto/preco 30M,
+;    :produto/id #uuid "a35b0339-ed16-4c73-bce2-6bd7423c87f6",
+;    :produto/categoria #:db{:id 17592186045430}}]]
+; []
+nil
+clj꞉datomic-schemas-regras.ecommerce.aula1꞉> 
+; []
+nil
+clj꞉datomic-schemas-regras.ecommerce.aula1꞉> 
+; [[{:db/id 17592186045429,
+;    :produto/nome "Camiseta",
+;    :produto/slug "/camiseta",
+;    :produto/preco 30M,
+;    :produto/id #uuid "a35b0339-ed16-4c73-bce2-6bd7423c87f6",
+;    :produto/categoria #:db{:id 17592186045430}}]]
+nil
+clj꞉datomic-schemas-regras.ecommerce.aula1꞉> 
+; [[{:db/id 17592186045421,
+;    :produto/nome "Computador Novo",
+;    :produto/slug "/computador-novo",
+;    :produto/preco 2500.10M,
+;    :produto/id #uuid "fbad7ee7-9749-4d9e-a366-9e079871da4e",
+;    :produto/categoria #:db{:id 17592186045418}}]
+;  [{:db/id 17592186045422,
+;    :produto/nome "Celular Caro",
+;    :produto/slug "/celular",
+;    :produto/preco 888888.10M,
+;    :produto/id #uuid "94b86383-703d-46dc-b706-fb48870c2128",
+;    :produto/categoria #:db{:id 17592186045418}}]
+;  [{:db/id 17592186045424,
+;    :produto/nome "Celular Barato",
+;    :produto/slug "/celular-barato",
+;    :produto/preco 0.1M,
+;    :produto/id #uuid "b8d99213-a0df-4883-a5a8-a9eccac9c883",
+;    :produto/categoria #:db{:id 17592186045418}}]
+;  [{:db/id 17592186045425,
+;    :produto/nome "Tabuleiro de xadrez",
+;    :produto/slug "/tabuleiro-de-xadrez",
+;    :produto/preco 30M,
+;    :produto/id #uuid "75c1fc3f-032c-4184-b283-f1d0cbe17476",
+;    :produto/categoria #:db{:id 17592186045419}}]]
+nil
+clj꞉datomic-schemas-regras.ecommerce.aula1꞉> 
+; [[{:db/id 17592186045429,
+;    :produto/nome "Camiseta",
+;    :produto/slug "/camiseta",
+;    :produto/preco 30M,
+;    :produto/id #uuid "a35b0339-ed16-4c73-bce2-6bd7423c87f6",
+;    :produto/categoria #:db{:id 17592186045430}}]]
+nil
+clj꞉datomic-schemas-regras.ecommerce.aula1꞉> 
+; []
+nil
+clj꞉datomic-schemas-regras.ecommerce.aula1꞉> 
+; [[{:db/id 17592186045429,
+;    :produto/nome "Camiseta",
+;    :produto/slug "/camiseta",
+;    :produto/preco 30M,
+;    :produto/id #uuid "a35b0339-ed16-4c73-bce2-6bd7423c87f6",
+;    :produto/categoria #:db{:id 17592186045430}}]]
+nil
+clj꞉datomic-schemas-regras.ecommerce.aula1꞉> 
+; [[{:db/id 17592186045421,
+;    :produto/nome "Computador Novo",
+;    :produto/slug "/computador-novo",
+;    :produto/preco 2500.10M,
+;    :produto/id #uuid "fbad7ee7-9749-4d9e-a366-9e079871da4e",
+;    :produto/categoria #:db{:id 17592186045418}}]
+;  [{:db/id 17592186045422,
+;    :produto/nome "Celular Caro",
+;    :produto/slug "/celular",
+;    :produto/preco 888888.10M,
+;    :produto/id #uuid "94b86383-703d-46dc-b706-fb48870c2128",
+;    :produto/categoria #:db{:id 17592186045418}}]
+;  [{:db/id 17592186045424,
+;    :produto/nome "Celular Barato",
+;    :produto/slug "/celular-barato",
+;    :produto/preco 0.1M,
+;    :produto/id #uuid "b8d99213-a0df-4883-a5a8-a9eccac9c883",
+;    :produto/categoria #:db{:id 17592186045418}}]
+;  [{:db/id 17592186045425,
+;    :produto/nome "Tabuleiro de xadrez",
+;    :produto/slug "/tabuleiro-de-xadrez",
+;    :produto/preco 30M,
+;    :produto/id #uuid "75c1fc3f-032c-4184-b283-f1d0cbe17476",
+;    :produto/categoria #:db{:id 17592186045419}}]]
+nil
+clj꞉datomic-schemas-regras.ecommerce.aula1꞉> 
+; {:db-before datomic.db.Db@7c7edc67,
+;  :db-after datomic.db.Db@725995c5,
+;  :tx-data
+;  [#datom[13194139534313 50 #inst "2024-05-01T04:02:20.636-00:00" 13194139534313 true] #datom[17592186045418 79 #uuid "f509db9c-b98a-4df6-9cc8-e816576214e0" 13194139534313 true] #datom[17592186045418 78 "Eletrônicos" 13194139534313 true] #datom[17592186045419 79 #uuid "217c7d38-c176-4b77-8946-9ee07c0e8c4b" 13194139534313 true] #datom[17592186045419 78 "Esporte" 13194139534313 true]],
+;  :tempids
+;  {-9223300668110598104 17592186045418,
+;   -9223300668110598103 17592186045419}}
+; [[{:db/id 17592186045418,
+;    :categoria/nome "Eletrônicos",
+;    :categoria/id #uuid "f509db9c-b98a-4df6-9cc8-e816576214e0"}]
+;  [{:db/id 17592186045419,
+;    :categoria/nome "Esporte",
+;    :categoria/id #uuid "217c7d38-c176-4b77-8946-9ee07c0e8c4b"}]]
+; {:db-before datomic.db.Db@725995c5,
+;  :db-after datomic.db.Db@2683c1aa,
+;  :tx-data
+;  [#datom[13194139534316 50 #inst "2024-05-01T04:02:20.714-00:00" 13194139534316 true] #datom[17592186045421 76 #uuid "235a75c5-3bf8-4483-9cc4-ce2fd9b3a093" 13194139534316 true] #datom[17592186045421 72 "Computador Novo" 13194139534316 true] #datom[17592186045421 73 "/computador-novo" 13194139534316 true] #datom[17592186045421 74 2500.10M 13194139534316 true] #datom[17592186045422 76 #uuid "86ba78cf-e68f-4aa4-a8ff-2aa4672f7dbe" 13194139534316 true] #datom[17592186045422 72 "Celular Caro" 13194139534316 true] #datom[17592186045422 73 "/celular" 13194139534316 true] #datom[17592186045422 74 888888.10M 13194139534316 true] #datom[17592186045423 72 "Calculadora com 4 operações" 13194139534316 true] #datom[17592186045424 76 #uuid "9e4d2910-4c0e-4074-bb4a-dee6cdb4dfc5" 13194139534316 true] #datom[17592186045424 72 "Celular Barato" 13194139534316 true] #datom[17592186045424 73 "/celular-barato" 13194139534316 true] #datom[17592186045424 74 0.1M 13194139534316 true] #datom[17592186045425 76 #uuid "b4c55973-1684-4a31-a591-80f39ae7c94c" 13194139534316 true] #datom[17592186045425 72 "Tabuleiro de xadrez" 13194139534316 true] #datom[17592186045425 73 "/tabuleiro-de-xadrez" 13194139534316 true] #datom[17592186045425 74 30M 13194139534316 true] #datom[13194139534316 80 "200.216.222.125" 13194139534316 true]],
+;  :tempids
+;  {-9223300668110598102 17592186045421,
+;   -9223300668110598101 17592186045422,
+;   -9223300668110598100 17592186045423,
+;   -9223300668110598099 17592186045424,
+;   -9223300668110598098 17592186045425,
+;   "datomic.tx" 13194139534316}}
+; [[{:db/id 17592186045421,
+;    :produto/nome "Computador Novo",
+;    :produto/slug "/computador-novo",
+;    :produto/preco 2500.10M,
+;    :produto/id #uuid "235a75c5-3bf8-4483-9cc4-ce2fd9b3a093",
+;    :produto/categoria #:db{:id 17592186045418}}]
+;  [{:db/id 17592186045422,
+;    :produto/nome "Celular Caro",
+;    :produto/slug "/celular",
+;    :produto/preco 888888.10M,
+;    :produto/id #uuid "86ba78cf-e68f-4aa4-a8ff-2aa4672f7dbe",
+;    :produto/categoria #:db{:id 17592186045418}}]
+;  [{:db/id 17592186045423, :produto/nome "Calculadora com 4 operações"}]
+;  [{:db/id 17592186045424,
+;    :produto/nome "Celular Barato",
+;    :produto/slug "/celular-barato",
+;    :produto/preco 0.1M,
+;    :produto/id #uuid "9e4d2910-4c0e-4074-bb4a-dee6cdb4dfc5",
+;    :produto/categoria #:db{:id 17592186045418}}]
+;  [{:db/id 17592186045425,
+;    :produto/nome "Tabuleiro de xadrez",
+;    :produto/slug "/tabuleiro-de-xadrez",
+;    :produto/preco 30M,
+;    :produto/id #uuid "b4c55973-1684-4a31-a591-80f39ae7c94c",
+;    :produto/categoria #:db{:id 17592186045419}}]]
+; [[{:db/id 17592186045418,
+;    :categoria/nome "Eletrônicos",
+;    :categoria/id #uuid "f509db9c-b98a-4df6-9cc8-e816576214e0"}]
+;  [{:db/id 17592186045419,
+;    :categoria/nome "Esporte",
+;    :categoria/id #uuid "217c7d38-c176-4b77-8946-9ee07c0e8c4b"}]]
+nil
+clj꞉datomic-schemas-regras.ecommerce.aula1꞉> 
+; [[{:db/id 17592186045418,
+;    :categoria/nome "Eletrônicos",
+;    :categoria/id #uuid "f509db9c-b98a-4df6-9cc8-e816576214e0"}]
+;  [{:db/id 17592186045419,
+;    :categoria/nome "Esporte",
+;    :categoria/id #uuid "217c7d38-c176-4b77-8946-9ee07c0e8c4b"}]]
+nil
+clj꞉datomic-schemas-regras.ecommerce.aula1꞉> 
+; []
+; []
+; Syntax error compiling at (aula1.clj:10:1).
+; No such var: db/cria-dados-de-exemplo
+clj꞉datomic-schemas-regras.ecommerce.aula1꞉> 
+#'datomic-schemas-regras.ecommerce.db/cria-dados-de-exemplo
+clj꞉datomic-schemas-regras.ecommerce.db꞉> 
+; {:db-before datomic.db.Db@183d779,
+;  :db-after datomic.db.Db@c9a4fdcc,
+;  :tx-data
+;  [#datom[13194139534313 50 #inst "2024-05-01T04:07:16.771-00:00" 13194139534313 true] #datom[17592186045418 79 #uuid "70baa56c-cb67-45cc-8c07-19b640b2eb8c" 13194139534313 true] #datom[17592186045418 78 "Eletrônicos" 13194139534313 true] #datom[17592186045419 79 #uuid "7d3c9a4b-8979-4cb2-99a1-3485844061da" 13194139534313 true] #datom[17592186045419 78 "Esporte" 13194139534313 true]],
+;  :tempids
+;  {-9223300668110598078 17592186045418,
+;   -9223300668110598077 17592186045419}}
+; #<promise$settable_future$reify__12002@2d22595: 
+;   {:db-before datomic.db.Db@c9a4fdcc,
+;    :db-after datomic.db.Db@f07c7d1,
+;    :tx-data
+;    [#datom[13194139534316 50 #inst "2024-05-01T04:07:16.797-00:00" 13194139534316 true] #datom[17592186045421 76 #uuid "a44f2864-36ec-4445-9736-d13ca3185a2e" 13194139534316 true] #datom[17592186045421 72 "Computador Novo" 13194139534316 true] #datom[17592186045421 73 "/computador-novo" 13194139534316 true] #datom[17592186045421 74 2500.10M 13194139534316 true] #datom[17592186045422 76 #uuid "3a106909-ab2d-4043-81e9-4d3f729d68b9" 13194139534316 true] #datom[17592186045422 72 "Celular Caro" 13194139534316 true] #datom[17592186045422 73 "/celular" 13194139534316 true] #datom[17592186045422 74 888888.10M 13194139534316 true] #datom[17592186045423 72 "Calculadora com 4 operações" 13194139534316 true] #datom[17592186045424 76 #uuid "a15f3c20-b6ab-4f8c-bf69-c52a995f52d7" 13194139534316 true] #datom[17592186045424 72 "Celular Barato" 13194139534316 true] #datom[17592186045424 73 "/celular-barato" 13194139534316 true] #datom[17592186045424 74 0.1M 13194139534316 true] #datom[17592186045425 76 #uuid "154004ec-0fe0-4fc2-9548-ae5dc24f5063" 13194139534316 true] #datom[17592186045425 72 "Tabuleiro de xadrez" 13194139534316 true] #datom[17592186045425 73 "/tabuleiro-de-xadrez" 13194139534316 true] #datom[17592186045425 74 30M 13194139534316 true] #datom[13194139534316 80 "200.216.222.125" 13194139534316 true]],
+;    :tempids
+;    {-9223300668110598076 17592186045421,
+;     -9223300668110598075 17592186045422,
+;     -9223300668110598074 17592186045423,
+;     -9223300668110598073 17592186045424,
+;     -9223300668110598072 17592186045425,
+;     "datomic.tx" 13194139534316}}>
+; [[{:db/id 17592186045421,
+;    :produto/nome "Computador Novo",
+;    :produto/slug "/computador-novo",
+;    :produto/preco 2500.10M,
+;    :produto/id #uuid "a44f2864-36ec-4445-9736-d13ca3185a2e",
+;    :produto/categoria #:db{:id 17592186045418}}]
+;  [{:db/id 17592186045422,
+;    :produto/nome "Celular Caro",
+;    :produto/slug "/celular",
+;    :produto/preco 888888.10M,
+;    :produto/id #uuid "3a106909-ab2d-4043-81e9-4d3f729d68b9",
+;    :produto/categoria #:db{:id 17592186045418}}]
+;  [{:db/id 17592186045423, :produto/nome "Calculadora com 4 operações"}]
+;  [{:db/id 17592186045424,
+;    :produto/nome "Celular Barato",
+;    :produto/slug "/celular-barato",
+;    :produto/preco 0.1M,
+;    :produto/id #uuid "a15f3c20-b6ab-4f8c-bf69-c52a995f52d7",
+;    :produto/categoria #:db{:id 17592186045418}}]
+;  [{:db/id 17592186045425,
+;    :produto/nome "Tabuleiro de xadrez",
+;    :produto/slug "/tabuleiro-de-xadrez",
+;    :produto/preco 30M,
+;    :produto/id #uuid "154004ec-0fe0-4fc2-9548-ae5dc24f5063",
+;    :produto/categoria #:db{:id 17592186045419}}]]
+; [[{:db/id 17592186045418,
+;    :categoria/nome "Eletrônicos",
+;    :categoria/id #uuid "70baa56c-cb67-45cc-8c07-19b640b2eb8c"}]
+;  [{:db/id 17592186045419,
+;    :categoria/nome "Esporte",
+;    :categoria/id #uuid "7d3c9a4b-8979-4cb2-99a1-3485844061da"}]]
+nil
+clj꞉datomic-schemas-regras.ecommerce.aula1꞉> 
+; [[{:db/id 17592186045421,
+;    :produto/nome "Computador Novo",
+;    :produto/slug "/computador-novo",
+;    :produto/preco 2500.10M,
+;    :produto/id #uuid "a44f2864-36ec-4445-9736-d13ca3185a2e",
+;    :produto/categoria #:db{:id 17592186045418}}]
+;  [{:db/id 17592186045422,
+;    :produto/nome "Celular Caro",
+;    :produto/slug "/celular",
+;    :produto/preco 888888.10M,
+;    :produto/id #uuid "3a106909-ab2d-4043-81e9-4d3f729d68b9",
+;    :produto/categoria #:db{:id 17592186045418}}]
+;  [{:db/id 17592186045423, :produto/nome "Calculadora com 4 operações"}]
+;  [{:db/id 17592186045424,
+;    :produto/nome "Celular Barato",
+;    :produto/slug "/celular-barato",
+;    :produto/preco 0.1M,
+;    :produto/id #uuid "a15f3c20-b6ab-4f8c-bf69-c52a995f52d7",
+;    :produto/categoria #:db{:id 17592186045418}}]
+;  [{:db/id 17592186045425,
+;    :produto/nome "Tabuleiro de xadrez",
+;    :produto/slug "/tabuleiro-de-xadrez",
+;    :produto/preco 30M,
+;    :produto/id #uuid "154004ec-0fe0-4fc2-9548-ae5dc24f5063",
+;    :produto/categoria #:db{:id 17592186045419}}]]
+nil
+clj꞉datomic-schemas-regras.ecommerce.aula1꞉> 
+; [[{:db/id 17592186045418,
+;    :categoria/nome "Eletrônicos",
+;    :categoria/id #uuid "70baa56c-cb67-45cc-8c07-19b640b2eb8c"}]
+;  [{:db/id 17592186045419,
+;    :categoria/nome "Esporte",
+;    :categoria/id #uuid "7d3c9a4b-8979-4cb2-99a1-3485844061da"}]]
+nil
+clj꞉datomic-schemas-regras.ecommerce.aula1꞉> 
