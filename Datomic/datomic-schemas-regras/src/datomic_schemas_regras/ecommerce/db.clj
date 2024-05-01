@@ -1,9 +1,10 @@
 (ns datomic-schemas-regras.ecommerce.db
 
   (:require [clojure.pprint :refer [pprint]]
+            [clojure.walk :as walk]
             [datomic-schemas-regras.ecommerce.model :as model]
-            [datomic.api :as d]))
-
+            [datomic.api :as d]
+            [schema.core :as s]))
 (def db-uri "datomic:dev://localhost:4334/ecommerce")
 
 (defn abre-conexao! []
@@ -13,8 +14,26 @@
 (defn apaga-banco! []
   (d/delete-database db-uri))
 
+; Produtos
+; id?
+; nome String 1 ==> Computador Novo
+; slug String 1 ==> /computador_novo
+; preco ponto flutuante 1 ==> 3500.10
+; categoria_id integer ==> 3
 
-(def schema [{:db/ident       :produto/nome
+; id_entidade atributo valor
+; 15 :produto/nome Computador Novo     ID_TX     operacao
+; 15 :produto/slug /computador_novo    ID_TX     operacao
+; 15 :produto/preco 3500.10    ID_TX     operacao
+; 15 :produto/categoria 37
+; 17 :produto/nome Telefone Caro    ID_TX     operacao
+; 17 :produto/slug /telefone    ID_TX     operacao
+; 17 :produto/preco 8888.88    ID_TX     operacao
+
+; 36 :categoria/nome Eletronicos
+
+(def schema [; Produtos
+             {:db/ident       :produto/nome
               :db/valueType   :db.type/string
               :db/cardinality :db.cardinality/one
               :db/doc         "O nome de um produto"}
@@ -33,74 +52,68 @@
               :db/valueType   :db.type/uuid
               :db/cardinality :db.cardinality/one
               :db/unique      :db.unique/identity}
-             {:db/ident :produto/categoria
-              :db/valueType :db.type/ref
+             {:db/ident       :produto/categoria
+              :db/valueType   :db.type/ref
+              :db/cardinality :db.cardinality/one}
+             {:db/ident       :produto/digital
+              :db/valueType   :db.type/boolean
+              :db/cardinality :db.cardinality/one}
+             ; Categorias
+             {:db/ident       :categoria/nome
+              :db/valueType   :db.type/string
+              :db/cardinality :db.cardinality/one}
+             {:db/ident       :categoria/id
+              :db/valueType   :db.type/uuid
+              :db/cardinality :db.cardinality/one
+              :db/unique      :db.unique/identity}
+             {:db/ident       :produto/estoque
+              :db/valueType   :db.type/long
               :db/cardinality :db.cardinality/one}
 
-             ;; Categoria
-             {:db/ident :categoria/nome
-              :db/valueType :db.type/string
-              :db/cardinality :db.cardinality/one}
-             {:db/ident :categoria/id
-              :db/valueType :db.type/uuid
-              :db/cardinality :db.cardinality/one
-              :db/unique :db.unique/identity}
-            ;; Transações
+             ; Transações
              {:db/ident       :tx-data/ip
               :db/valueType   :db.type/string
               :db/cardinality :db.cardinality/one}])
 
+(s/defn adiciona-ou-altera-produtos!
+  ([conn, produtos :- [model/Produto]]
+   (d/transact conn produtos))
+  ([conn, produtos :- [model/Produto], ip]
+   (let [db-add-ip [:db/add "datomic.tx" :tx-data/ip ip]]
+     (d/transact conn (conj produtos db-add-ip)))))
+
 (defn cria-schema! [conn]
   (d/transact conn schema))
 
+(defn dissoc-db-id [entidade]
+  (if (map? entidade)
+    (dissoc entidade :db/id)
+    entidade))
 
+(defn datomic-para-entidade [entidades]
+  (walk/prewalk dissoc-db-id entidades))
 
-(defn todos-os-produtos [db]
-  (d/q '[:find (pull ?entidade [*])
-         :where [?entidade :produto/nome]] db))
+; o maybe permite nil
+; nil permite nullpointerexception
+; nullpointerexception permite um inferno de exceptions
+; usamos maybe SOMENTE em retorno de função
+; E somente quando fizer muito sentido
+; isto é... maybe não é usado em mapas. em maps usamos as chaves opcionais.
+(s/defn um-produto :- (s/maybe model/Produto) [db, produto-id :- java.util.UUID]
+  (let [resultado (d/pull db '[* {:produto/categoria [*]}] [:produto/id produto-id])
+        produto (datomic-para-entidade resultado)]
+    (if (:produto/id produto)
+      produto
+      nil)))
 
+(s/defn um-produto! :- model/Produto [db, produto-id :- java.util.UUID]
+  (let [produto (um-produto db produto-id)]
+    (when (nil? produto)
+      (throw (ex-info "Não encontrei uma entidade"
+                      {:type :errors/not-found, :id produto-id})))
+    produto))
 
-(defn todos-os-produtos-por-slug [db slug]
-  (d/q '[:find ?entidade
-         :in $ ?slug-procurado                              ; proposital diferente da variável de clojure para evitar erros
-         :where [?entidade :produto/slug ?slug-procurado]]
-       db slug))
-
-
-(defn todos-os-slugs [db]
-  (d/q '[:find ?slug
-         :where [_ :produto/slug ?slug]] db))
-
-; estou sendo explicito nos campos 1 a 1
-(defn todos-os-produtos-por-preco [db preco-minimo-requisitado]
-  (d/q '[:find ?nome, ?preco
-         :in $, ?preco-minimo
-         :keys produto/nome, produto/preco
-         :where [?produto :produto/preco ?preco]
-         [(> ?preco ?preco-minimo)]
-         [?produto :produto/nome ?nome]]
-       db, preco-minimo-requisitado))
-
-
-
-(defn todos-os-produtos-por-palavra-chave [db palavra-chave-buscada]
-  (d/q '[:find (pull ?produto [*])
-         :in $ ?palavra-chave
-         :where [?produto :produto/palavra-chave ?palavra-chave]]
-       db palavra-chave-buscada))
-
-
-(defn um-produto-por-dbid [db db-id]
-  (d/pull db '[*] db-id))
-
-(defn um-produto [db produto-id]
-  (d/pull db '[*] [:produto/id produto-id]))
-
-(defn todas-as-categorias [db]
-  (d/q '[:find (pull ?categoria [*])
-         :where [?categoria :categoria/id]] db))
-
-(defn- db-adds-de-atribuicao-de-categorias [produtos categoria]
+(defn db-adds-de-atribuicao-de-categorias [produtos categoria]
   (reduce (fn [db-adds produto] (conj db-adds [:db/add
                                                [:produto/id (:produto/id produto)]
                                                :produto/categoria
@@ -109,93 +122,86 @@
           produtos))
 
 (defn atribui-categorias! [conn produtos categoria]
-
   (let [a-transacionar (db-adds-de-atribuicao-de-categorias produtos categoria)]
     (d/transact conn a-transacionar)))
 
-(defn adiciona-produtos!
-  ([conn produtos]
-   (d/transact conn produtos))
-  ([conn produtos ip]
-   (let [db-add-ip [:db/add "datomic.tx" :tx-data/ip ip]]
-     (d/transact conn (conj produtos db-add-ip)))))
-
-
-(defn adiciona-categorias! [conn categorias]
+; como esses dois estão genéricos poderiam ser um só
+; mas vamos manter dois pois se você usa schema fica mais fácil de trabalhar
+(s/defn adiciona-categorias! [conn, categorias :- [model/Categoria]]
   (d/transact conn categorias))
 
-(defn todos-os-nomes-de-produtos-e-categorias [db]
-  (d/q '[:find ?nome-do-produto ?nome-da-categoria
-         :keys produto categoria
-         :where
-         [?produto :produto/nome ?nome-do-produto]
-         [?produto :produto/categoria ?categoria]
-         [?categoria :categoria/nome ?nome-da-categoria]]
-       db))
+(s/defn todos-os-produtos :- [model/Produto] [db]
+  (datomic-para-entidade
+   (d/q '[:find [(pull ?entidade [* {:produto/categoria [*]}]) ...]
+          :where [?entidade :produto/nome]] db)))
 
-
-
-(defn todos-os-produtos-da-categoria [db nome-da-categoria]
-  (d/q '[:find ?nome (pull ?categoria [:categoria/nome {:produto/_categoria [:produto/nome :produto/slug]}])
-         :in $ ?nome
-         :where [?categoria :categoria/nome ?nome]]
-       db nome-da-categoria))
-
-
-(defn resumo-dos-produtos-por-categoria [db]
-  (d/q '[:find ?nome (min ?preco) (max ?preco) (count ?preco) (sum ?preco)
-         :keys categoria minimo maximo quantidade preco-total
-         :with ?produto
-         :where
-         [?produto :produto/preco ?preco]
-         [?produto :produto/categoria ?categoria]
-         [?categoria :categoria/nome ?nome]]
-       db))
-
-(defn resumo-dos-produtos [db]
-  (d/q '[:find (min ?preco) (max ?preco) (count ?preco) (sum ?preco)
-         :keys  minimo maximo quantidade preco-total
-         :with ?produto
-         :where
-         [?produto :produto/preco ?preco]]
-       db))
-
-(defn todos-os-produtos-mais-caros [db]
-  (d/q '[:find (pull ?produto [*])
-         :where [(q '[:find (max ?preco)
-                      :where [_ :produto/preco ?preco]]
-                    $) [[?preco]]]
-         [?produto :produto/preco ?preco]]
-       db))
-
-(defn todos-os-produtos-mais-baratos [db]
-  (d/q '[:find (pull ?produto [*])
-         :where [(q '[:find (min ?preco)
-                      :where [_ :produto/preco ?preco]]
-                    $) [[?preco]]]
-         [?produto :produto/preco ?preco]]
-       db))
-
-(defn todos-os-produtos-do-ip [db ip]
-  (d/q '[:find (pull ?produto [*])
-         :in $ ?ip-buscado
-         :where [?transacao :tx-data/ip ?ip-buscado]
-         [?produto :produto/id _ ?transacao]]
-       db ip))
+(s/defn todas-as-categorias :- [model/Categoria] [db]
+  (datomic-para-entidade
+   (d/q '[:find [(pull ?categoria [*]) ...]
+          :where [?categoria :categoria/id]]
+        db)))
 
 #_{:clj-kondo/ignore [:inline-def]}
+
 (defn cria-dados-de-exemplo [conn]
   (def eletronicos (model/nova-categoria "Eletrônicos"))
   (def esporte (model/nova-categoria "Esporte"))
   (pprint @(adiciona-categorias! conn [eletronicos, esporte]))
 
-  (def computador (model/novo-produto (model/uuid) "Computador Novo", "/computador-novo", 2500.10M))
+  (def computador (model/novo-produto (model/uuid) "Computador Novo", "/computador-novo", 2500.10M, 10))
   (def celular (model/novo-produto (model/uuid) "Celular Caro", "/celular", 888888.10M))
-  (def calculadora {:produto/nome "Calculadora com 4 operações"})
+  ;(def calculadora {:produto/nome "Calculadora com 4 operações"})
   (def celular-barato (model/novo-produto "Celular Barato", "/celular-barato", 0.1M))
-  (def xadrez (model/novo-produto "Tabuleiro de xadrez", "/tabuleiro-de-xadrez", 30M))
-  (pprint (adiciona-produtos! conn [computador, celular, calculadora, celular-barato, xadrez] "200.216.222.125"))
+  (def xadrez (model/novo-produto (model/uuid) "Tabuleiro de xadrez", "/tabuleiro-de-xadrez", 30M, 5))
+  (def jogo (assoc (model/novo-produto (model/uuid) "Jogo online", "/jogo-online", 20M) :produto/digital true))
+  (pprint @(adiciona-ou-altera-produtos! conn [computador, celular, celular-barato, xadrez, jogo] "200.216.222.125"))
 
-
-  (atribui-categorias! conn [computador, celular, celular-barato] eletronicos)
+  (atribui-categorias! conn [computador, celular, celular-barato, jogo] eletronicos)
   (atribui-categorias! conn [xadrez] esporte))
+
+(s/defn todos-os-produtos-com-estoque :- [model/Produto] [db]
+  (datomic-para-entidade
+   (d/q '[:find [(pull ?produto [* {:produto/categoria [*]}]) ...]
+          :where [?produto :produto/estoque ?estoque]
+          [(> ?estoque 0)]]
+        db)))
+
+(s/defn um-produto-com-estoque :- (s/maybe model/Produto) [db, produto-id :- java.util.UUID]
+  (let [query '[:find (pull ?produto [* {:produto/categoria [*]}]) .
+                :in $ ?id
+                :where [?produto :produto/id ?id]
+                [?produto :produto/estoque ?estoque]
+                [(> ?estoque 0)]]
+        resultado (d/q query db produto-id)
+        produto (datomic-para-entidade resultado)]
+    (if (:produto/id produto)
+      produto
+      nil)))
+
+(def regras
+  '[[(estoque ?produto ?estoque)
+     [?produto :produto/estoque ?estoque]]
+    [(estoque ?produto ?estoque)
+     [?produto :produto/digital true]
+     [(ground 100) ?estoque]]
+    [(pode-vender? ?produto)
+     (estoque ?produto ?estoque)
+     [(> ?estoque 0)]]])
+
+(s/defn todos-os-produtos-vendaveis :- [model/Produto] [db]
+  (datomic-para-entidade
+   (d/q '[:find [(pull ?produto [* {:produto/categoria [*]}]) ...]
+          :in $ %
+          :where (pode-vender? ?produto)]
+        db regras)))
+
+(s/defn um-produto-vendavel :- (s/maybe model/Produto) [db, produto-id :- java.util.UUID]
+  (let [query '[:find (pull ?produto [* {:produto/categoria [*]}]) .
+                :in $ % ?id
+                :where [?produto :produto/id ?id]
+                (pode-vender? ?produto)]
+        resultado (d/q query db regras produto-id)
+        produto (datomic-para-entidade resultado)]
+    (if (:produto/id produto)
+      produto
+      nil)))
