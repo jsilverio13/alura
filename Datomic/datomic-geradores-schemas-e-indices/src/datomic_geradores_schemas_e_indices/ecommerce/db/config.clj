@@ -1,6 +1,7 @@
 (ns datomic-geradores-schemas-e-indices.ecommerce.db.config
   (:require [datomic-geradores-schemas-e-indices.ecommerce.db.categoria :as db.catgoria]
             [datomic-geradores-schemas-e-indices.ecommerce.db.produto :as db.produto]
+            [datomic-geradores-schemas-e-indices.ecommerce.db.venda :as db.venda]
             [datomic-geradores-schemas-e-indices.ecommerce.model :as model]
             [datomic.api :as d]))
 
@@ -59,6 +60,7 @@
               :db/valueType   :db.type/string
               :db/cardinality :db.cardinality/one}
              {:db/ident       :variacao/preco
+              :db/index       true
               :db/valueType   :db.type/bigdec
               :db/cardinality :db.cardinality/one}
 
@@ -106,4 +108,8 @@
   @(db.produto/adiciona-ou-altera! conn [computador, celular, celular-barato, xadrez, jogo] "200.216.222.125")
 
   (db.catgoria/atribui! conn [computador, celular, celular-barato, jogo] eletronicos)
-  (db.catgoria/atribui! conn [xadrez] esporte))
+  (db.catgoria/atribui! conn [xadrez] esporte)
+
+  (db.venda/adiciona! conn (:produto/id computador) 3)
+  (db.venda/adiciona! conn (:produto/id computador) 4)
+  (db.venda/adiciona! conn (:produto/id computador) 8))

@@ -104,7 +104,6 @@
 (s/defn visualizacao! [conn produto-id :- java.util.UUID]
   (d/transact conn [[:incrementa-visualizacao produto-id]]))
 
-
 (defn historico-de-precos [conn produto-id]
   (->> (d/q '[:find ?instante ?preco
               :in $ ?id
@@ -114,3 +113,34 @@
               [?tx :db/txInstant ?instante]]
             (d/history conn) produto-id)
        (sort-by first)))
+
+(defn busca-mais-caro [conn]
+  (d/q '[:find (max ?preco) .
+         :where [_ :produto/preco ?preco]]
+       conn))
+
+(defn busca-mais-caros-que [conn preco-minimo]
+  (d/q '[:find ?preco
+         :in $ ?minimo
+         :where
+         [_ :produto/preco ?preco]
+         [(>= ?preco ?minimo)]]
+       conn preco-minimo))
+
+(defn busca-por-preco [conn preco]
+  (db.entidade/datomic-para-entidade
+   (d/q '[:find (pull ?produto [*])
+          :in $ ?buscado
+          :where
+          [?produto :produto/preco ?buscado]]
+        conn preco)))
+
+(defn busca-por-preco-e-nome [conn preco nome]
+  (db.entidade/datomic-para-entidade
+   (d/q '[:find (pull ?produto [*])
+          :in $ ?preco-exato ?trecho
+          :where
+          [?produto :produto/preco ?preco-exato]
+          [?produto :produto/nome ?nome]
+          [(.contains ?nome ?trecho)]]
+        conn preco nome)))
