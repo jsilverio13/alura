@@ -103,3 +103,14 @@
 
 (s/defn visualizacao! [conn produto-id :- java.util.UUID]
   (d/transact conn [[:incrementa-visualizacao produto-id]]))
+
+
+(defn historico-de-precos [conn produto-id]
+  (->> (d/q '[:find ?instante ?preco
+              :in $ ?id
+              :where
+              [?produto :produto/id ?id]
+              [?produto :produto/preco ?preco ?tx true]
+              [?tx :db/txInstant ?instante]]
+            (d/history conn) produto-id)
+       (sort-by first)))

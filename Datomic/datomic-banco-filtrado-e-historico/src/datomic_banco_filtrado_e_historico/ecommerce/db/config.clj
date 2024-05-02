@@ -81,6 +81,9 @@
               :db/valueType   :db.type/uuid
               :db/cardinality :db.cardinality/one
               :db/unique      :db.unique/identity}
+             {:db/ident       :venda/situacao
+              :db/valueType   :db.type/string
+              :db/cardinality :db.cardinality/one}
              ; Transações
              {:db/ident       :tx-data/ip
               :db/valueType   :db.type/string
