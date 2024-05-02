@@ -1,15 +1,16 @@
 (ns datomic-banco-filtrado-e-historico.ecommerce.aula1
   (:require [clojure.pprint :refer [pprint]]
-            [datomic-banco-filtrado-e-historico.ecommerce.db :as db]
+            [datomic-banco-filtrado-e-historico.ecommerce.db.config :as db.config]
+            [datomic-banco-filtrado-e-historico.ecommerce.db.produto :as db.produto]
             [datomic.api :as d]
             [schema.core :as s]))
 
 (s/set-fn-validation! true)
 
-(db/apaga-banco!)
-(def conn (db/abre-conexao!))
-(db/cria-schema! conn)
-(db/cria-dados-de-exemplo conn)
+(db.config/apaga-banco!)
+(def conn (db.config/abre-conexao!))
+(db.config/cria-schema! conn)
+(db.config/cria-dados-de-exemplo! conn)
 
-(def primeiro (first (db/todos-os-produtos (d/db conn))))
+(def primeiro (first (db.produto/todos (d/db conn))))
 (pprint primeiro)

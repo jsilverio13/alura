@@ -24,6 +24,10 @@
    (s/optional-key :produto/digital)       s/Bool
    (s/optional-key :produto/visualizacoes) s/Int})
 
+(def Venda
+  {:venda/id java.util.UUID
+   (s/optional-key :venda/produto) Produto
+   (s/optional-key :venda/quantidade) s/Int})
 
 (s/defn novo-produto :- Produto
   ([nome slug preco]
