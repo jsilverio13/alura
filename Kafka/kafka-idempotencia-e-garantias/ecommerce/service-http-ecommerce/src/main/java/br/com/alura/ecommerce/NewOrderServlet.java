@@ -1,5 +1,6 @@
 package br.com.alura.ecommerce;
 
+import br.com.alura.ecommerce.dispatcher.KafkaDispatcher;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -13,8 +14,6 @@ import java.util.concurrent.ExecutionException;
 
 public class NewOrderServlet extends HttpServlet {
     private final KafkaDispatcher<Order> orderKafkaDispatcher = new KafkaDispatcher<>();
-    private final KafkaDispatcher<Email> emailKafkaDispatcher = new KafkaDispatcher<>();
-
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -33,9 +32,6 @@ public class NewOrderServlet extends HttpServlet {
 
             orderKafkaDispatcher.send("ECOMMERCE_NEW_ORDER", email, message.getId(), order);
 
-            var emailCode = new Email("subject", "Teste enviado");
-            emailKafkaDispatcher.send("ECOMMERCE_SEND_EMAIL", email, message.getId(), emailCode);
-
             System.out.println("New order sent successfully!");
             resp.setStatus(HttpServletResponse.SC_OK);
             resp.getWriter().println("New order sent successfully!");
@@ -47,7 +43,6 @@ public class NewOrderServlet extends HttpServlet {
     @Override
     public void destroy() {
         orderKafkaDispatcher.close();
-        emailKafkaDispatcher.close();
         super.destroy();
     }
 }
