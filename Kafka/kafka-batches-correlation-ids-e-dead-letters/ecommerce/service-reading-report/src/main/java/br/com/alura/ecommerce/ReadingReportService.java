@@ -8,26 +8,23 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-@SuppressWarnings("CallToPrintStackTrace")
 public class ReadingReportService {
-    private final KafkaDispatcher<User> orderDispatcher = new KafkaDispatcher<>();
-    private static Path SOURCE = new File("srv/main/resources/report.txt").toPath();
+    private static final Path SOURCE = new File("src/main/resources/report.txt").toPath();
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         var fraudService = new ReadingReportService();
         try (var service = new KafkaService<>(ReadingReportService.class.getSimpleName(),
-                "USER_GENERATE_READING_REPORT",
+                "ECOMMERCE_USER_GENERATE_READING_REPORT",
                 fraudService::parse,
-                User.class,
                 Map.of())) {
             service.run();
         }
     }
 
-    private void parse(ConsumerRecord<String, User> record) throws IOException {
+    private void parse(ConsumerRecord<String, Message<User>> record) throws IOException {
         System.out.println("------------------------------------------");
         System.out.println("Processing report for " + record.value());
-        var user = record.value();
+        var user = record.value().getPayload();
         var target = new File((user.getReportPath()));
         IO.copyTo(SOURCE, target);
         IO.append(target, "Created for " + user.getUuid());

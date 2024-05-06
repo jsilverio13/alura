@@ -29,10 +29,12 @@ public class NewOrderServlet extends HttpServlet {
             var orderId = UUID.randomUUID().toString();
 
             var order = new Order(orderId, amount, email);
-            orderKafkaDispatcher.send("ECOMMERCE_NEW_ORDER", email, order);
+            var message = new Message<>(new CorrelationId(NewOrderServlet.class.getSimpleName()), order);
 
-            var emailCode = new Email("Teste-subject", "Thank you for your order! We are processing your order!");
-            emailKafkaDispatcher.send("ECOMMERCE_SEND_EMAIL", email, emailCode);
+            orderKafkaDispatcher.send("ECOMMERCE_NEW_ORDER", email, message.getId(), order);
+
+            var emailCode = new Email("subject", "Teste enviado");
+            emailKafkaDispatcher.send("ECOMMERCE_SEND_EMAIL", email, message.getId(), emailCode);
 
             System.out.println("New order sent successfully!");
             resp.setStatus(HttpServletResponse.SC_OK);
