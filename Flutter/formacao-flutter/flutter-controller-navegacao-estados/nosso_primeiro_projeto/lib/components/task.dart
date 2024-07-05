@@ -1,19 +1,29 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 
 import 'difficulty.dart';
 
 class Task extends StatefulWidget {
-  final String nome;
-  final String foto;
-  final int dificuldade;
-  const Task(this.nome, this.foto, this.dificuldade, {super.key});
+  final String name;
+  final String photo;
+  final int difficulty;
+
+  Task(this.name, this.photo, this.difficulty, {super.key});
+
+  int nivel = 0;
 
   @override
   State<Task> createState() => _TaskState();
 }
 
 class _TaskState extends State<Task> {
-  int nivel = 0;
+  bool assetOrNetWork() {
+    if (widget.photo.contains("http") || widget.photo.contains("https")) {
+      return false;
+    }
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,10 +58,15 @@ class _TaskState extends State<Task> {
                         height: 100,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
-                          child: Image.asset(
-                            widget.foto,
-                            fit: BoxFit.cover,
-                          ),
+                          child: assetOrNetWork()
+                              ? Image.asset(
+                                  widget.photo,
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.network(
+                                  widget.photo,
+                                  fit: BoxFit.cover,
+                                ),
                         ),
                       ),
                       Column(
@@ -60,7 +75,7 @@ class _TaskState extends State<Task> {
                         children: [
                           SizedBox(
                               width: 200,
-                              child: Text(widget.nome,
+                              child: Text(widget.name,
                                   style: const TextStyle(
                                       fontSize: 24,
                                       overflow: TextOverflow.ellipsis))),
@@ -69,35 +84,35 @@ class _TaskState extends State<Task> {
                               Icon(
                                 Icons.star,
                                 size: 15,
-                                color: (widget.dificuldade >= 1)
+                                color: (widget.difficulty >= 1)
                                     ? Colors.purple
                                     : Colors.purple[100],
                               ),
                               Icon(
                                 Icons.star,
                                 size: 15,
-                                color: (widget.dificuldade >= 2)
+                                color: (widget.difficulty >= 2)
                                     ? Colors.purple
                                     : Colors.purple[100],
                               ),
                               Icon(
                                 Icons.star,
                                 size: 15,
-                                color: (widget.dificuldade >= 3)
+                                color: (widget.difficulty >= 3)
                                     ? Colors.purple
                                     : Colors.purple[100],
                               ),
                               Icon(
                                 Icons.star,
                                 size: 15,
-                                color: (widget.dificuldade >= 4)
+                                color: (widget.difficulty >= 4)
                                     ? Colors.purple
                                     : Colors.purple[100],
                               ),
                               Icon(
                                 Icons.star,
                                 size: 15,
-                                color: (widget.dificuldade >= 5)
+                                color: (widget.difficulty >= 5)
                                     ? Colors.purple
                                     : Colors.purple[100],
                               ),
@@ -109,23 +124,25 @@ class _TaskState extends State<Task> {
                         width: 52,
                         height: 52,
                         child: ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                nivel++;
-                              });
-                            },
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: const [
-                                Icon(Icons.arrow_drop_up),
-                                Text("UP", style: TextStyle(fontSize: 10)),
-                              ],
-                            )),
+                          onPressed: () {
+                            setState(() {
+                              widget.nivel++;
+                            });
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: const [
+                              Icon(Icons.arrow_drop_up),
+                              Text("UP", style: TextStyle(fontSize: 10)),
+                            ],
+                          ),
+                        ),
                       )
                     ]),
               ),
-              Difficulty(difficultyLevel: widget.dificuldade, level: nivel),
+              Difficulty(
+                  difficultyLevel: widget.difficulty, level: widget.nivel),
             ],
           )
         ],
