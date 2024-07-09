@@ -2,17 +2,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:nosso_primeiro_projeto/components/difficulty.dart';
+import 'package:nosso_primeiro_projeto/data/task_dao.dart';
 
 class Task extends StatefulWidget {
-  final String nome;
-  final String foto;
-  final int dificuldade;
-  int nivel;
+  final String name;
+  final String image;
+  final int difficulty;
+  int level;
   Task(
-    this.nome,
-    this.foto,
-    this.dificuldade, [
-    this.nivel = 0,
+    this.name,
+    this.image,
+    this.difficulty, [
+    this.level = 0,
     Key? key,
   ]) : super(key: key);
 
@@ -22,7 +23,7 @@ class Task extends StatefulWidget {
 
 class _TaskState extends State<Task> {
   bool assetOrNetwork() {
-    if (widget.foto.contains('http')) {
+    if (widget.image.contains('http')) {
       return false;
     }
     return true;
@@ -36,7 +37,7 @@ class _TaskState extends State<Task> {
         children: [
           Container(
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4), color: Colors.blue),
+                borderRadius: BorderRadius.circular(4), color: Colors.purple),
             height: 140,
           ),
           Column(
@@ -61,11 +62,11 @@ class _TaskState extends State<Task> {
                         borderRadius: BorderRadius.circular(4),
                         child: assetOrNetwork()
                             ? Image.asset(
-                                widget.foto,
+                                widget.image,
                                 fit: BoxFit.cover,
                               )
                             : Image.network(
-                                widget.foto,
+                                widget.image,
                                 fit: BoxFit.cover,
                               ),
                       ),
@@ -77,14 +78,14 @@ class _TaskState extends State<Task> {
                         SizedBox(
                             width: 200,
                             child: Text(
-                              widget.nome,
+                              widget.name,
                               style: const TextStyle(
                                 fontSize: 24,
                                 overflow: TextOverflow.ellipsis,
                               ),
                             )),
                         Difficulty(
-                          dificultyLevel: widget.dificuldade,
+                          dificultyLevel: widget.difficulty,
                         ),
                       ],
                     ),
@@ -92,11 +93,13 @@ class _TaskState extends State<Task> {
                       height: 52,
                       width: 52,
                       child: ElevatedButton(
+                          onLongPress: () {
+                            TaskDao().delete(widget.name);
+                          },
                           onPressed: () {
                             setState(() {
-                              widget.nivel++;
+                              widget.level++;
                             });
-                            // print(nivel);
                           },
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -122,8 +125,8 @@ class _TaskState extends State<Task> {
                       width: 200,
                       child: LinearProgressIndicator(
                         color: Colors.white,
-                        value: (widget.dificuldade > 0)
-                            ? (widget.nivel / widget.dificuldade) / 10
+                        value: (widget.difficulty > 0)
+                            ? (widget.level / widget.difficulty) / 10
                             : 1,
                       ),
                     ),
@@ -131,7 +134,7 @@ class _TaskState extends State<Task> {
                   Padding(
                     padding: const EdgeInsets.all(12),
                     child: Text(
-                      'Nivel: ${widget.nivel}',
+                      'Nivel: ${widget.level}',
                       style: const TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   )

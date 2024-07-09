@@ -20,7 +20,7 @@ class MyFirstWidget extends StatelessWidget {
                 height: 100,
               ),
               Container(
-                color: Colors.blue,
+                color: Colors.purple,
                 width: 50,
                 height: 50,
               ),
@@ -30,7 +30,7 @@ class MyFirstWidget extends StatelessWidget {
             alignment: AlignmentDirectional.center,
             children: [
               Container(
-                color: Colors.blue,
+                color: Colors.purple,
                 width: 100,
                 height: 100,
               ),
@@ -76,9 +76,7 @@ class MyFirstWidget extends StatelessWidget {
             ),
           ),
           ElevatedButton(
-            onPressed: () {
-              // print('Você apertou o Botão');
-            },
+            onPressed: () {},
             child: const Text('Aperte o botão!'),
           ),
         ],

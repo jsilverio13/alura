@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nosso_primeiro_projeto/data/task_inherited.dart';
+import 'package:nosso_primeiro_projeto/components/task.dart';
+import 'package:nosso_primeiro_projeto/data/task_dao.dart';
 
 class FormScreen extends StatefulWidget {
   const FormScreen({Key? key, required this.taskContext}) : super(key: key);
@@ -121,9 +122,9 @@ class _FormScreenState extends State<FormScreen> {
                     height: 100,
                     width: 72,
                     decoration: BoxDecoration(
-                      color: Colors.blue,
+                      color: Colors.purple,
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(width: 2, color: Colors.blue),
+                      border: Border.all(width: 2, color: Colors.purple),
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
@@ -131,7 +132,7 @@ class _FormScreenState extends State<FormScreen> {
                         imageController.text,
                         errorBuilder: (BuildContext context, Object exception,
                             StackTrace? stackTrace) {
-                          return Image.asset('assets/images/nophoto.png');
+                          return Image.asset('assets/images/nophoto.webp');
                         },
                         fit: BoxFit.cover,
                       ),
@@ -140,13 +141,11 @@ class _FormScreenState extends State<FormScreen> {
                   ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        // print(nameController.text);
-                        // print(difficultyController.text);
-                        // print(imageController.text);
-                        TaskInherited.of(widget.taskContext).newTask(
+                        TaskDao().save(Task(
                             nameController.text,
                             imageController.text,
-                            int.parse(difficultyController.text));
+                            int.parse(difficultyController.text)));
+
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text('Criando uma nova Tarefa'),
