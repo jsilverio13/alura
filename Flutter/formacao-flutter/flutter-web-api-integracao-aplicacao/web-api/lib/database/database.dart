@@ -20,13 +20,14 @@ Map<String, Journal> generateRandomDatabase({
     ); // Gera um dia
 
     String id = const Uuid().v1();
+    String userId = const Uuid().v1();
 
     map[id] = Journal(
-      id: id,
-      content: getRandomPhrase(),
-      createdAt: date,
-      updatedAt: date,
-    );
+        id: id,
+        content: getRandomPhrase(),
+        createdAt: date,
+        updatedAt: date,
+        userId: userId as int);
   }
   return map;
 }

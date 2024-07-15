@@ -1,104 +1,76 @@
 {
-  "learnhttp": [
+  "users": [
     {
-      "id": "046a",
-      "content": "Olá!"
+      "email": "jeff@gmail.com",
+      "password": "$2a$10$MVdiQ8iQ88eLBTd5L2uOw.kAAcaDpX0dQwxCl5U3FfejaHEbmwt7O",
+      "id": 1
     },
     {
-      "id": "5adc",
-      "content": "Olá!"
+      "email": "je2ff@gmail.com",
+      "password": "$2a$10$4yXE3PNgyKglyHfKfpS4/usPsmZm/WrS7G4xslxVx0kN4p7ffNnXi",
+      "id": 2
     },
     {
-      "id": "3739",
-      "content": "Olá!"
+      "email": "3@gmail.com",
+      "password": "$2a$10$ryla8kmXskhAWmOiqG5qCOodfWLJfTOyvOZA0oEzluXIwkapZRHHK",
+      "id": 3
     },
     {
-      "id": "d602",
-      "content": "Olá!"
-    },
-    {
-      "id": "af85",
-      "content": "Olá!"
-    },
-    {
-      "id": "5129",
-      "content": "Olá!"
-    },
-    {
-      "id": "ce5c",
-      "content": "Olá!"
-    },
-    {
-      "id": "1966",
-      "content": "Olá!"
-    },
-    {
-      "id": "2789",
-      "content": "Olá!"
-    },
-    {
-      "id": "b6a8",
-      "content": "Olá!"
-    },
-    {
-      "id": "2d47",
-      "content": "Olá!"
-    },
-    {
-      "id": "c557",
-      "content": "Olá!"
-    },
-    {
-      "id": "93a3",
-      "content": "Olá!"
-    },
-    {
-      "id": "1029",
-      "content": "Olá!"
+      "email": "jef11@gmai.com",
+      "password": "$2a$10$Hvl0h1b/1tp9ODsb4HbjmenYSyaRlqjpKGe808I9m2JpZgFJakLuO",
+      "id": 4
     }
   ],
+  "learnhttp": [],
   "journals": [
     {
-      "id": "a91a54c0-3f0b-11ef-b17e-fdaa37c9afaa",
-      "content": "123",
-      "created_at": "2024-06-30T19:27:53.987335",
-      "updated_at": "2024-06-30T19:27:53.987335"
+      "id": "00f12ee0-42fd-11ef-ac2a-176b9f48306e",
+      "content": "3232132131",
+      "created_at": "2024-07-05T19:52:22.190876",
+      "updated_at": "2024-07-05T19:52:22.190876",
+      "userId": 1
     },
     {
-      "id": "b19be9b0-3f0b-11ef-b17e-fdaa37c9afaa",
-      "content": "12133",
-      "created_at": "2024-07-07T19:27:53.987335",
-      "updated_at": "2024-07-07T19:27:53.987335"
+      "id": "02f56350-42fd-11ef-ac2a-176b9f48306e",
+      "content": "313131312",
+      "created_at": "2024-07-05T19:52:22.190876",
+      "updated_at": "2024-07-05T19:52:22.190876",
+      "userId": 1
     },
     {
-      "id": "b738fc50-3f0b-11ef-b17e-fdaa37c9afaa",
-      "content": "222",
-      "created_at": "2024-07-02T19:27:53.987335",
-      "updated_at": "2024-07-02T19:27:53.987335"
+      "id": "053f7a60-42fd-11ef-ac2a-176b9f48306e",
+      "content": "3123131",
+      "created_at": "2024-07-06T19:52:22.190876",
+      "updated_at": "2024-07-06T19:52:22.190876",
+      "userId": 1
     },
     {
-      "id": "c0f18aa0-3f0b-11ef-b17e-fdaa37c9afaa",
-      "content": "www",
-      "created_at": "2024-07-01T19:27:53.987335",
-      "updated_at": "2024-07-01T19:27:53.987335"
+      "id": "09401b10-42fd-11ef-ac2a-176b9f48306e",
+      "content": "3123123131",
+      "created_at": "2024-07-08T19:52:22.190876",
+      "updated_at": "2024-07-08T19:52:22.190876",
+      "userId": 1
     },
     {
-      "id": "039b1fb0-3f0c-11ef-b17e-fdaa37c9afaa",
-      "content": "222",
-      "created_at": "2024-06-30T19:27:53.987335",
-      "updated_at": "2024-06-30T19:27:53.987335"
+      "id": "12828f00-42fd-11ef-ac2a-176b9f48306e",
+      "content": "31232131312",
+      "created_at": "2024-07-06T19:53:36.250423",
+      "updated_at": "2024-07-06T19:53:36.250423",
+      "userId": 3
     },
     {
-      "id": "06441fa0-3f0c-11ef-b17e-fdaa37c9afaa",
-      "content": "2222",
-      "created_at": "2024-07-03T19:27:53.987335",
-      "updated_at": "2024-07-03T19:27:53.987335"
+      "id": "1422aa70-42fd-11ef-ac2a-176b9f48306e",
+      "content": "32132312",
+      "created_at": "2024-07-08T19:53:36.250423",
+      "updated_at": "2024-07-08T19:53:36.250423",
+      "userId": 3
     },
     {
-      "id": "08097650-3f0c-11ef-b17e-fdaa37c9afaa",
-      "content": "22222",
-      "created_at": "2024-07-04T19:27:53.987335",
-      "updated_at": "2024-07-04T19:27:53.987335"
+      "id": "16c2d0c0-42fd-11ef-ac2a-176b9f48306e",
+      "content": "333333333333333333333333",
+      "created_at": "2024-07-07T19:53:36.250423",
+      "updated_at": "2024-07-07T19:53:36.250423",
+      "userId": 3
     }
   ]
 }

@@ -1,7 +1,7 @@
 name: flutter_webapi_first_course
 description: Projeto do primeiro curso de WebAPI da Formação Flutter
 
-publish_to: 'none'
+publish_to: "none"
 
 version: 1.0.0+1
 
@@ -18,7 +18,7 @@ dependencies:
   http: ^0.13.5
   http_interceptor: ^1.0.2
   logger: ^1.1.0
-
+  shared_preferences: ^2.0.15
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -26,5 +26,4 @@ dev_dependencies:
   flutter_lints: ^2.0.0
 
 flutter:
-
   uses-material-design: true

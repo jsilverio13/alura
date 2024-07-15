@@ -1,17 +1,24 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_webapi_first_course/helpers/logout.dart';
 import 'package:flutter_webapi_first_course/helpers/weekday.dart';
 import 'package:flutter_webapi_first_course/models/journal.dart';
+import 'package:flutter_webapi_first_course/screens/common/exception_dialog.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../services/journal_service.dart';
 
 class AddJournalScreen extends StatelessWidget {
   final Journal journal;
-  AddJournalScreen({Key? key, required this.journal}) : super(key: key);
+  final bool isEditing;
+  AddJournalScreen({Key? key, required this.journal, required this.isEditing}) : super(key: key);
 
   final TextEditingController _contentController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    _contentController.text = journal.content;
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -38,11 +45,31 @@ class AddJournalScreen extends StatelessWidget {
   }
 
   registerJournal(BuildContext context) async {
-    String content = _contentController.text;
+    SharedPreferences.getInstance().then((prefs) {
+      String? token = prefs.getString("accessToken");
 
-    journal.content = content;
+      if (token != null) {
+        String content = _contentController.text;
 
-    JournalService service = JournalService();
-    service.register(journal).then((result) => Navigator.pop(context, result));
+        journal.content = content;
+
+        JournalService service = JournalService();
+        if (isEditing) {
+          service
+              .edit(journal.id, journal, token: token)
+              .then((result) => Navigator.pop(context, result));
+        } else {
+          service.register(journal, token: token).then((result) => Navigator.pop(context, result));
+        }
+      }
+    }).catchError(
+      (error) {
+        logout(context);
+      },
+      test: (error) => error is TokenNotValidException,
+    ).catchError((error) {
+      var innerException = error as HttpException;
+      showExceptionDialog(context, content: innerException.message);
+    }, test: (error) => error is HttpException);
   }
 }
