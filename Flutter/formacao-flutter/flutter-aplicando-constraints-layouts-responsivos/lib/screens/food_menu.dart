@@ -1,0 +1,40 @@
+import 'package:flutter/material.dart';
+import 'package:panucci_ristorante/cardapio.dart';
+import 'package:panucci_ristorante/components/food_item.dart';
+
+class FoodMenu extends StatelessWidget {
+  const FoodMenu({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    const List items = comidas;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
+      child: CustomScrollView(
+        slivers: <Widget>[
+          const SliverToBoxAdapter(
+            child: Text(
+              "Menu",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: "Caveat",
+                fontSize: 32,
+              ),
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                return FoodItem(
+                    itemTitle: items[index]["name"],
+                    itemPrice: items[index]["price"],
+                    imageURI: items[index]["image"]);
+              },
+              childCount: items.length,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
