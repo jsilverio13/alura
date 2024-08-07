@@ -6,7 +6,6 @@ import 'package:proj/models/package_model.dart';
 import 'package:proj/models/producer_model.dart';
 
 class PackageDetailsScreen extends StatelessWidget {
-
   final Package package;
   final Producer producer;
 
@@ -25,9 +24,7 @@ class PackageDetailsScreen extends StatelessWidget {
         backgroundColor: Colors.transparent,
         title: Text(
           'Detalhe da cesta',
-          style: TextStyle(
-              fontWeight: FontWeight.w700
-          ),
+          style: TextStyle(fontWeight: FontWeight.w700),
         ),
       ),
       body: Column(
@@ -45,13 +42,12 @@ class PackageDetailsScreen extends StatelessWidget {
               children: [
                 Expanded(
                     child: Text(
-                      package.title,
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    )
-                ),
+                  package.title,
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.w700,
+                  ),
+                )),
                 Text(
                   '${producer.distance} km',
                   style: TextStyle(
@@ -68,15 +64,17 @@ class PackageDetailsScreen extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
-                  child: Image.asset(producer.logo, width: 50,),
+                  child: Image.asset(
+                    producer.logo,
+                    width: 50,
+                  ),
                 ),
-                SizedBox(width: 10,),
+                SizedBox(
+                  width: 10,
+                ),
                 Text(
                   producer.name,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 18
-                  ),
+                  style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18),
                 ),
               ],
             ),
@@ -85,8 +83,7 @@ class PackageDetailsScreen extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(20, 15, 20, 0),
             child: Text(
               producer.description,
-              style: TextStyle(
-              ),
+              style: TextStyle(),
             ),
           ),
           Padding(
@@ -100,16 +97,14 @@ class PackageDetailsScreen extends StatelessWidget {
               ),
             ),
           ),
-
           Padding(
             padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
             child: ConstrainedBox(
               constraints: BoxConstraints.tightFor(width: double.infinity),
               child: ElevatedButton(
-                onPressed: (){},
+                onPressed: () {},
                 style: ElevatedButton.styleFrom(
-                  primary: AppColors.green, // background
-                  onPrimary: Colors.white, // foreground
+                  foregroundColor: Colors.white, backgroundColor: AppColors.green, // foreground
                 ),
                 child: Text('Comprar'),
               ),
@@ -127,12 +122,9 @@ class PackageDetailsScreen extends StatelessWidget {
           ),
           Expanded(
               child: Padding(
-                padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
-                child: ListView(
-                  children: _generatePackageItems(package)
-                ),
-              )
-          ),
+            padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
+            child: ListView(children: _generatePackageItems(package)),
+          )),
         ],
       ),
     );
@@ -141,13 +133,8 @@ class PackageDetailsScreen extends StatelessWidget {
   List<Widget> _generatePackageItems(Package package) {
     List<Widget> children = [];
 
-    for(final item in package.items) {
-      children.add(
-        OrgsPackagesCard(
-          description: "",
-          title: item,
-          price: null
-      ));
+    for (final item in package.items) {
+      children.add(OrgsPackagesCard(description: "", title: item, price: null));
     }
 
     return children;

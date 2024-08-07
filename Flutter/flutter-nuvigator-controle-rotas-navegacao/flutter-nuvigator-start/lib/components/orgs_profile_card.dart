@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:proj/core/app_colors.dart';
 
 class OrgsProfileCard extends StatelessWidget {
@@ -11,9 +10,9 @@ class OrgsProfileCard extends StatelessWidget {
     @required this.icon,
     @required this.textArea,
     @required this.data,
-  }): assert(icon != null),
-      assert(textArea != null),
-      assert(data != null);
+  })  : assert(icon != null),
+        assert(textArea != null),
+        assert(data != null);
 
   @override
   Widget build(BuildContext context) {
@@ -42,19 +41,13 @@ class OrgsProfileCard extends StatelessWidget {
               children: [
                 Text(
                   textArea,
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400,
-                    color: AppColors.grey
-                  ),
+                  style:
+                      TextStyle(fontSize: 20, fontWeight: FontWeight.w400, color: AppColors.grey),
                 ),
                 SizedBox(height: 10),
                 Text(
                   data,
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700
-                  ),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
                 ),
               ],
             ),

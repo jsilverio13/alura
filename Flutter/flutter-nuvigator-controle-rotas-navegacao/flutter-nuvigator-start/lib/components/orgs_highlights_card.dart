@@ -9,17 +9,17 @@ class OrgsHighlightsCard extends StatelessWidget {
   final String description;
   final void Function() btnAction;
 
-  OrgsHighlightsCard({
-    @required this.img,
-    @required this.title,
-    @required this.description,
-    @required this.color,
-    @required this.btnAction
-  }): assert(img != null),
-      assert(title != null),
-      assert(description != null),
-      assert(color != null),
-      assert(btnAction != null);
+  OrgsHighlightsCard(
+      {@required this.img,
+      @required this.title,
+      @required this.description,
+      @required this.color,
+      @required this.btnAction})
+      : assert(img != null),
+        assert(title != null),
+        assert(description != null),
+        assert(color != null),
+        assert(btnAction != null);
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +28,12 @@ class OrgsHighlightsCard extends StatelessWidget {
       child: Container(
         width: 450,
         decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.circular(20),
+          color: color,
+          borderRadius: BorderRadius.circular(20),
         ),
-
         child: Padding(
           padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-          child:   Row(
+          child: Row(
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,18 +46,15 @@ class OrgsHighlightsCard extends StatelessWidget {
                   Text(
                     title,
                     style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.darkGrey
-                    ),
+                        fontSize: 18, fontWeight: FontWeight.w700, color: AppColors.darkGrey),
                   ),
                   Text(
                     description,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.darkGrey,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.darkGrey,
                     ),
                   ),
                   SizedBox(height: 5),
@@ -66,12 +62,10 @@ class OrgsHighlightsCard extends StatelessWidget {
                     onPressed: btnAction,
                     child: Text(
                       'Ver agora',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold
-                      ),
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     style: ElevatedButton.styleFrom(
-                      primary: AppColors.green,
+                      backgroundColor: AppColors.green,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
